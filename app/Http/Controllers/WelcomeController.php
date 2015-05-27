@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers;
 
+use App\Model\Student;
+
 class WelcomeController extends Controller {
 
 	/*
@@ -30,7 +32,8 @@ class WelcomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('welcome');
+		Student::import();
+//		return view('welcome');
 	}
 
 }

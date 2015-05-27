@@ -145,6 +145,12 @@ return [
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
 
+		/*
+		 * Custom
+		 */
+		'Barryvdh\Debugbar\ServiceProvider',
+		'Maatwebsite\Excel\ExcelServiceProvider',
+
 	],
 
 	/*
@@ -193,6 +199,8 @@ return [
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
 
+		'Debugbar' => 'Barryvdh\Debugbar\Facade',
+		'Excel' => 'Maatwebsite\Excel\Facades\Excel',
 	],
 
 ];

@@ -30,7 +30,15 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('home');
+		Student::truncate();
+		$fileName = storage_path('files') . '/sample_data.csv';
+		$file = Excel::load($fileName, function($reader) {
+
+			// Getting all results
+			$results = $reader->get();
+		});
+		dd($file);
+//		return view('home');
 	}
 
 }
