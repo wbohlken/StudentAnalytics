@@ -32,8 +32,7 @@ class WelcomeController extends Controller {
 	 */
 	public function index()
 	{
-		Student::import();
-//		return view('welcome');
+		return view('welcome');
 	}
 
 }

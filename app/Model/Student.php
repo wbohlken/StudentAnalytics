@@ -5,8 +5,6 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model {
 	protected $table = "student";
 
-	protected $fillable = ['studnr_a'];
-
 	public static function import()
 	{
 		self::truncate();
@@ -18,7 +16,7 @@ class Student extends Model {
 
 		foreach ($file as $key => $row) {
 			if ($key > 0) {
-				$student = new Student();
+				$student = new self();
 				$csvRow = str_getcsv($row, ';');
 				foreach ($csvRow as $columnKey => $value) {
 					$student->{$columns[$columnKey]} = str_replace(',', '.', $value);
