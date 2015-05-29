@@ -1,17 +1,29 @@
 @extends('app')
 
 @section('content')
-<div class="container">
-	<div class="row">
-		<div class="col-md-10 col-md-offset-1">
-			<div class="panel panel-default">
-				<div class="panel-heading">Home</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <div class="panel panel-default">
+          <div class="panel-heading">Upload file</div>
 
-				<div class="panel-body">
-					You are logged in!
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+          @if(Session::has('success'))
+            <div class="alert-box success">
+              <p>{!! Session::get('success') !!}</p>
+            </div>
+          @endif
+          @if(Session::has('error'))
+            <p class="errors">{!! Session::get('error') !!}</p>
+          @endif
+
+          <div class="panel-body">
+            {!! Form::open(array('route' => 'post-csv', 'files' => TRUE, 'method' => 'POST')) !!}
+            {!! Form::file('csv') !!}
+            {!! Form::submit('Submit') !!}
+            {!! Form::close() !!}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection

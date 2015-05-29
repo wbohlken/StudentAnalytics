@@ -38,7 +38,7 @@ class ImportStudentsCommand extends Command {
 	 */
 	public function fire()
 	{
-		Student::import();
+		Student::import('sample_data.csv', TRUE);
 	}
 
 	/**

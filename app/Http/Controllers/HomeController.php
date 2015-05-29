@@ -1,5 +1,11 @@
 <?php namespace App\Http\Controllers;
 
+use App\Model\Student;
+use Input;
+use Redirect;
+use Session;
+use Validator;
+
 class HomeController extends Controller {
 
 	/*
@@ -20,7 +26,7 @@ class HomeController extends Controller {
 	 */
 	public function __construct()
 	{
-		$this->middleware('auth');
+		$this->middleware('guest');
 	}
 
 	/**
@@ -30,15 +36,34 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-		Student::truncate();
-		$fileName = storage_path('files') . '/sample_data.csv';
-		$file = Excel::load($fileName, function($reader) {
 
-			// Getting all results
-			$results = $reader->get();
-		});
-		dd($file);
-//		return view('home');
+		return view('home');
 	}
 
+	public function upload()
+	{
+		$csvFile = Input::file('csv');
+		$file = array('csv' => $csvFile);
+		$rules = array('csv' => 'required',);
+
+		$validator = Validator::make($file, $rules);
+		if ($validator->fails()) {
+			return Redirect::to('post-csv')->withInput()->withErrors($validator);
+		}
+		else {
+			if ($csvFile->isValid()) {
+				$destinationPath = storage_path() . '/files';
+				$fileName = $csvFile->getClientOriginalName();
+				$csvFile->move($destinationPath, $fileName);
+				Student::import($fileName, TRUE);
+
+				Session::flash('success', 'Upload successful');
+				return Redirect::route('home');
+			}
+			else {
+				Session::flash('error', 'uploaded file is not valid');
+				return Redirect::route('home');
+			}
+		}
+	}
 }

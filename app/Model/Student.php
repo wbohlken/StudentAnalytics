@@ -5,10 +5,12 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model {
 	protected $table = "student";
 
-	public static function import()
+	public static function import($fileName, $truncate = FALSE)
 	{
-		self::truncate();
-		$fileName = storage_path('files') . '/sample_data.csv';
+		if ($truncate) {
+			self::truncate();
+		}
+		$fileName = storage_path('files') . '/' . $fileName;
 
 		$file = file($fileName);
 		$csvColumns = $file[0];
