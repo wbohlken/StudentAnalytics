@@ -1,6 +1,6 @@
 <?php namespace App\Console\Commands;
 
-use App\Model\Student;
+use App\Model\CsvData;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
@@ -38,7 +38,7 @@ class ImportStudentsCommand extends Command {
 	 */
 	public function fire()
 	{
-		Student::import('sample_data.csv', TRUE);
+		CsvData::import('sample_data.csv', TRUE);
 	}
 
 	/**

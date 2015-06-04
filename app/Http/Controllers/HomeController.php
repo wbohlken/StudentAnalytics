@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers;
 
-use App\Model\Student;
+use App\Model\CsvData;
 use Input;
 use Redirect;
 use Session;
@@ -55,7 +55,7 @@ class HomeController extends Controller {
 				$destinationPath = storage_path() . '/files';
 				$fileName = $csvFile->getClientOriginalName();
 				$csvFile->move($destinationPath, $fileName);
-				Student::import($fileName, TRUE);
+				CsvData::import($fileName, TRUE);
 
 				Session::flash('success', 'Upload successful');
 				return Redirect::route('home');

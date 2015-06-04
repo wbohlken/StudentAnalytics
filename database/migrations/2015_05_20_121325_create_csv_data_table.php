@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStudentTable extends Migration
+class CreateCsvDataTable extends Migration
 {
 
 	/**
@@ -13,7 +13,7 @@ class CreateStudentTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('student', function ($table) {
+		Schema::create('csv_data', function ($table) {
 			$table->increments("id");
 			$table->integer("studnr_a")->nullable();
 			$table->integer("result")->nullable();
@@ -67,7 +67,7 @@ class CreateStudentTable extends Migration
 	 */
 	public function down()
 	{
-		Schema::drop('student');
+		Schema::drop('csv_data');
 	}
 
 }

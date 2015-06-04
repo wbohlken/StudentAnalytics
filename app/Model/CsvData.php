@@ -2,8 +2,8 @@
 namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 
-class Student extends Model {
-	protected $table = "student";
+class CsvData extends Model {
+	protected $table = "csv_data";
 
 	public static function import($fileName, $truncate = FALSE)
 	{

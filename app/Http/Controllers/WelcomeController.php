@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers;
 
-use App\Model\Student;
+use App\Model\CsvData;
 
 class WelcomeController extends Controller {
 
