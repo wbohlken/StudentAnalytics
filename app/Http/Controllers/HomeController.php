@@ -1,12 +1,14 @@
 <?php namespace App\Http\Controllers;
 
-use App\Model\CsvData;
 use Input;
 use Redirect;
 use Session;
 use Validator;
 
-class HomeController extends Controller {
+use App\Library\CsvImporters\GlobalImporter;
+
+class HomeController extends Controller
+{
 
 	/*
 	|--------------------------------------------------------------------------
@@ -36,34 +38,22 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-
 		return view('home');
 	}
 
 	public function upload()
 	{
 		$csvFile = Input::file('csv');
-		$file = array('csv' => $csvFile);
-		$rules = array('csv' => 'required',);
 
-		$validator = Validator::make($file, $rules);
-		if ($validator->fails()) {
-			return Redirect::to('post-csv')->withInput()->withErrors($validator);
-		}
-		else {
-			if ($csvFile->isValid()) {
-				$destinationPath = storage_path() . '/files';
-				$fileName = $csvFile->getClientOriginalName();
-				$csvFile->move($destinationPath, $fileName);
-				CsvData::import($fileName, TRUE);
+		$importer = new GlobalImporter($csvFile);
+		$importer->import(TRUE);
 
-				Session::flash('success', 'Upload successful');
-				return Redirect::route('home');
-			}
-			else {
-				Session::flash('error', 'uploaded file is not valid');
-				return Redirect::route('home');
-			}
+		if ($importer->hasError()) {
+			Session::flash('error', 'uploaded file is not valid');
+			return Redirect::route('home');
+		} else {
+			Session::flash('success', 'Upload successful');
+			return Redirect::route('home');
 		}
 	}
 }
