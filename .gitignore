@@ -5,3 +5,5 @@
 .env.*.php
 .env.php
 .idea/
+nbproject/
+composer.phar

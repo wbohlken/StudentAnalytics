@@ -77,10 +77,7 @@ abstract class CsvImporter
 	{
 		$file = ['file' => $this->file];
 		$validator = Validator::make($file, $this->rules);
-		if ($validator->fails()) {
-			$this->valid = FALSE;
-		}
-		return $this->valid;
+		return $this->valid =	!$validator->fails();
 	}
 
 	/**

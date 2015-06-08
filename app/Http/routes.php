@@ -13,8 +13,12 @@
 
 Route::get('/', 'HomeController@index');
 Route::get('/home', ['as' => 'home', 'uses' =>  'HomeController@index']);
-Route::post('/upload-csv', ['as' => 'post-csv', 'uses' => 'HomeController@upload']);
-
+Route::get('/upload-csv', ['as' => 'upload-csv', 'uses' => 'CsvController@getUpload']);
+Route::post('/upload-csv', 'CsvController@postUpload');
+Route::get('/dashboard', ['as' => 'dashboard', 'uses' => 'DashboardController@index']);
+Route::get('/profile', ['as' => 'profile', 'uses' => 'ProfileController@getIndex']);
+Route::post('/profile', 'ProfileController@postUpdate');
+Route::post('/login', 'HomeController@doLogin');
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
