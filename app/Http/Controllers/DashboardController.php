@@ -37,34 +37,6 @@ class DashboardController extends Controller {
 	 */
 	public function index()
 	{
-
 		return view('dashboard');
-	}
-
-	public function upload()
-	{
-		$csvFile = Input::file('csv');
-		$file = array('csv' => $csvFile);
-		$rules = array('csv' => 'required',);
-
-		$validator = Validator::make($file, $rules);
-		if ($validator->fails()) {
-			return Redirect::to('post-csv')->withInput()->withErrors($validator);
-		}
-		else {
-			if ($csvFile->isValid()) {
-				$destinationPath = storage_path() . '/files';
-				$fileName = $csvFile->getClientOriginalName();
-				$csvFile->move($destinationPath, $fileName);
-				CsvData::import($fileName, TRUE);
-
-				Session::flash('success', 'Upload successful');
-				return Redirect::route('home');
-			}
-			else {
-				Session::flash('error', 'uploaded file is not valid');
-				return Redirect::route('home');
-			}
-		}
 	}
 }
