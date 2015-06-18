@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Model\Student;
 use Illuminate\Http\Request;
 use Input;
 use Redirect;
