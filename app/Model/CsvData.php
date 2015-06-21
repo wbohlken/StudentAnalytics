@@ -1,30 +1,13 @@
 <?php
 namespace App\Model;
+
 use Illuminate\Database\Eloquent\Model;
 
 class CsvData extends Model {
 	protected $table = "csv_data";
-
-	public static function import($fileName, $truncate = FALSE)
-	{
-		if ($truncate) {
-			self::truncate();
-		}
-		$fileName = storage_path('files') . '/' . $fileName;
-
-		$file = file($fileName);
-		$csvColumns = $file[0];
-		$columns = str_getcsv($csvColumns, ';');
-
-		foreach ($file as $key => $row) {
-			if ($key > 0) {
-				$student = new self();
-				$csvRow = str_getcsv($row, ';');
-				foreach ($csvRow as $columnKey => $value) {
-					$student->{$columns[$columnKey]} = str_replace(',', '.', $value);
-				}
-				$student->save();
-			}
-		}
-	}
+        
+        public static function getAllStudentnumbers() {
+            $studentnumbers = \DB::table('csv_data')->lists('studnr_a');
+            return $studentnumbers;
+        }
 }

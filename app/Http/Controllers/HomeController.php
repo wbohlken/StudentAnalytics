@@ -1,12 +1,16 @@
 <?php namespace App\Http\Controllers;
 
-use App\Model\CsvData;
+use Illuminate\Http\Request;
 use Input;
 use Redirect;
 use Session;
 use Validator;
+use Auth;
 
-class HomeController extends Controller {
+use App\Library\CsvImporters\GlobalImporter;
+
+class HomeController extends Controller
+{
 
 	/*
 	|--------------------------------------------------------------------------
@@ -36,34 +40,19 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-
-		return view('home');
+            
+		return view('/auth/login');
 	}
 
-	public function upload()
+	public function doLogin(Request $request)
 	{
-		$csvFile = Input::file('csv');
-		$file = array('csv' => $csvFile);
-		$rules = array('csv' => 'required',);
-
-		$validator = Validator::make($file, $rules);
-		if ($validator->fails()) {
-			return Redirect::to('post-csv')->withInput()->withErrors($validator);
+		if (Auth::attempt($request->only('email', 'password'))) {
+			return redirect('/');
 		}
-		else {
-			if ($csvFile->isValid()) {
-				$destinationPath = storage_path() . '/files';
-				$fileName = $csvFile->getClientOriginalName();
-				$csvFile->move($destinationPath, $fileName);
-				CsvData::import($fileName, TRUE);
 
-				Session::flash('success', 'Upload successful');
-				return Redirect::route('home');
-			}
-			else {
-				Session::flash('error', 'uploaded file is not valid');
-				return Redirect::route('home');
-			}
-		}
+		return redirect('/auth/login')->withErrors([
+				'email' => 'Dit e-mailadres en wachtwoord komen niet overeen',
+		]);
 	}
+//       
 }
