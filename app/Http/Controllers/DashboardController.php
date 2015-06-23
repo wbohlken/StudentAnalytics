@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
-use App\Model\CsvData;
+use App\Model\WeekOverview;
+use App\User;
 use Input;
 use Redirect;
 use Session;
@@ -35,8 +36,17 @@ class DashboardController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function getIndex()
 	{
 		return view('dashboard');
+	}
+
+	public function getOverview($viewKey)
+	{
+		if (!User::loginByViewKey($viewKey)) {
+			// TODO: proper error message.
+			return "ongeldige view key";
+		}
+		$weekOverview = WeekOverview::getByViewKey($viewKey);
 	}
 }

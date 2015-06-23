@@ -1,6 +1,9 @@
 <?php
 namespace App;
 
+use Auth;
+
+use App\Model\WeekOverview;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -23,7 +26,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var array
 	 */
-	public $fillable = ['name', 'email', 'password', 'student_nr'];
+	public $fillable = ['name', 'email', 'password', 'student_id'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -77,6 +80,22 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	public function isAdmin()
 	{
 		return $this->admin;
+	}
+
+	public static function loginByViewKey($viewKey)
+	{
+		$weekOverview = WeekOverview::getByViewKey($viewKey);
+		if (!$weekOverview) {
+			return FALSE;
+		}
+		$student = $weekOverview->student;
+		$user = self::where('student_id', $student->id)->first();
+		if (!$user) {
+			$user = new User(['student_id' => $student->id, 'email' => $student->email]);
+			$user->save();
+			Auth::login($user);
+		}
+		return TRUE;
 	}
 
 }

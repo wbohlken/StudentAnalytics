@@ -1,14 +1,14 @@
 <?php namespace App\Http\Controllers;
 
 use App\Model\Student;
+use App\Model\WeekOverview;
+use App\User;
 use Illuminate\Http\Request;
 use Input;
 use Redirect;
 use Session;
 use Validator;
 use Auth;
-
-use App\Library\CsvImporters\GlobalImporter;
 
 class HomeController extends Controller
 {
