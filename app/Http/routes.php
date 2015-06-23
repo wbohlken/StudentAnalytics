@@ -15,6 +15,7 @@ Route::get('/', 'HomeController@index');
 Route::get('/home', ['as' => 'home', 'uses' =>  'HomeController@index']);
 Route::get('/upload-csv', ['as' => 'upload-csv', 'uses' => 'CsvController@getUpload']);
 Route::post('/upload-csv', 'CsvController@postUpload');
+Route::post('/post-studentnumber', 'DashboardController@postStudentnumber');
 Route::get('/profile', ['as' => 'profile', 'uses' => 'ProfileController@getIndex']);
 Route::post('/profile', 'ProfileController@postUpdate');
 Route::post('/login', 'HomeController@doLogin');

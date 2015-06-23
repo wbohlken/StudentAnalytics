@@ -1,13 +1,16 @@
 <?php namespace App\Http\Controllers;
 
+use App\Model\CsvData;
 use App\Model\WeekOverview;
 use App\User;
 use Input;
 use Redirect;
 use Session;
 use Validator;
+use Auth;
 
-class DashboardController extends Controller {
+class DashboardController extends Controller
+{
 
 	/*
 	|--------------------------------------------------------------------------
@@ -27,8 +30,8 @@ class DashboardController extends Controller {
 	 */
 	public function __construct()
 	{
-            
-		
+
+
 	}
 
 	/**
@@ -38,7 +41,14 @@ class DashboardController extends Controller {
 	 */
 	public function getIndex()
 	{
-		return view('dashboard');
+		if (Auth::check()) {
+			$studentnumbers = CsvData::getAllStudentnumbers();
+
+
+			return view('dashboard', ['studentnumbers' => $studentnumbers]);
+		} else {
+			return redirect('/');
+		}
 	}
 
 	public function getOverview($viewKey)
@@ -48,5 +58,14 @@ class DashboardController extends Controller {
 			return "ongeldige view key";
 		}
 		$weekOverview = WeekOverview::getByViewKey($viewKey);
+	}
+
+
+	public function postStudentnumber()
+	{
+		if (Input::has('studentnumber')) {
+			$studentnumber = Input::get('studentnumber');
+			$student = CsvData::where('studnr_a', '=', $studentnumber)->first();
+		}
 	}
 }

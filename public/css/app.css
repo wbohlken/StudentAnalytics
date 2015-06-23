@@ -6239,3 +6239,9 @@ label,
 .password-edit-fields {display:none;}
 .edit-password {margin-left:177px;}
 h1 {text-align:center;}
+.filter-box {width:275px; height:auto; background-color:#f7f7f7;;}
+.filter-box .form-group {width:200px; padding:10px 10px 0px 10px; display:inline-block;}
+.nav-tabs {background-color:#f7f7f7; margin-top:10px;}
+.progress {margin-top:20px; height:30px;}
+.progress-box h3 {text-align:center;}
+.head-graphs h2 {text-align:center;}

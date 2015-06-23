@@ -81,6 +81,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	{
 		return $this->admin;
 	}
+        
+        
 
 	public static function loginByViewKey($viewKey)
 	{
