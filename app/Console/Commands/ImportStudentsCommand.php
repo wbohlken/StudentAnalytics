@@ -1,5 +1,6 @@
 <?php namespace App\Console\Commands;
 
+use App\Library\Importers\GlobalImporter;
 use App\Model\CsvData;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
@@ -38,7 +39,9 @@ class ImportStudentsCommand extends Command {
 	 */
 	public function fire()
 	{
-		CsvData::import('sample_data.csv', TRUE);
+		$data = CsvData::all()->toArray();
+		$globalImporter = new GlobalImporter($data, 1);
+		$globalImporter->import();
 	}
 
 	/**

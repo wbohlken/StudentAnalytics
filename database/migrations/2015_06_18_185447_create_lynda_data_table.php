@@ -15,7 +15,7 @@ class CreateLyndaDataTable extends Migration {
 		Schema::create('lynda_data', function ($table) {
 			$table->increments("id");
 			$table->tinyInteger("week_overview_id");
-			$table->integer("course_id");
+			$table->string("course", 255);
 			$table->boolean("complete")->default(FALSE);
 			$table->tinyInteger("hours_viewed")->default(0);
 			$table->timestamps();

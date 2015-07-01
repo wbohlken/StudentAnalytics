@@ -17,7 +17,7 @@ class CreateMoodleResultTable extends Migration {
 			$table->tinyInteger("week_overview_id");
 			$table->tinyInteger("assignment_week_nr");
 			$table->string("type");
-			$table->tinyInteger("grade")->default(0);
+			$table->double("grade", 4, 2)->default(0);
 			$table->timestamps();
 		});
 	}

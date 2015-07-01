@@ -41,7 +41,7 @@ class CreateCsvDataTable extends Migration
 			$table->integer("IncorrectUnassigned")->nullable();
 			$table->double("W1_MMLAttemps", 16, 8)->nullable();
 			$table->double("W1_MMLMastery", 16, 8)->nullable();
-			$table->double("W2_MMLAattemps", 16, 8)->nullable();
+			$table->double("W2_MMLAttemps", 16, 8)->nullable();
 			$table->double("W2_MMLMastery", 16, 8)->nullable();
 			$table->double("W3_MMLAttemps", 16, 8)->nullable();
 			$table->double("W3_MMLMastery", 16, 8)->nullable();

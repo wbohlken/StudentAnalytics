@@ -14,7 +14,7 @@ class Registrar implements RegistrarContract {
 	 */
 	public function validator(array $data)
 	{
-		return Validator::make($data, User::$resisterRules, User::$errorMessages);
+		return Validator::make($data, User::$registerRules, User::$errorMessages);
 	}
 
 	/**

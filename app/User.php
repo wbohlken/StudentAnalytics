@@ -39,7 +39,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 * Registration rules
 	 * @var array
 	 */
-	public static $resisterRules = [
+	public static $registerRules = [
 			'name' => 'required|max:255',
 			'email' => 'required|email|max:255|unique:users',
 			'student_nr' => 'required|numeric',
@@ -82,7 +82,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return $this->admin;
 	}
         
-        
+	public static function createByStudentId($studentId)
+	{
+		$user = self::where('student_id', $studentId)->first();
+		if (!$user) {
+			$user = new User(['student_id' => $studentId, 'email' => $studentId]);
+			$user->save();
+		}
+		return $user;
+	}
 
 	public static function loginByViewKey($viewKey)
 	{
@@ -95,8 +103,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		if (!$user) {
 			$user = new User(['student_id' => $student->id, 'email' => $student->email]);
 			$user->save();
-			Auth::login($user);
 		}
+		Auth::login($user);
 		return TRUE;
 	}
 
