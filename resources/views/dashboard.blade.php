@@ -5,78 +5,93 @@
     <div class="container">
         <div class="row">
             <h1>Dashboard</h1>
-            <div class="filter-box">
-                <form method="post" action="/post-studentnumber">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <div class="form-group">
-                        <select name="studentnumber" class="form-control">
-                            <option value="">Studentnummer</option>
-                            @foreach ($studentnumbers as $number) 
-                            <option value="{{ $number }}">{{ $number }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-default">Zoek</button>
+            <div class='row'>
+                <div class="filter-box dashboard-filter">
+                    <form method="get" action="/studentdashboard">
 
-                </form>
-            </div>
-            <div role="tabpanel">
-
-                <!-- Nav tabs -->
-                <ul class="nav nav-tabs tab nav-justified nav-pills" role="tablist">
-                    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Week 1</a></li>
-                    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Week 2</a></li>
-                    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Week 3</a></li>
-                    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Week 4</a></li>
-                    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Week 5</a></li>
-                    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Week 6</a></li>
-                    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Week 7</a></li>
-                    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Week 8</a></li>
-                </ul>
-
-                <!-- Tab panes -->
-                <div class="tab-content">
-                    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-        
-                    <div role="tabpanel" class="tab-pane active" id="home">
-                        <div class="progress-box">
-                            <h3> Totale voortgang deze week</h3>
-                            <div class="progress">
-
-                                <div class="progress-bar progress-bar-striped active progress-bar-success" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12 head-graphs">
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6">
-                                        <h2>Moodle</h2>
-                                        <div id="moodle_graph"></div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <h2>Lynda</h2>
-                                        <div id="lynda_graph"></div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6">
-                                        <h2>MyProgrammingLab</h2>
-                                        <div id="mpl_graph"></div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <h2>Lessen</h2>
-                                        <div id="course_graph"></div>
-                                    </div>
-                                </div>
-                            </div>
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <div class="form-group">
+                            <select name="studentnumber" class="form-control">
+                                <option value="">Studentnummer</option>
+                                @foreach ($studentnumbers as $number) 
+                                <option  value="{{ $number }}">{{ $number }}</option>
+                                @endforeach
+                            </select>
                         </div>
+                        <button type="submit" class="btn btn-default">Zoek</button>
 
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="profile">...</div>
-                    <div role="tabpanel" class="tab-pane" id="messages">...</div>
-                    <div role="tabpanel" class="tab-pane" id="settings">...</div>
+
+
+                    </form>
                 </div>
+                @if(Session::has('success'))
+						<p class="alert alert-success"> {{ Session::get('success') }}</p>
+					@elseif(Session::has('error'))
+						<p class="alert alert-danger">{{ Session::get('error') }}</p>
+					@endif
+                                        
+                <div class="panel panel-default general-box col-md-5 col-lg-5 left @if(Auth::user()->isAdmin()) @else alignmiddle @endif ">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Algemene gegevens</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td class="general-box-first">Laatst geuploade data</td>
+                                <td>@if($dateLastCSVdata !== ''){{ $dateLastCSVdata }}@else Geen @endif</td>
+                            </tr>
+                            <tr>
+                                <td class="general-box-first">Aantal studenten</td>
+                                <td>@if($countStudents == 0)<a href='/createstudents'><div class='btn btn-info'>Maak studenten</div></a>@else{{ $countStudents }}@endif</td>
+                            </tr>
+                            <tr>
+                                <td class="general-box-first">Aantal gebruikers</td>
+                                <td>{{ $countUsers }}</td>
+                            </tr>
+                            <tr>
+                                <td class="general-box-first">Aantal admins</td>
+                                <td>{{ $countAdmins }}</td>
+                            </tr>
+                            <tr>
+                                <td class="general-box-first">Laatst verstuurde week</td>
+                                <td>@if($sendWeek !== '') Week {{ $sendWeek }} @else Geen @endif</td>
+                            </tr>
+                            @if($sendWeek !== '')<tr>
+                                <td class="general-box-first">Verstuurde datum week {{ $sendWeek }}</td>
+                                <td>@if($dateSendWeek !== '') {{ $dateSendWeek }} @else Geen @endif</td>
+                            </tr>
+
+                            <tr>
+                                <td class="general-box-first">Aantal geopende dashboards in week {{ $sendWeek }}</td>
+                                <td>{{ $countOpened }}</td>
+                            </tr>
+                            @endif
+
+
+                        </table>
+                    </div>
+                </div>
+                @if(Auth::user()->isAdmin())                     
+                <div class="panel panel-default week-box col-md-3 col-lg-3 col-lg-offset-2 right">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Verstuur weekdashboards</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            @for ($i = 1; $i < 9; $i++)
+                            <tr>
+                                <td class="general-box-first">Week {{$i}} </td>
+                                <td>@if(in_array($i,$allweeks))<div class='btn btn-success' disabled>Verzonden</div>@else<a href='/fireweekoverview?week={{$i}}'><div class='btn btn-success'>Verstuur</div></a>@endif</td>
+                            </tr>
+                            @endfor
+                        </table>
+                    </div>
+                </div>
+                @endif
 
             </div>
+
+
 
 
         </div>

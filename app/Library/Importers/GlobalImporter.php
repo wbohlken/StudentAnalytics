@@ -17,6 +17,7 @@ class GlobalImporter
 
 	public function __construct(array $data, $weekNr = 1)
 	{
+           
 		$this->data = $data;
 		$week = Week::where('week_nr', $weekNr)->first();
 		if (!$week) {
@@ -25,12 +26,14 @@ class GlobalImporter
 		$this->week = $week;
 	}
 
-	public function import()
+	public function  import()
 	{
 		foreach ($this->data as $row) {
 			$this->importRow($row);
 		}
 	}
+        
+        
 
 	private function importRow(array $row)
 	{
@@ -47,7 +50,7 @@ class GlobalImporter
 		$weekOverview->week_id = $this->week->id;
 		$weekOverview->save();
 
-		$moodleTypes = ['prac', 'quiz'];
+		
 		// Loop through all Moodle prac and quiz weeks
 		for ($i = 1; $i <= 6; $i++) {
 			foreach ($moodleTypes as $moodleType) {

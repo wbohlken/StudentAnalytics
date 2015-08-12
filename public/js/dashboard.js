@@ -4,9 +4,11 @@ function drawMoodleChart() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Topping');
     data.addColumn('number', 'Slices');
+    var moodleresult = parseInt($('#moodle_graph').attr('data-amount'));
+    var rest = 100 - moodleresult;
     data.addRows([
-        ['Gedaan', 90],
-        ['Nog te doen', 10]
+        ['Gedaan', moodleresult],
+        ['Nog te doen', rest]
     ]);
 
     // Set chart options
@@ -29,9 +31,11 @@ function drawLyndaChart() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Topping');
     data.addColumn('number', 'Slices');
+    var lyndaresult = parseInt($('#lynda_graph').attr('data-amount'));
+    var rest = 100 - lyndaresult;
     data.addRows([
-        ['Gedaan', 25],
-        ['Nog te doen', 75]
+        ['Gedaan', lyndaresult],
+        ['Nog te doen', rest]
     ]);
 
     // Set chart options
@@ -53,9 +57,11 @@ function drawMPLChart() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Topping');
     data.addColumn('number', 'Slices');
+    var mplresult = parseInt($('#mpl_graph').attr('data-amount'));
+    var rest = 100 - mplresult;
     data.addRows([
-        ['Gedaan', 30],
-        ['Nog te doen', 70]
+        ['Gedaan', mplresult],
+        ['Nog te doen', rest]
     ]);
 
     // Set chart options
@@ -77,9 +83,11 @@ function drawCourseChart() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Topping');
     data.addColumn('number', 'Slices');
+    var mpl2result  = parseInt($('#course_graph').attr('data-amount'));
+    var rest = 100 - mpl2result;
     data.addRows([
-        ['Gedaan', 40],
-        ['Nog te doen', 60]
+        ['Gedaan', mpl2result],
+        ['Nog te doen', rest]
     ]);
 
     // Set chart options

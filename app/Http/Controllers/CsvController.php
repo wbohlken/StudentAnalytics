@@ -6,6 +6,9 @@ use App\Library\CsvImporters\GlobalImporter;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use App\Console\Commands\ImportStudentsCommand;
+use App\Model\CsvData;
+use App\Model\Student;
 
 /**
  * Class CsvController
@@ -28,14 +31,16 @@ class CsvController extends Controller {
 	{
 		$csvFile = Input::file('file');
 		$importer = new GlobalImporter($csvFile);
-		$importer->import(TRUE);
-
+		$importer->import();
 		if ($importer->hasError()) {
 			Session::flash('error', 'uploaded file is not valid');
 			return Redirect::route('upload-csv');
 		} else {
+                        
 			Session::flash('success', 'Upload successful');
 			return Redirect::route('upload-csv');
 		}
+                
+                
 	}
 }

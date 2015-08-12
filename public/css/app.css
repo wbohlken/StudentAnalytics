@@ -6239,9 +6239,19 @@ label,
 .password-edit-fields {display:none;}
 .edit-password {margin-left:177px;}
 h1 {text-align:center;}
-.filter-box {width:275px; height:auto; background-color:#f7f7f7;;}
+.filter-box {width:275px; height:auto;  float:left; background-color:#f7f7f7;}
+.dashboard-filter {margin-left:auto; margin-right:auto; float:none!important;}
 .filter-box .form-group {width:200px; padding:10px 10px 0px 10px; display:inline-block;}
 .nav-tabs {background-color:#f7f7f7; margin-top:10px;}
 .progress {margin-top:20px; height:30px;}
 .progress-box h3 {text-align:center;}
 .head-graphs h2 {text-align:center;}
+.information-box {float:right !important; padding-left:0px !important; padding-right:0px !important;}
+.title-table {width:235px; font-weight:bold;}
+.general-box, .week-box { margin-top:50px; padding: 0px !important;}
+.general-box-first {width:400px; font-weight:bold;}
+.general-box td {border-bottom:1px solid #ccc; padding:15px;}
+.week-box td { padding: 5px 15px;}
+.disabled {background-color:#CCC; cursor:inherit;}
+.moodleresult, .lyndaresult, .mplresult {visibility:hidden;}
+.alignmiddle {margin-left:auto !important; margin-right: auto !important; width:40% !important; float:none !important;}
