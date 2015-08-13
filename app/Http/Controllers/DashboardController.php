@@ -48,9 +48,9 @@ class DashboardController extends Controller {
             $countStudents = Student::all()->count();
             $countUsers = User::all()->count();
             $countAdmins = User::where('admin', 1)->count();
-            $lastweek = DB::table('week')->orderBy('week_nr', 'desc')->first();
+            $lastweek = DB::table('week')->where('sent','1')->orderBy('week_nr', 'desc')->first();
             $countOpenedDashboardsLastWeek = DB::table('week_overview')->whereNotNull('opened_on')->count();
-            $weeks = Week::all();
+            $weeks = Week::where('sent', '1');
             $allweeks = $weeks->lists('week_nr');
             if ($lastcsvdata) {
                 $dateLastCSVdata = date('d-m-Y', strtotime($lastcsvdata->created_at));

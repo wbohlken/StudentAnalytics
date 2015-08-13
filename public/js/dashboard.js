@@ -4,15 +4,17 @@ function drawMoodleChart() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Topping');
     data.addColumn('number', 'Slices');
-    var moodleresult = parseInt($('#moodle_graph').attr('data-amount'));
-    var rest = 100 - moodleresult;
+    var moodleresult = parseFloat($('#moodle_graph').attr('data-amount'));
+    var averagemoodle = parseFloat($('#moodle_graph').attr('data-average'));
+//    var rest = 100 - moodleresult;
     data.addRows([
-        ['Gedaan', moodleresult],
-        ['Nog te doen', rest]
+        ['Cijfer', moodleresult],
+        ['Gemiddeld cijfer', averagemoodle]
+        
     ]);
 
     // Set chart options
-    var options = {
+    var options = {backgroundColor: 'transparent',
         'width': 600,
         'height': 300,
     slices: {
@@ -39,12 +41,13 @@ function drawLyndaChart() {
     ]);
 
     // Set chart options
-    var options = {
-        'width': 600,
-        'height': 300,
+    var options = {backgroundColor: 'transparent',
+        'width': 250,
+        'height': 200,
+        legend: 'none',
     slices: {
             0: { color: '#0000FF' },
-            1: { color: '#9999ff' }
+            1: { color: '#ff9999' }
           }};
 
     // Instantiate and draw our chart, passing in some options.
@@ -65,44 +68,20 @@ function drawMPLChart() {
     ]);
 
     // Set chart options
-    var options = {
-        'width': 600,
-        'height': 300,
+    var options = {backgroundColor: 'transparent',
+        'width': 250,
+        'height': 200,
+         legend: 'none',
     slices: {
             0: { color: '#00FF00' },
-            1: { color: '#b2ffb2' }
+            1: { color: '#ff9999' }
           }};
 
     // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.PieChart(document.getElementById('mpl_graph'));
     chart.draw(data, options);
 }
-function drawCourseChart() {
 
-    // Create the data table.
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', 'Topping');
-    data.addColumn('number', 'Slices');
-    var mpl2result  = parseInt($('#course_graph').attr('data-amount'));
-    var rest = 100 - mpl2result;
-    data.addRows([
-        ['Gedaan', mpl2result],
-        ['Nog te doen', rest]
-    ]);
-
-    // Set chart options
-    var options = {
-        'width': 600,
-        'height': 300,
-    slices: {
-            0: { color: '#FFA500' },
-            1: { color: '#ffd27f' }
-          }};
-
-    // Instantiate and draw our chart, passing in some options.
-    var chart = new google.visualization.PieChart(document.getElementById('course_graph'));
-    chart.draw(data, options);
-}
 
 google.load('visualization', '1.0', {'packages': ['corechart']});
 
@@ -110,4 +89,3 @@ google.load('visualization', '1.0', {'packages': ['corechart']});
 google.setOnLoadCallback(drawMoodleChart);
 google.setOnLoadCallback(drawLyndaChart);
 google.setOnLoadCallback(drawMPLChart);
-google.setOnLoadCallback(drawCourseChart);

@@ -25,10 +25,10 @@
                     </form>
                 </div>
                 @if(Session::has('success'))
-						<p class="alert alert-success"> {{ Session::get('success') }}</p>
-					@elseif(Session::has('error'))
-						<p class="alert alert-danger">{{ Session::get('error') }}</p>
-					@endif
+                        <p class="alert alert-success"> {{ Session::get('success') }}</p>
+                @elseif(Session::has('error'))
+                        <p class="alert alert-danger">{{ Session::get('error') }}</p>
+                @endif
                                         
                 <div class="panel panel-default general-box col-md-5 col-lg-5 left @if(Auth::user()->isAdmin()) @else alignmiddle @endif ">
                     <div class="panel-heading">

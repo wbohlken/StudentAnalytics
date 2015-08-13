@@ -4,6 +4,7 @@ use App\Model\CsvData;
 use App\Model\WeekOverview;
 use App\Model\Week;
 use Input;
+use App\User;
 use App\Model\Student;
 use Redirect;
 use Session;
@@ -47,68 +48,48 @@ class WeekoverviewController extends Controller
                     $weeknumber = Input::get('week');
                     $data = CsvData::all()->toArray();
                     ini_set('max_execution_time', 300);
-                    if ($this->createStudentDashboardForWeek($weeknumber, $data)) {
+                    if ($this->sendStudentDashboardForWeek($weeknumber, $data)) {
 				Session::flash('success', 'De studentendashboards van week ' . $weeknumber . ' zijn aangemaakt en verstuurd!');
                     } else {
 				Session::flash('error', 'De studenten dashboards zijn niet verstuurd');
                     }
                     return redirect('/dashboard');
-                    
-                    
             }
 	}
         
-        private function createStudentDashboardForWeek($weeknumber, $data) {
-            
-                // first create the new week
-                $week = new Week();
-                $week->week_nr = $weeknumber;
-                $week->date = date('Y-m-d');
-                $week->save(); 
+        private function sendStudentDashboardForWeek($weeknumber) {
+                // get week object for which studentdashboard is
                 
-                $moodleTypes = ['prac', 'quiz'];
-                foreach ($data as $row) {
-                        $oStudent = Student::where('studnr_a', $row['studnr_a'])->first();
-                        //create weekoverview for this student
-                        $oWeekOverview = new WeekOverview();
-                        $oWeekOverview->student_id = $oStudent->id;
-                        $oWeekOverview->week_id = $week->id;
-                        $oWeekOverview->save();
-
-                        //put moodleresult in DB
-                        foreach ($moodleTypes as $moodleType) {
-                            $grade = $row['w' . $week->week_nr . '_' . $moodleType];
-
-                                $moodleResult = new MoodleResult();
-                                $moodleResult->week_overview_id = $oWeekOverview->id;
-                                $moodleResult->assignment_week_nr = $week->week_nr;
-                                $moodleResult->type = $moodleType;
-                                $moodleResult->grade = $grade;
-                                $moodleResult->save();
-                        }
-                        // put lyndadata in DB 
-                        $lyndaData = new LyndaData();
-                        $lyndaData->week_overview_id = $oWeekOverview->id;
-                        $lyndaData->course = $row['Course'];
-                        $lyndaData->complete  = $row['complete'];
-                        $lyndaData->hours_viewed = $row['Hoursviewed'];
-                        $lyndaData->save();
-
-
-                        //put MPL in DB
-                        $MMLAttempts = $row['W' . $week->week_nr . '_MMLAttemps'];
-                        $MMLMastery = $row['W' . $week->week_nr . '_MMLMastery'];
-
-                        $myprogrammingLabResult = new MyprogramminglabResult();
-                        $myprogrammingLabResult->assignment_week_nr = $week->week_nr;
-                        $myprogrammingLabResult->week_overview_id = $oWeekOverview->id;
-                        $myprogrammingLabResult->MMLAttempts = $MMLAttempts;
-                        $myprogrammingLabResult->MMLMastery = $MMLMastery;
-                        $myprogrammingLabResult->save();
+                $oWeek = Week::where('week_nr', $weeknumber)->first();
+                
+                // get weekoverviews for this week
+                $ooWeekOverviews = WeekOverview::where('week_id', $oWeek->id)->get();
+                
+                
+                // for every weekoverview create view-key and send student their weekoverview
+                // at the end, set the week on 'sent'. 
+                foreach ($ooWeekOverviews as $oWeekOverview) {
+                        //get student for this weekoverview
+                        $oStudent = Student::where('id', $oWeekOverview->student_id)->first();
                         
-//                        $oStudent->sendMail($oWeekOverview);
-                    
+                        //check if student has already user account
+                        //NO? create user account
+                        // create user if not exists
+                        User::createByStudentId($oStudent->id);
+                        
+                        //generate viewkey for this weekoverview
+                        $oWeekOverview->generateViewKey();
+                        
+                        // send mail to student
+                        if ($oStudent->sendMail($oWeekOverview)) {
+                            $oWeek->sent = 1;
+                            $oWeek->save();
+                        }
+                        $oWeek->sent = 1;
+                            $oWeek->save();
                 }
+                
+                
                 return true;
         }
 

@@ -64,6 +64,8 @@
 <!-- Scripts -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+<script src="{{ asset('/js/jquery.counterup.min.js') }}"></script>
 <script src="{{ asset('/js/dashboard.js') }}"></script>
 <script src="{{ asset('/js/main.js') }}"></script>
     

@@ -42,12 +42,8 @@ class StudentdashboardController extends Controller {
      */
     public function getIndex() {
 
-        $studentnumbers = Student::getAllStudentnumbers();
-        $lastcsvdata = DB::table('csv_data')->orderBy('created_at', 'desc')->first();
-
         // if admin is checking the studentdashboards
-        if (Input::has('studentnumber') && Auth::check()->isAdmin()) {
-
+        if (Input::has('studentnumber')) {
             $studentnumber = Input::get('studentnumber');
             $oStudent = Student::where('studnr_a', $studentnumber)->first();
             $aStudent = $oStudent->toArray();
@@ -76,7 +72,7 @@ class StudentdashboardController extends Controller {
         
         $aWeekOverview = $oWeekOverview->toArray();
         
-        return view('studentdashboard', ['student' => $aStudent, 'studentnumbers' => $aStudentnumbers, 'mainResults' => $aMainResults, 'weekOverview' => $aWeekOverview]);
+        return view('studentdashboard', ['student' => $aStudent, 'studentnumbers' => $aStudentnumbers, 'mainResults' => $aMainResults, 'averageResults' => $aAverageResults, 'weekOverview' => $aWeekOverview]);
     }
 
     public function getWeekOverviewDashboard() {

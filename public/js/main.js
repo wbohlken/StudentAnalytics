@@ -2,6 +2,16 @@ $(document).ready(function () {
     $('.password-edit').click(function () {
         $('.password-edit-fields').show();
     });
+    
+    $('.counter').counterUp({
+    time: 2500
+});
+    $('.counter-fast').counterUp({
+        time:1000
+    });
+    
+    
+//
 //
 //    $(function () {
 //        var hash = window.location.hash;

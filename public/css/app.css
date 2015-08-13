@@ -6239,14 +6239,14 @@ label,
 .password-edit-fields {display:none;}
 .edit-password {margin-left:177px;}
 h1 {text-align:center;}
-.filter-box {width:275px; height:auto;  float:left; background-color:#f7f7f7;}
+.filter-box {width:275px; height:auto;  float:none; margin-left:auto; margin-right:auto;}
 .dashboard-filter {margin-left:auto; margin-right:auto; float:none!important;}
 .filter-box .form-group {width:200px; padding:10px 10px 0px 10px; display:inline-block;}
 .nav-tabs {background-color:#f7f7f7; margin-top:10px;}
 .progress {margin-top:20px; height:30px;}
 .progress-box h3 {text-align:center;}
 .head-graphs h2 {text-align:center;}
-.information-box {float:right !important; padding-left:0px !important; padding-right:0px !important;}
+.information-box {float:left !important; padding-left:0px !important; padding-right:0px !important;}
 .title-table {width:235px; font-weight:bold;}
 .general-box, .week-box { margin-top:50px; padding: 0px !important;}
 .general-box-first {width:400px; font-weight:bold;}
@@ -6255,3 +6255,23 @@ h1 {text-align:center;}
 .disabled {background-color:#CCC; cursor:inherit;}
 .moodleresult, .lyndaresult, .mplresult {visibility:hidden;}
 .alignmiddle {margin-left:auto !important; margin-right: auto !important; width:40% !important; float:none !important;}
+.moodle-box { background-color:#F7F7F7; text-align:center; height:300px; padding:20px; padding-bottom:30px;}
+.moodle-box h1 {font-family:verdana;}
+.moodle-prac { text-align:center;}
+h2{text-align:center; font-weight:lighter; font-size:18px;}
+
+
+.counter, .counter-fast {font-size:22px;text-align:center;}
+.mplbox {background-color:#dedede; text-align:Center; padding:20px; padding-bottom:30px; height:300px;}
+.mplattempts {text-align:center;}
+#mpl_graph {margin-left:-10px; margin-top:-20px;}
+h3 {font-weight:lighter; font-size:14px;}
+#mpl_graph {width:250px; height:200px;}
+.lyndabox {height:300px; background-color:#dedede;}
+
+.progress {background: rgba(245, 245, 245, 1); border: 0px solid rgba(245, 245, 245, 1); border-radius: 4px; height: 30px;}
+.progress-bar-custom {background: rgba(62, 255, 41, 1);}
+.progress-bar  p {font-weight:bold; color:#000; font-size:16px; padding-top:5px;}
+.total {font-size:18px;}
+.progress-striped .progress-bar-custom {background-color: rgba(62, 255, 41, 1); background-image: -webkit-gradient(linear,0 100%,100% 0,color-stop(0.25,rgba(117, 117, 117, 0.15),color-stop(0.25,transparent),color-stop(0.5,transparent),color-stop(0.5,rgba(117, 117, 117, 0.15)),color-stop(0.75,rgba(117, 117, 117, 0.15)),color-stop(0.75,transparent),to(transparent))); background-image: -webkit-linear-gradient(45deg,rgba(117, 117, 117, 0.15) 25%,transparent 25%,transparent 50%,rgba(117, 117, 117, 0.15) 50%,rgba(117, 117, 117, 0.15) 75%,transparent 75%,transparent); background-image: linear-gradient(45deg,rgba(117, 117, 117, 0.15) 25%,transparent 25%,transparent 50%,rgba(117, 117, 117, 0.15) 50%,rgba(117, 117, 117, 0.15) 75%,transparent 75%,transparent); background-size: 36px 36px;}
+.prediction-box {padding:0px !important;}
