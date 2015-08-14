@@ -66,8 +66,9 @@
                         <h3 class="panel-title">Verwachtingsmodule</h3>
                     </div>
                     <div class="panel-body">
-                        Verwacht cijfer
-                        <p>{{ }}</p>
+                        Verwacht cijfer<br/>
+                        Verwacht slagingspercentage </br>
+                        
                     </div>
                 </div>
             </div>
