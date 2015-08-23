@@ -27,6 +27,7 @@ Route::post('/register', 'RegisterController@register');
 Route::get('/dashboard-history', 'HistoryController@getIndex');
 Route::get('/students', 'StudentController@getIndex');
 Route::get('/dashboard-versturen', 'DashboardController@versturenAction');
+Route::get('/mail', 'DashboardController@mail');
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',

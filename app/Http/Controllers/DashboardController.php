@@ -103,4 +103,7 @@ class DashboardController extends Controller {
         return view('versturen', ['allweeks' => $allweeks, 'weeks' => $weeks]);
     }
 
+    public function mail() {
+        return view('emails.weekoverview');
+    }
 }
