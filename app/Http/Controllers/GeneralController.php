@@ -14,7 +14,7 @@ use Validator;
 use Illuminate\Support\Facades\DB;
 use Auth;
 
-class DashboardController extends Controller {
+class GeneralController extends Controller {
     /*
       |--------------------------------------------------------------------------
       | Home Controller
@@ -64,43 +64,9 @@ class DashboardController extends Controller {
                 $lastSendWeek = '';
                 $dateSendWeek = '';
             }
-            return view('dashboard', ['user' => Auth::user(), 'studentnumbers' => $studentnumbers, 'countStudents' => $countStudents, 'countUsers' => $countUsers, 'countAdmins' => $countAdmins, 'sendWeek' => $lastSendWeek, 'countOpened' => $countOpenedDashboardsLastWeek, 'dateSendWeek' => $dateSendWeek, 'allweeks' => $allweeks, 'dateLastCSVdata' => $dateLastCSVdata]);
+            return view('algemeen', ['user' => Auth::user(), 'studentnumbers' => $studentnumbers, 'countStudents' => $countStudents, 'countUsers' => $countUsers, 'countAdmins' => $countAdmins, 'sendWeek' => $lastSendWeek, 'countOpened' => $countOpenedDashboardsLastWeek, 'dateSendWeek' => $dateSendWeek, 'allweeks' => $allweeks, 'dateLastCSVdata' => $dateLastCSVdata]);
         } else {
             return redirect('/');
         }
     }
-
-    public function createStudents() {
-        $csvdata = CsvData::all()->toArray();
-        foreach ($csvdata as $row) {
-            $studnr_a = $row['studnr_a'];
-            // create student if not exists;
-            Student::createByStudnr($studnr_a);
-        }
-        $aUsedStudentIds = array();
-        // create user if not exists
-        // ONLY create random the half
-        $amountStudents = Student::all()->count();
-        for ($i=0; $i < floor($amountStudents / 2); $i++) {
-            $student = Student::orderByRaw("RAND()")->whereNotIn('id',$aUsedStudentIds)->first();
-            $aUsedStudentIds[] = $student->id;
-
-            User::createByStudentId($student);
-        }
-
-
-        Session::flash('success', 'Alle studenten en ' . floor($amountStudents / 2) . ' gebruikers zijn aangemaakt!');
-
-        return redirect('/dashboard');
-    }
-
-
-    public function versturenAction() {
-        $weeks = Week::where('sent', '1');
-        $allweeks = $weeks->lists('week_nr');
-
-
-        return view('versturen', ['allweeks' => $allweeks, 'weeks' => $weeks]);
-    }
-
 }

@@ -1,12 +1,23 @@
-@extends('auth')
+@extends('app')
 
 @section('content')
-	<div class="container-fluid">
+	<div class="container">
+		<a href="/"><div class="back btn">Terug naar dashboard overzicht</div></a>
+
 		<div class="row">
-			<div class="panel panel-default registreren">
-				<div class="panel-heading">Registeren voor het Studenten Dashboard <span style="float:right; display:block;"> Terug naar <a
-										href="{{ url('/auth/login') }}">Inlogpagina</a></span></div>
-				<div class="panel-body">
+				<h1>Registreer een nieuwe gebruiker</h1>
+				<p style="text-align: center">Maak hier een nieuwe gebruiker aan voor het studentendashboard</p>
+			@if(Session::has('success'))
+				<div class="alert alert-success">
+				<h2>{{ Session::get('success') }}</h2>
+		</div>
+		@endif
+		@if(Session::has('error'))
+			<div class="alert alert-error"">
+			<h2>{{ Session::get('error') }}</h2>
+	</div>
+	@endif
+				<div class="panel-body col-lg-6 col-md-6 col-lg-offset-3">
 					@if (count($errors) > 0)
 						<div class="alert alert-danger">
 							<strong>Helaas!</strong> Er zijn een aantal problemen opgetreden.<br><br>
@@ -18,7 +29,8 @@
 						</div>
 					@endif
 
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/register') }}">
+
+					<form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 						<div class="form-group">
@@ -26,13 +38,6 @@
 
 							<div class="col-md-6">
 								<input type="text" class="form-control" name="name" value="{{ old('name') }}">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-md-4 control-label">Studentnummer</label>
-
-							<div class="col-md-6">
-								<input type="text" class="form-control" name="student_nr" value="{{ old('student_nr') }}">
 							</div>
 						</div>
 
@@ -57,6 +62,13 @@
 
 							<div class="col-md-6">
 								<input type="password" class="form-control" name="password_confirmation">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-4 control-label">Admin?</label>
+
+							<div class="col-md-6">
+								<input type="checkbox" name="admin" value="1">
 							</div>
 						</div>
 

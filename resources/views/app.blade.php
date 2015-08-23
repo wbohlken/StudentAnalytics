@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Laravel</title>
+	<title>Programming Dashboard Informatica HvA</title>
 
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 
@@ -29,17 +29,12 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="/">Studenten Dashboard</a>
+			@if(Auth::user()->isAdmin())<a class="navbar-brand" href="/">Programming Dashboard <b>Admin Panel</b></a>
+				@else <a class="navbar-brand" href="/">Programming Dashboard <b>User Panel</b></a>
+			@endif
 		</div>
 
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			@if (Auth::check())
-				<ul class="nav navbar-nav">
-					@if(Auth::user()->isAdmin())
-						<li><a href="{{ route('upload-csv') }}">Upload</a></li>
-					@endif
-				</ul>
-			@endif
 			<ul class="nav navbar-nav navbar-right">
 				@if (Auth::guest())
 					<li><a href="{{ url('/auth/login') }}">Login</a></li>
@@ -61,6 +56,8 @@
 
 @yield('content')
 
+
+
 <!-- Scripts -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
@@ -68,6 +65,10 @@
 <script src="{{ asset('/js/jquery.counterup.min.js') }}"></script>
 <script src="{{ asset('/js/dashboard.js') }}"></script>
 <script src="{{ asset('/js/main.js') }}"></script>
-    
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/highcharts-more.js"></script>
+<script src="http://code.highcharts.com/modules/solid-gauge.src.js"></script>
+<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 </body>
 </html>

@@ -32,6 +32,11 @@ class WeekOverview extends Model {
         return $this->belongsTo('App\Model\Week');
     }
 
+    public function weekoverviewhistory() {
+        return $this->hasMany('App\Model\WeekOverviewHistory');
+    }
+
+
 //    public static function boot() {
 //        parent::boot();
 //

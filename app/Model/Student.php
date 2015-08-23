@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Database\Eloquent\Model;
 use App\Model\WeekOverview;
 use Illuminate\Support\Facades\Mail;
+use App\Model\VooroplProfiel;
 
 class Student extends Model {
 	protected $table = "student";
@@ -16,6 +17,15 @@ class Student extends Model {
 	{
 		return $this->hasMany('App\Model\WeekOverview');
 	}
+
+    public function user() {
+        return $this->belongsTo('App\User');
+    }
+
+    public function vooropl_profiel()
+    {
+        return $this->belongsTo('App\Model\VooroplProfiel');
+    }
 
 	public static function createByStudnr($studnr_a)
 	{
@@ -44,9 +54,17 @@ class Student extends Model {
         }
         
         public function sendMail($weekoverview) {
-            Mail::send('emails.weekoverview', ['view_key' => $weekoverview->view_key], function($message)
+            Mail::queue('emails.weekoverview', ['view_key' => $weekoverview->view_key], function($message)
             {
                 $message->to('Justin.oud@hotmail.com', 'John Smith')->subject('Je dashboard voor deze week!');
             });
         }
+
+        public function getOverviewByFilter($filter) {
+
+        }
+
+
+
+
 }

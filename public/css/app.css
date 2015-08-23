@@ -4105,11 +4105,11 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-default {
-  background-color: #f8f8f8;
+  background-color: #496D89;
   border-color: #e7e7e7;
 }
 .navbar-default .navbar-brand {
-  color: #777777;
+  color: #FFF;
 }
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
@@ -6248,7 +6248,7 @@ h1 {text-align:center;}
 .head-graphs h2 {text-align:center;}
 .information-box {float:left !important; padding-left:0px !important; padding-right:0px !important;}
 .title-table {width:235px; font-weight:bold;}
-.general-box, .week-box { margin-top:50px; padding: 0px !important;}
+.general-box, .week-box { margin-top:50px; padding: 0px !important; float:none!important; margin-left:auto; margin-right:auto; display:block;}
 .general-box-first {width:400px; font-weight:bold;}
 .general-box td {border-bottom:1px solid #ccc; padding:15px;}
 .week-box td { padding: 5px 15px;}
@@ -6275,3 +6275,40 @@ h3 {font-weight:lighter; font-size:14px;}
 .total {font-size:18px;}
 .progress-striped .progress-bar-custom {background-color: rgba(62, 255, 41, 1); background-image: -webkit-gradient(linear,0 100%,100% 0,color-stop(0.25,rgba(117, 117, 117, 0.15),color-stop(0.25,transparent),color-stop(0.5,transparent),color-stop(0.5,rgba(117, 117, 117, 0.15)),color-stop(0.75,rgba(117, 117, 117, 0.15)),color-stop(0.75,transparent),to(transparent))); background-image: -webkit-linear-gradient(45deg,rgba(117, 117, 117, 0.15) 25%,transparent 25%,transparent 50%,rgba(117, 117, 117, 0.15) 50%,rgba(117, 117, 117, 0.15) 75%,transparent 75%,transparent); background-image: linear-gradient(45deg,rgba(117, 117, 117, 0.15) 25%,transparent 25%,transparent 50%,rgba(117, 117, 117, 0.15) 50%,rgba(117, 117, 117, 0.15) 75%,transparent 75%,transparent); background-size: 36px 36px;}
 .prediction-box {padding:0px !important;}
+
+.navbar-brand {text-align:center;}
+.dashboard-box, .dashboard-box2 {height:250px; border-right:1px solid #FFF;}
+.dashboard-box:hover, .dashboard-box2:hover {opacity:0.5; cursor:pointer;}
+.dashboard-boxes {margin-top:50px;}
+.dashboard-boxes .dashboard-box:nth-child(odd) {background-color:#042037;}
+.dashboard-boxes .dashboard-box2:nth-child(odd) {background-color:#042037;}
+.dashboard-box h2, .dashboard-box2 h2 {color:#FFF; font-size:16px; margin-top:25px;}
+.dashboard-box img, .dashboard-box2 img{display:block; margin-top:20px; margin-left:auto; margin-right:auto;}
+.dropdown a {color:#042037 !important;}
+.alert h2 {padding:0px; margin:0px; }
+.alert {margin-top:10px; margin-bottom:10px;}
+table {background-color:#8da4b6; color:#FFF; margin-left:auto; margin-right:auto; display:block;}
+table tr:hover {background-color:#a9bbc8; cursor:pointer;}
+.back { background-color:#a9bbc8; color:#000;}
+.btn-primary {background-color:#042037; width:100%;}
+.filter-element {margin-left:10px; margin-right:10px; display:inline-block;}
+
+
+.filter {width:800px; margin-left:auto; margin-right:auto; padding:10px; background-color:#e5eaee;}
+.filteren-btn {background-color:#042037;color:#FFF;  }
+.filteren-btn:hover {color:#999;}
+.content-filter {width:750px; margin-left:auto; margin-right:auto;}
+#historytable {width:800px; margin-left:auto; margin-right:auto;}
+#historytable td, #historytable th{padding:10px; border-bottom:1px solid #FFF;}
+.dashboard-no-found {text-align:center; font-size:18px; margin-top:50px; }
+.personal-info {background-color: #FFF; color:#000;}
+.personal-info td {width:100%;}
+.countrows { float:right; display:block; font-size:10px; margin-right:200px; margin-top:20px; font-weight:bold;}
+.pagination {margin-right:335px; margin-top:50px; margin-bottom:50px;}
+.pagination li a {color:#8da4b6;}
+.pagination .active span {background-color:#8da4b6; border:1px solid #a9bbc8;}
+.pagination .active span:hover {background-color:#a9bbc8; border:1px solid #a9bbc8;}
+.predicted-text { padding:10px; font-size:20px; text-align:center; display:block; margin:10px;}
+.wel {color:#59C03A; font-size:22px; font-weight:bold;}
+.niet {color:red; font-size:22px; font-weight:bold;}
+.versturen td {padding:10px; border-bottom:2px solid #FFF}

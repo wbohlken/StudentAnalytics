@@ -1,6 +1,7 @@
 <?php
 namespace App;
 
+use App\Model\WeekOverviewHistory;
 use Auth;
 
 use App\Model\WeekOverview;
@@ -56,6 +57,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 			'student_nr' => 'required|numeric',
 	];
 
+	public function student() {
+		return $this->belongsTo('App\Model\Student');
+	}
 	/**
 	 * Custom error messages
 	 * @var array
@@ -82,14 +86,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return $this->admin;
 	}
         
-	public static function createByStudentId($studentId)
+	public static function createByStudentId($student)
 	{
-		$user = self::where('student_id', $studentId)->first();
+		$user = self::where('student_id', $student->id)->first();
 		if (!$user) {
-			$user = new User(['student_id' => $studentId, 'email' => $studentId]);
-			$user->save();
+				$user = new User(['student_id' => $student->id, 'email' => $student->id]);
+				$user->save();
 		}
-		return $user;
+		return true;
 	}
 
 	public static function loginByViewKey($viewKey)
@@ -104,8 +108,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 			$user = new User(['student_id' => $student->id, 'email' => $student->email]);
 			$user->save();
 		}
+
+		//create new weekoverviewhistory
+		$oWeekOverviewHistory = new WeekOverviewHistory();
+		$oWeekOverviewHistory->user_id = $user->id;
+		$oWeekOverviewHistory->week_overview_id = $weekOverview->id;
+		$oWeekOverviewHistory->save();
+
 		Auth::login($user);
-		return TRUE;
+		return $user;
 	}
 
 }

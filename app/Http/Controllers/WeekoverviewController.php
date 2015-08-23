@@ -70,24 +70,23 @@ class WeekoverviewController extends Controller
                 // at the end, set the week on 'sent'. 
                 foreach ($ooWeekOverviews as $oWeekOverview) {
                         //get student for this weekoverview
-                        $oStudent = Student::where('id', $oWeekOverview->student_id)->first();
-                        
-                        //check if student has already user account
-                        //NO? create user account
-                        // create user if not exists
-                        User::createByStudentId($oStudent->id);
-                        
-                        //generate viewkey for this weekoverview
-                        $oWeekOverview->generateViewKey();
-                        
-                        // send mail to student
-                        if ($oStudent->sendMail($oWeekOverview)) {
-                            $oWeek->sent = 1;
-                            $oWeek->save();
+                        $oStudent = Student::where('studnr_a', $oWeekOverview->student_id)->first();
+                        $oUser = User::where('student_id', $oStudent->id)->first();
+
+
+                        //check if student has user account.
+                        // YES? Send mail.
+                        if ($oUser) {
+                            //generate viewkey for this weekoverview
+                            $oWeekOverview->generateViewKey();
+
+                            // send mail to student
+                            $oStudent->sendMail($oWeekOverview);
                         }
-                        $oWeek->sent = 1;
-                            $oWeek->save();
+
                 }
+                $oWeek->sent = 1;
+                $oWeek->save();
                 
                 
                 return true;

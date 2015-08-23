@@ -33,17 +33,6 @@
 								<input type="password" class="form-control" name="password">
 							</div>
 						</div>
-
-<!--						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<div class="checkbox">
-									<label>
-										<input type="checkbox" name="remember"> Remember Me
-									</label>
-								</div>
-							</div>
-						</div>-->
-
 						<div class="form-group">
 							<div class="col-md-11">
 								<button type="submit" class="btn btn-primary login-btn">Login</button>
@@ -52,7 +41,6 @@
 							</div>
 						</div>
 					</form>
-                                        <h2>Nog geen account? <a href="{{ url('/auth/register') }}">Registreer</a></h2>
 				</div>
 			</div>
 	</div>

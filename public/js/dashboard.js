@@ -10,7 +10,7 @@ function drawMoodleChart() {
     data.addRows([
         ['Cijfer', moodleresult],
         ['Gemiddeld cijfer', averagemoodle]
-        
+
     ]);
 
     // Set chart options
