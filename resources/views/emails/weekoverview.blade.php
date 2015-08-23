@@ -1,11 +1,11 @@
 
 <table style="width:98%">
     <thead>
-    <tr><img src="{{ asset('/img/logo.svg') }}"></tr>
+    <tr><img src="{{ $message->embed(asset('/img/logo.svg')) }}"></tr>
     <tr style="height:50px; background-color:#8da4b6; width:98%;"></tr>
     </thead>
     <tbody>
-    <p>Beste Student,<br/>
+    <p>Beste Student,<br/><br/>
     Hierbij sturen we jouw programming dashboard voor deze week!
     Bekijk hem door op de volgende link te klikken:<br/><br/>
         {{ url('/studentdashboard?key=') }}
