@@ -52,9 +52,9 @@
                         <th width="75">Week</th>
                         <th width="125">Geopend op</th>
                         <th width="">Totaal geopend</th>
-                        <th>Verwacht Cijfer</th>
-                        <th>Verwacht slaging</th>
+                        <th>Verwacht cijfer</th>
                         <th>Verwacht risico</th>
+                        <th>Verwacht slagen</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -66,8 +66,8 @@
                             <td>{{ $overview->created_at->format('d-m-Y H:i') }}</td>
                             <td>{{ $overview->user->student->getAmountLoggedIn() }}</td>
                             <td>{{ $overview->user->student->getLatestWeekOverview()->estimated_grade }}</td>
-                            <td>{{ $overview->user->student->getLatestWeekOverview()->estimated_passed }}</td>
                             <td>{{ number_format($overview->user->student->getLatestWeekOverview()->estimated_risk * 100,2) }}</td>
+                            <td>@if($overview->user->student->getLatestWeekOverview()->estimated_passed == 'yes') Ja @else Nee @endif</td>
 
                         </tr>
                             @endforeach

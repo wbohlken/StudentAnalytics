@@ -67,7 +67,7 @@
                             <td>{{ $student->getAmountLoggedIn() }}</td>
                             <td>{{ $student->getLatestWeekOverview()->estimated_grade  }}</td>
                             <td>{{ number_format($student->getLatestWeekOverview()->estimated_risk * 100, 2) }}%</td>
-                            <td>{{ $student->getLatestWeekOverview()->estimated_passed }}</td>
+                            <td>@if($student->getLatestWeekOverview()->estimated_passed == 'yes') Ja @else Nee @endif</td>
                         </tr>
                             @endforeach
                         @if($students->total() == 0)
