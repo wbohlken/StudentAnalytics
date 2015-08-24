@@ -84,7 +84,6 @@ class DashboardController extends Controller {
         for ($i=0; $i < floor($amountStudents / 2); $i++) {
             $student = Student::orderByRaw("RAND()")->whereNotIn('id',$aUsedStudentIds)->first();
             $aUsedStudentIds[] = $student->id;
-
             User::createByStudentId($student);
         }
 
@@ -98,9 +97,9 @@ class DashboardController extends Controller {
     public function versturenAction() {
         $weeks = Week::where('sent', '1');
         $allweeks = $weeks->lists('week_nr');
+        $countUsers = User::where('admin', 0)->count();
 
-
-        return view('versturen', ['allweeks' => $allweeks, 'weeks' => $weeks]);
+        return view('versturen', ['allweeks' => $allweeks, 'weeks' => $weeks, 'countUsers' => $countUsers]);
     }
 
     public function mail() {

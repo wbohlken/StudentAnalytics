@@ -76,8 +76,13 @@
                     </tbody>
 
                 </table>
-                <?php echo $weekoverviewhistory->render(); ?>
+                <div class="row">
                 <span class="countrows">Er zijn {{ $weekoverviewhistory->total() }} resultaten gevonden.</span>
+                    </div>
+                <div class="row">
+                    <?php echo $weekoverviewhistory->render(); ?>
+                </div>
+
 
             </div>
         </div>

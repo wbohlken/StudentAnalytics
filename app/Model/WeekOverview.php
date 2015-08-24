@@ -25,7 +25,7 @@ class WeekOverview extends Model {
     }
 
     public function student() {
-        return $this->belongsTo('App\Model\Student');
+        return $this->belongsTo('App\Model\Student', 'studnr_a');
     }
 
     public function week() {

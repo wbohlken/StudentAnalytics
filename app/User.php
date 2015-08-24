@@ -5,6 +5,7 @@ use App\Model\WeekOverviewHistory;
 use Auth;
 
 use App\Model\WeekOverview;
+use App\Model\Student;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -102,13 +103,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		if (!$weekOverview) {
 			return FALSE;
 		}
-		$student = $weekOverview->student;
+		$studnr_a = $weekOverview->student_id;
+		$student = Student::where('studnr_a', $studnr_a)->first();
+
 		$user = self::where('student_id', $student->id)->first();
 		if (!$user) {
 			$user = new User(['student_id' => $student->id, 'email' => $student->email]);
 			$user->save();
+		} else {
+			return Redirect('/');
 		}
-
+		die('test');
 		//create new weekoverviewhistory
 		$oWeekOverviewHistory = new WeekOverviewHistory();
 		$oWeekOverviewHistory->user_id = $user->id;
@@ -116,6 +121,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		$oWeekOverviewHistory->save();
 
 		Auth::login($user);
+		var_dump($user);
+		die();
 		return $user;
 	}
 

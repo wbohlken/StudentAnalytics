@@ -40,7 +40,7 @@
                 <div class="general-box col-md-5 col-lg-5  @if(Auth::user()->isAdmin()) @else alignmiddle @endif ">
                     <h2><b>LET OP! Stappenplan voor versturen</b></h2>
                 <h2 style="text-align:left;">1. Staat alle relevante week voor de desbetreffende week in de database?</h2>
-                    <h2 style="text-align:left;">2. Er wordt naar .. studenten een mail gestuurd.</h2>
+                    <h2 style="text-align:left;">2. Er wordt naar {{ $countUsers }} studenten een mail gestuurd.</h2>
                     <table class="versturen">
                     @for ($i = 1; $i < 9; $i++)
                     <tr>

@@ -24,7 +24,7 @@ class Student extends Model {
 
     public function vooropl_profiel()
     {
-        return $this->belongsTo('App\Model\VooroplProfiel');
+        return $this->belongsTo('App\Model\VooroplProfiel', 'preschool_profile');
     }
 
 	public static function createByStudnr($studnr_a)
@@ -48,7 +48,7 @@ class Student extends Model {
         
         public function getWeekOverview($week) {
             
-            return WeekOverview::where('student_id', $this->id)->where('week_id', $week)->first();
+            return WeekOverview::where('student_id', $this->studnr_a)->where('week_id', $week)->first();
             
             
         }
@@ -56,7 +56,7 @@ class Student extends Model {
         public function sendMail($weekoverview) {
             Mail::queue('emails.weekoverview', ['view_key' => $weekoverview->view_key], function($message)
             {
-                $message->to('Justin.oud@hotmail.com', 'John Smith')->subject('Je dashboard voor deze week!');
+                $message->to('Justin.oud@hotmail.com', 'John Smith')->subject('Je programming dashboard voor deze week.');
             });
         }
 

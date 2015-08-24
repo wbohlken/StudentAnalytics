@@ -6247,7 +6247,7 @@ h1 {text-align:center;}
 .progress-box h3 {text-align:center;}
 .head-graphs h2 {text-align:center;}
 .information-box {float:left !important; padding-left:0px !important; padding-right:0px !important;}
-.title-table {width:235px; font-weight:bold;}
+.title-table {width:200px; font-weight:bold;}
 .general-box, .week-box { margin-top:50px; padding: 0px !important; float:none!important; margin-left:auto; margin-right:auto; display:block;}
 .general-box-first {width:400px; font-weight:bold;}
 .general-box td {border-bottom:1px solid #ccc; padding:15px;}
@@ -6302,9 +6302,10 @@ table tr:hover {background-color:#a9bbc8; cursor:pointer;}
 #historytable td, #historytable th{padding:10px; border-bottom:1px solid #FFF;}
 .dashboard-no-found {text-align:center; font-size:18px; margin-top:50px; }
 .personal-info {background-color: #FFF; color:#000;}
-.personal-info td {width:100%;}
+.personal-info td {width:70%;}
+.personal-info tr {width:100%;}
 .countrows { float:right; display:block; font-size:10px; margin-right:200px; margin-top:20px; font-weight:bold;}
-.pagination {margin-right:335px; margin-top:50px; margin-bottom:50px;}
+.pagination {float:right; margin-right:200px;}
 .pagination li a {color:#8da4b6;}
 .pagination .active span {background-color:#8da4b6; border:1px solid #a9bbc8;}
 .pagination .active span:hover {background-color:#a9bbc8; border:1px solid #a9bbc8;}

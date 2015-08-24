@@ -35,7 +35,10 @@
 						</div>
 						<div class="form-group">
 							<div class="col-md-11">
-								<button type="submit" class="btn btn-primary login-btn">Login</button>
+								<div class="col-md-3">
+
+								</div>
+								<div class="col-md-8"><button type="submit" class="btn btn-primary login-btn">Login</button></div>
 
 								<a class="forgot-password btn-link" href="{{ url('/password/email') }}">Wachtwoord vergeten?</a>
 							</div>
