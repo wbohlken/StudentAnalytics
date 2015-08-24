@@ -65,7 +65,7 @@
                             <td>@if ($student->getLastLogin()['created_at']){{ $student->getLastLogin()['created_at']->format('d-m-Y H:i') }} @else - @endif</td>
                             <td>{{ $student->getAmountLoggedIn() }}</td>
                             <td>{{ $student->getLatestWeekOverview()->estimated_grade  }}</td>
-                            <td>{{ $student->getLatestWeekOverview()->estimated_risk }}</td>
+                            <td>{{ number_format($student->getLatestWeekOverview()->estimated_risk * 100, 2 }}</td>
                         </tr>
                             @endforeach
                         @if($students->total() == 0)

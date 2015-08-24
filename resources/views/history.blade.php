@@ -67,7 +67,7 @@
                             <td>{{ $overview->user->student->getAmountLoggedIn() }}</td>
                             <td>{{ $overview->user->student->getLatestWeekOverview()->estimated_grade }}</td>
                             <td>{{ $overview->user->student->getLatestWeekOverview()->estimated_passed }}</td>
-                            <td>{{ $overview->user->student->getLatestWeekOverview()->estimated_risk }}</td>
+                            <td>{{ number_format($overview->user->student->getLatestWeekOverview()->estimated_risk * 100,2) }}</td>
 
                         </tr>
                             @endforeach
