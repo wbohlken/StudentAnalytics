@@ -63,7 +63,7 @@ class RegisterController extends Controller {
         $oUser->name = $input['name'];
 
         if ($oUser->save()) {
-            Mail::send('emails.adduser', ['name' => $oUser->name, 'password' => $input['password'], 'email' => $oUser->email, 'nameCurrent' => Auth::user()->name], function($oUser,$message)
+            Mail::send('emails.adduser', ['name' => $oUser->name, 'password' => $input['password'], 'email' => $oUser->email, 'nameCurrent' => Auth::user()->name], function($message) use ($oUser)
             {
                 $message->to($oUser->email, $oUser->name)->subject(Auth::user()->name . ' heeft een account voor je aangemaakt - Programming Dashboard');
             });
