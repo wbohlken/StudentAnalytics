@@ -6299,7 +6299,7 @@ table tr:hover {background-color:#a9bbc8; cursor:pointer;}
 .filteren-btn:hover {color:#999;}
 .content-filter {width:750px; margin-left:auto; margin-right:auto;}
 #historytable {width:800px; margin-left:auto; margin-right:auto;}
-#historytable td, #historytable th{padding:10px; border-bottom:1px solid #FFF;}
+#historytable td, #historytable th{padding:5px; border-bottom:1px solid #FFF;}
 .dashboard-no-found {text-align:center; font-size:18px; margin-top:50px; }
 .personal-info {background-color: #FFF; color:#000;}
 .personal-info td {width:70%;}

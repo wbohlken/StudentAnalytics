@@ -86,7 +86,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	{
 		return $this->admin;
 	}
-        
+
+	public function isStudent() {
+
+		if ($this->student_id !== null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	public static function createByStudentId($student)
 	{
 		$user = self::where('student_id', $student->id)->first();
@@ -110,10 +118,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		if (!$user) {
 			$user = new User(['student_id' => $student->id, 'email' => $student->email]);
 			$user->save();
-		} else {
-			return Redirect('/');
 		}
-		die('test');
 		//create new weekoverviewhistory
 		$oWeekOverviewHistory = new WeekOverviewHistory();
 		$oWeekOverviewHistory->user_id = $user->id;
@@ -121,8 +126,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		$oWeekOverviewHistory->save();
 
 		Auth::login($user);
-		var_dump($user);
-		die();
+
 		return $user;
 	}
 

@@ -48,7 +48,7 @@ class StudentController extends Controller {
         if (Auth::check()) {
             $studentnumbers = Student::getAllStudentnumbers();
             $vooropls = VooroplProfiel::all();
-            $students = Student::paginate(20);
+            $students = Student::paginate(25);
 
             if (Input::get()) {
                 $studentnumber = Input::get('studentnumber');

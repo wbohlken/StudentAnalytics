@@ -26,7 +26,11 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs tab nav-justified nav-pills" role="tablist">
                     @for ($i = 1; $i < 9; $i++)
-                    <li role="presentation" @if($i == $week)class="active" @endif  @if(!in_array($i, $sentweeks)) class="disabled" @endif><a href="{{ URL::to(URL::full() . '&week=' . $i)  }}" aria-controls="home" @if($i == $week) role="tab" data-toggle="tab" @endif>Week {{$i}}</a></li>
+                    @if(in_array($i, $sentweeks))
+                    <li role="presentation" @if($i == $week)class="active" @endif><a href="{{ url('/studentdashboard?key=' . $viewkeys[$i])}}" aria-controls="home" @if($i == $week) role="tab" data-toggle="tab" @endif>Week {{$i}}</a></li>
+                    @else
+                    <li role="presentation" @if($i == $week)class="active" @endif  class="disabled"><a href="#" aria-controls="home" @if($i == $week) role="tab" data-toggle="tab" @endif>Week {{$i}}</a></li>
+                    @endif
                     @endfor
                 </ul>
                 <div id="ajax-panel">

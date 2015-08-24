@@ -47,20 +47,28 @@
                 <table id="historytable">
                     <thead>
                     <tr>
-                        <th width="200">Studentnummer</th>
-                        <th width="350">Vooropleiding profiel</th>
-                        <th width="100">Week</th>
-                        <th width="150">Geopend op</th>
+                        <th width="">Studnr</th>
+                        <th width="200">Vooropleiding profiel</th>
+                        <th width="75">Week</th>
+                        <th width="125">Geopend op</th>
+                        <th width="">Totaal geopend</th>
+                        <th>Verwacht Cijfer</th>
+                        <th>Verwacht slaging</th>
+                        <th>Verwacht risico</th>
                     </tr>
                     </thead>
                     <tbody>
                         @foreach ($weekoverviewhistory as $overview)
                         <tr>
                             <td>{{ $overview->user->student->studnr_a }}</td>
-                            {{--<td>{{ $overview->user->student->vooropl_profiel->name }}</td>--}}
-                            <td></td>
+                            <td>{{ $overview->user->student->vooropl_profiel->name }}</td>
                             <td>Week {{ $overview->weekoverview->week->week_nr }}</td>
                             <td>{{ $overview->created_at->format('d-m-Y H:i') }}</td>
+                            <td>{{ $overview->user->student->getAmountLoggedIn() }}</td>
+                            <td>{{ $overview->user->student->getLatestWeekOverview()->estimated_grade }}</td>
+                            <td>{{ $overview->user->student->getLatestWeekOverview()->estimated_passed }}</td>
+                            <td>{{ $overview->user->student->getLatestWeekOverview()->estimated_risk }}</td>
+
                         </tr>
                             @endforeach
                         @if($weekoverviewhistory->total() == 0)

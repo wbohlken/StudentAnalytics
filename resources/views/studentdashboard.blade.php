@@ -57,7 +57,7 @@
                                 <td>10</td>
                             </tr>
                         </table>
-                        <a href="{{ url('/dashboard-history?studentnumber=507960&week=&vooropl=')}}"><div class="btn btn-primary" style="margin-top:10px;">Bekijk de dashboard geschiedenis van student #{{$student['studnr_a']}}</div></a>
+                        <a href="{{ url('/dashboard-history?studentnumber=' . $student->studnr_a .'&week=&vooropl=')}}"><div class="btn btn-primary" style="margin-top:10px;">Bekijk de dashboard geschiedenis van student #{{$student['studnr_a']}}</div></a>
                     </div>
                 </div>
                     @endif

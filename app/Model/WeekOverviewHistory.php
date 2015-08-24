@@ -31,7 +31,7 @@ class WeekOverviewHistory extends Model {
             $oWeekOverviewHistory = $this->join('week_overview as week_overview_3', 'week_overview_history.week_overview_id', '=', 'week_overview_3.id')->join('week', 'week_overview_3.week_id', '=', 'week.id')->where('week.week_nr', $filter['week']);
         }
 
-        return $oWeekOverviewHistory->paginate(10);
+        return $oWeekOverviewHistory->orderBy('created_at', 'desc')->paginate(25);
 
     }
 }

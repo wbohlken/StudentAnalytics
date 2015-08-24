@@ -47,6 +47,8 @@ class StudentdashboardController extends Controller {
         $aStudentnumbers = Student::getAllStudentnumbers();
         // if admin is checking the studentdashboards
         if (Input::has('studentnumber') && !Input::has('week')) {
+            if (!Auth::user()->isStudent()) {
+
                 $studentnumber = Input::get('studentnumber');
                 $oStudent = Student::where('studnr_a', $studentnumber)->first();
 
@@ -57,7 +59,9 @@ class StudentdashboardController extends Controller {
                 $aAverageResults = $oWeekOverview->getAverageResults();
                 $aWeekOverview = $oWeekOverview->toArray();
                 return view('studentdashboard', ['studentnumber' => $studentnumber, 'student' => $oStudent, 'studentnumbers' => $aStudentnumbers, 'mainResults' => $aMainResults, 'averageResults' => $aAverageResults, 'weekOverview' => $aWeekOverview, 'sentweeks' => $aSentWeeks, 'week' => 1]);
-
+            } else {
+                return redirect('/');
+            }
             // if student is checking their own studentdashboards
         } elseif (Input::has('key')) {
             $viewKey = Input::get('key');
@@ -67,6 +71,7 @@ class StudentdashboardController extends Controller {
                 // Show the view with wrong key message
                 return view('wrongkey');
             }
+
             //Get the weekoverview by view key
             $oWeekOverview = WeekOverview::getByViewKey($viewKey);
             $aMainResults = $oWeekOverview->getMainResults();
@@ -74,18 +79,26 @@ class StudentdashboardController extends Controller {
             $oWeek =  $oWeekOverview->week;
             $aWeekOverview = $oWeekOverview->toArray();
             $oStudent = Student::where('studnr_a', $oWeekOverview->student_id)->first();
-
-            return view('studentdashboardview', ['student' => $oStudent, 'studentnumbers' => $aStudentnumbers, 'mainResults' => $aMainResults, 'averageResults' => $aAverageResults, 'weekOverview' => $aWeekOverview, 'sentweeks' => $aSentWeeks, 'week' => $oWeek->week_nr]);
+            $oWeekOverviews = WeekOverview::where('student_id', $oStudent->studnr_a)->get();
+            $aKeysOverviews = array();
+            foreach ($oWeekOverviews as $oWeekOverview) {
+                $aKeysOverviews[$oWeekOverview->week->week_nr] = $oWeekOverview->view_key;
+            }
+            return view('studentdashboardview', ['student' => $oStudent, 'studentnumbers' => $aStudentnumbers, 'mainResults' => $aMainResults, 'averageResults' => $aAverageResults, 'weekOverview' => $aWeekOverview, 'sentweeks' => $aSentWeeks, 'week' => $oWeek->week_nr, 'viewkeys' => $aKeysOverviews]);
         } elseif (Input::has('week')) {
             $week = Input::get('week');
             return $this->getWeekOverviewDashboard($week);
         }
+            if (!Auth::user()->isStudent()) {
+                return view('weekdashboard', ['studentnumbers' => $aStudentnumbers]);
+            } else {
 
-        return view('weekdashboard', ['studentnumbers' => $aStudentnumbers]);
+                return Redirect::to(URL::previous());
+            }
+
     }
 
     public function getWeekOverviewDashboard($week) {
-
         $oWeek = Week::where('week_nr', $week)->first();
 
         if (Input::has('studentnumber')) {

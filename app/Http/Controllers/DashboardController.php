@@ -41,7 +41,7 @@ class DashboardController extends Controller {
      * @return Response
      */
     public function getIndex() {
-        if (Auth::check()) {
+        if (Auth::check() && !Auth::user()->isStudent()) {
             $studentnumbers = Student::getAllStudentnumbers();
             $lastcsvdata = DB::table('csv_data')->orderBy('created_at', 'desc')->first();
 
@@ -66,6 +66,7 @@ class DashboardController extends Controller {
             }
             return view('dashboard', ['user' => Auth::user(), 'studentnumbers' => $studentnumbers, 'countStudents' => $countStudents, 'countUsers' => $countUsers, 'countAdmins' => $countAdmins, 'sendWeek' => $lastSendWeek, 'countOpened' => $countOpenedDashboardsLastWeek, 'dateSendWeek' => $dateSendWeek, 'allweeks' => $allweeks, 'dateLastCSVdata' => $dateLastCSVdata]);
         } else {
+            Auth::logout();
             return redirect('/');
         }
     }

@@ -19,7 +19,7 @@ class Student extends Model {
 	}
 
     public function user() {
-        return $this->belongsTo('App\User');
+        return $this->hasOne('App\User');
     }
 
     public function vooropl_profiel()
@@ -52,6 +52,28 @@ class Student extends Model {
             
             
         }
+    public function getAmountLoggedIn()
+    {
+        if (count($this->user)) {
+
+            $user = $this->user;
+
+            return WeekOverviewHistory::where('user_id', $user->id)->count();
+        } else {
+            return 0;
+        }
+    }
+
+    public function getLastLogin() {
+        if(count($this->user)) {
+            $user = $this->user;
+            return WeekOverviewHistory::where('user_id', $user->id)->orderBy('created_at','desc')->first(['created_at']);
+        }
+    }
+
+    public function getLatestWeekOverview() {
+            return WeekOverview::where('student_id', $this->studnr_a)->orderBy('created_at', 'desc')->first();
+    }
         
         public function sendMail($weekoverview) {
             Mail::queue('emails.weekoverview', ['view_key' => $weekoverview->view_key], function($message)
@@ -61,7 +83,18 @@ class Student extends Model {
         }
 
         public function getOverviewByFilter($filter) {
+            $student = $this;
+            if($filter['vooropl']) {
+                $student = $this->join('week_overview as week_overview_1', 'week_overview_history.week_overview_id', '=', 'week_overview_1.id')->join('student', 'week_overview_1.student_id', '=', 'student.id')->where('student.preschool_profile', $filter['vooropl']);
+            }
+            if($filter['studentnumber']) {
+                $student = $this->join('week_overview as week_overview_2', 'week_overview_history.week_overview_id', '=', 'week_overview_2.id')->join('student', 'week_overview_2.student_id', '=', 'student.id')->where('student.studnr_a', $filter['studentnumber']);
+            }
+            if($filter['week']) {
+                $student = $this->join('week_overview as week_overview_3', 'week_overview_history.week_overview_id', '=', 'week_overview_3.id')->join('week', 'week_overview_3.week_id', '=', 'week.id')->where('week.week_nr', $filter['week']);
+            }
 
+            return $student->paginate(25);
         }
 
 

@@ -70,8 +70,6 @@
                                 <td>{{ $countOpened }}</td>
                             </tr>
                             @endif
-
-
                         </table>
                     </div>
                 {{--@if(Auth::user()->isAdmin())--}}

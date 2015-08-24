@@ -6,18 +6,20 @@
     </thead>
     <tbody>
     <p>Beste Student,<br/><br/>
-    Hierbij sturen we jouw programming dashboard voor deze week!
-    Bekijk hem door op de volgende link te klikken:<br/><br/>
-        {{ url('/studentdashboard?key=') }}
+        Hierbij de link naar jouw dashboard voor het vak Programming. Ben je benieuwd naar jouw voortgang in de elektronische leeromgevingen (Myprogramminglab, Moodle en Lynda.com) en wil je weten van jouw verwachte eindcijfer en slagkans is, klik dan op de onderstaande link.<br/><br/>
+
+        {{ url('/studentdashboard?key=' . $viewkey) }}
 
     <br/><br/>
 
         <strong>Vragen?</strong><br/>
 
-        Heb je vragen over je dashboard of lukt er iets niet? Neem dan contact op met Jan Hellings (j.f.hellings@hva.nl) <br/><br/>
+        Heb je vragen over jouw dashboard of lukt er iets niet? Neem dan contact op met Jan Hellings (j.f.hellings@hva.nl) <br/><br/>
 
     Met vriendelijke groet,<br/>
-    Het HvA Programming Dashboard Team
+        Jan Hellings<br/>
+        Docent HBO-ICT.<br/>
+
     </tbody>
 
 

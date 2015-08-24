@@ -95,9 +95,11 @@ class WeekOverview extends Model {
     }
 
     private function getMoodleResult() {
+
          // Get total grade for the type 'Quiz'
         $quizresult = MoodleResult::where('type', 'quiz')->where('week_overview_id', $this->id)->first();
         $gradeQuiz = $quizresult->grade;
+
         // Get total grade for the type 'Prac'
         $pracresult = MoodleResult::where('type', 'prac')->where('week_overview_id', $this->id )->first();
         $gradePrac = $pracresult->grade;

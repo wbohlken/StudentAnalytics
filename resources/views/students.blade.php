@@ -47,11 +47,13 @@
                 <table id="historytable">
                     <thead>
                     <tr>
-                        <th width="200">Studentnummer</th>
-                        <th width="350">Vooropleiding profiel</th>
-                        <th width="100">Mail</th>
-                        <th width="150">Laatst ingelogd</th>
-                        <th width="150">Aantal keer ingelogd</th>
+                        <th>Studnr</th>
+                        <th>Vooropleiding profiel</th>
+                        <th>Mail?</th>
+                        <th>Laatst ingelogd</th>
+                        <th>Aantal ingelogd</th>
+                        <th>Verwacht cijfer</th>
+                        <th>Verwacht risico</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -59,15 +61,19 @@
                         <tr>
                             <td>{{ $student->studnr_a}}</td>
                             <td>@if(count($student->vooropl_profiel)){{ $student->vooropl_profiel->name }}@endif</td>
-                            <td>@if(count($student->user())) Ja @else Nee @endif</td>
-                            {{--<td>{{ $student->weekOverviews->first()->weekoverviewhistory->first()->created_at }}</td>--}}
-                            <td>{{ count($student->weekOverviews) }}</td>
+                            <td>@if(count($student->user)) Ja @else Nee @endif</td>
+                            <td>@if ($student->getLastLogin()['created_at']){{ $student->getLastLogin()['created_at']->format('d-m-Y H:i') }} @else - @endif</td>
+                            <td>{{ $student->getAmountLoggedIn() }}</td>
+                            <td>{{ $student->getLatestWeekOverview()->estimated_grade  }}</td>
+                            <td>{{ $student->getLatestWeekOverview()->estimated_risk }}</td>
                         </tr>
                             @endforeach
                         @if($students->total() == 0)
                             <tr>
                                 <td></td>
                                 <td>Helaas! Er zijn geen resultaten gevonden.</td>
+                                <td></td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -78,8 +84,12 @@
                     </tbody>
 
                 </table>
+                <div class="row">
                 <?php echo $students->render(); ?>
+                    </div>
+                <div class="row">
                 <span class="countrows">Er zijn {{ $students->total() }} resultaten gevonden.</span>
+                    </div>
 
             </div>
         </div>
