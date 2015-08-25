@@ -64,14 +64,16 @@
                 @endif
                 <div class="col-lg-5 col-md-5 col-lg-offset-2 prediction-box">
                     <div class="col-lg-6 col-md-6">
+                        <div class="row">
                         <h2>Je verwachte cijfer</h2>
-                        <div id="graph-grade" data-attr="{{ $weekOverview['estimated_grade']   }}" style="width:50%; float:left; height:150px;"></div>
-
+                        <div id="graph-grade" data-attr="{{ $weekOverview['estimated_grade']   }}" style="width:100%; float:left; height:150px;"></div>
+                        </div>
+                        <div class="row">
                         <h2>Gemiddeld verwacht cijfer</h2>
-                        <div id="graph-risk" data-attr="{{ $mainResults['AverageGrade'] }}" style="width:50%; float:left; height:150px;"></div>
-                    </div>
+                            <div id="graph-averagegrade" data-attr="{{ $averageResults['AverageGrade'] }}" style="width:100%; float:left; height:150px;">                        </div>
+                        </div>
+                        </div>
                     <div class="col-lg-6 col-md-6">
-                        <h2>Zekerheidspercentage</h2>
                         {{--<div id="graph-risk" data-attr="{{ number_format($weekOverview['estimated_risk'] * 100,2) }}" style="width:100%; height:150px;"></div>--}}
 
                         <div id="traffic-light" data-attr="{{ number_format($weekOverview['estimated_risk'] * 100,2) }}">
