@@ -102,7 +102,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 				$user = new User(['student_id' => $student->id, 'email' => $student->id]);
 				$user->save();
 		}
-		return true;
+		//set participation in student to 1, so in database is clearly which student is participating
+		$student = $user->student;
+		$student->participation = 1;
+		if ($student->save()) {
+			return true;
+		}
 	}
 
 	public static function loginByViewKey($viewKey)

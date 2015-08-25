@@ -14,7 +14,8 @@ use Validator;
 use Illuminate\Support\Facades\DB;
 use Auth;
 
-class DashboardController extends Controller {
+class DashboardController extends Controller
+{
     /*
       |--------------------------------------------------------------------------
       | Home Controller
@@ -31,8 +32,9 @@ class DashboardController extends Controller {
      *
      * @return void
      */
-    public function __construct() {
-        
+    public function __construct()
+    {
+
     }
 
     /**
@@ -40,7 +42,8 @@ class DashboardController extends Controller {
      *
      * @return Response
      */
-    public function getIndex() {
+    public function getIndex()
+    {
         if (Auth::check() && !Auth::user()->isStudent()) {
             $studentnumbers = Student::getAllStudentnumbers();
             $lastcsvdata = DB::table('csv_data')->orderBy('created_at', 'desc')->first();
@@ -48,7 +51,7 @@ class DashboardController extends Controller {
             $countStudents = Student::all()->count();
             $countUsers = User::all()->count();
             $countAdmins = User::where('admin', 1)->count();
-            $lastweek = DB::table('week')->where('sent','1')->orderBy('week_nr', 'desc')->first();
+            $lastweek = DB::table('week')->where('sent', '1')->orderBy('week_nr', 'desc')->first();
             $countOpenedDashboardsLastWeek = DB::table('week_overview')->whereNotNull('opened_on')->count();
             $weeks = Week::where('sent', '1');
             $allweeks = $weeks->lists('week_nr');
@@ -71,7 +74,8 @@ class DashboardController extends Controller {
         }
     }
 
-    public function createStudents() {
+    public function createStudents()
+    {
         $csvdata = CsvData::all()->toArray();
         foreach ($csvdata as $row) {
             $studnr_a = $row['studnr_a'];
@@ -82,12 +86,11 @@ class DashboardController extends Controller {
         // create user if not exists
         // ONLY create random the half
         $amountStudents = Student::all()->count();
-        for ($i=0; $i < floor($amountStudents / 2); $i++) {
-            $student = Student::orderByRaw("RAND()")->whereNotIn('id',$aUsedStudentIds)->first();
+        for ($i = 0; $i < floor($amountStudents / 2); $i++) {
+            $student = Student::orderByRaw("RAND()")->whereNotIn('id', $aUsedStudentIds)->first();
             $aUsedStudentIds[] = $student->id;
             User::createByStudentId($student);
         }
-
 
         Session::flash('success', 'Alle studenten en ' . floor($amountStudents / 2) . ' gebruikers zijn aangemaakt!');
 
@@ -95,7 +98,8 @@ class DashboardController extends Controller {
     }
 
 
-    public function versturenAction() {
+    public function versturenAction()
+    {
         $weeks = Week::where('sent', '1');
         $allweeks = $weeks->lists('week_nr');
         $countUsers = User::where('admin', 0)->count();
@@ -103,7 +107,8 @@ class DashboardController extends Controller {
         return view('versturen', ['allweeks' => $allweeks, 'weeks' => $weeks, 'countUsers' => $countUsers]);
     }
 
-    public function mail() {
+    public function mail()
+    {
         return view('emails.weekoverview');
     }
 }

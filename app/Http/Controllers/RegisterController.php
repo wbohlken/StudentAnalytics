@@ -17,7 +17,8 @@ use App\Http\Requests\CreateUserRequest;
 use Illuminate\Support\Facades\DB;
 use Auth;
 
-class RegisterController extends Controller {
+class RegisterController extends Controller
+{
     /*
       |--------------------------------------------------------------------------
       | Home Controller
@@ -34,8 +35,9 @@ class RegisterController extends Controller {
      *
      * @return void
      */
-    public function __construct() {
-        
+    public function __construct()
+    {
+
     }
 
     /**
@@ -43,12 +45,13 @@ class RegisterController extends Controller {
      *
      * @return Response
      */
-    public function getIndex() {
-            if (Auth::user()->isAdmin()) {
-                return view('register');
-            } else {
-                return redirect('/');
-            }
+    public function getIndex()
+    {
+        if (Auth::user()->isAdmin()) {
+            return view('register');
+        } else {
+            return redirect('/');
+        }
     }
 
     public function register(CreateUserRequest $request)
@@ -58,13 +61,12 @@ class RegisterController extends Controller {
         $oUser->email = $input['email'];
         $oUser->password = Hash::make($input['password']);
         if (Input::has('admin')) {
-        $oUser->admin = $input['admin'];
+            $oUser->admin = $input['admin'];
         }
         $oUser->name = $input['name'];
 
         if ($oUser->save()) {
-            Mail::send('emails.adduser', ['name' => $oUser->name, 'password' => $input['password'], 'email' => $oUser->email, 'nameCurrent' => Auth::user()->name], function($message) use ($oUser)
-            {
+            Mail::send('emails.adduser', ['name' => $oUser->name, 'password' => $input['password'], 'email' => $oUser->email, 'nameCurrent' => Auth::user()->name], function ($message) use ($oUser) {
                 $message->to($oUser->email, $oUser->name)->subject(Auth::user()->name . ' heeft een account voor je aangemaakt - Programming Dashboard');
             });
             Session::flash('success', 'De gebruiker ' . $oUser->name . ' is aangemaakt. De gebruiker heeft een e-mail ontvangen!');

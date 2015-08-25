@@ -125,11 +125,21 @@ class WeekOverview extends Model {
         $averageLyndaResult = $this->getAverageLyndaResult();
         $averageMPLResult = $this->getAverageMPLResult();
         $averageTotal = $this->getAverageTotalResult();
+        $averageGrade = $this->getAverageGrade();
         
-        return array('MPLresult' => $averageMPLResult, 'LyndaResult' => $averageLyndaResult, 'MoodleResult' => $averageMoodleResult, 'TotalResult' => $averageTotal);
+        return array('MPLresult' => $averageMPLResult, 'LyndaResult' => $averageLyndaResult, 'MoodleResult' => $averageMoodleResult, 'TotalResult' => $averageTotal, 'AverageGrade' => $averageGrade);
 
     }
-    
+
+    private function getAverageGrade() {
+        $week = Week::where('id', $this->week_id)->first();
+
+        $totalStudentsGrades = WeekOverview::where('week_id', $week->id)->sum('estimated_grade');
+        $totalStudents = WeekOverview::where('week_id', $week->id)->count();
+        $averageGrade = $totalStudentsGrades / $totalStudents;
+        return number_format($averageGrade,1);
+    }
+
     private function getAverageMoodleResult() {
         $week = Week::where('id', $this->week_id)->first();
         

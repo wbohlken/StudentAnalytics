@@ -65,11 +65,20 @@
                 <div class="col-lg-5 col-md-5 col-lg-offset-2 prediction-box">
                     <div class="col-lg-6 col-md-6">
                         <h2>Je verwachte cijfer</h2>
-                        <div id="graph-grade" data-attr="{{ $weekOverview['estimated_grade']   }}" style="width:100%; float:left; height:150px;"></div>
+                        <div id="graph-grade" data-attr="{{ $weekOverview['estimated_grade']   }}" style="width:50%; float:left; height:150px;"></div>
+
+                        <h2>Gemiddeld verwacht cijfer</h2>
+                        <div id="graph-risk" data-attr="{{ $mainResults['AverageGrade'] }}" style="width:50%; float:left; height:150px;"></div>
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <h2>Zekerheidspercentage</h2>
-                        <div id="graph-risk" data-attr="{{ number_format($weekOverview['estimated_risk'] * 100,2) }}" style="width:100%; height:150px;"></div>
+                        {{--<div id="graph-risk" data-attr="{{ number_format($weekOverview['estimated_risk'] * 100,2) }}" style="width:100%; height:150px;"></div>--}}
+
+                        <div id="traffic-light" data-attr="{{ number_format($weekOverview['estimated_risk'] * 100,2) }}">
+                            <div id="stopLight" class="bulb"></div>
+                            <div id="slowLight" class="bulb"></div>
+                            <div id="goLight" class="bulb"></div>
+                        </div>
                     </div>
                     <span class="predicted-text">We voorspellen dat je het @if($weekOverview['estimated_passed'] == 'yes')<span class="wel">WEL</span> @else <span class="niet">NIET</span> @endif  haalt met een zekerheid van {{ number_format($weekOverview['estimated_risk'] * 100 , 2) }}%</ps>
                         
@@ -130,9 +139,6 @@
 
                                         </div>
                                     </div>
-
-
-
                                     <div class="col-md-6 col-lg-6 mplbox">
                                         <h1>MyProgrammingLab</h1>
                                         <div class="col-lg-6 col-md-6">

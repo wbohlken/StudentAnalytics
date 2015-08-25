@@ -18,7 +18,8 @@ use Auth;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Pagination;
 
-class HistoryController extends Controller {
+class HistoryController extends Controller
+{
     /*
       |--------------------------------------------------------------------------
       | Home Controller
@@ -35,8 +36,9 @@ class HistoryController extends Controller {
      *
      * @return void
      */
-    public function __construct() {
-        
+    public function __construct()
+    {
+
     }
 
     /**
@@ -44,7 +46,8 @@ class HistoryController extends Controller {
      *
      * @return Response
      */
-    public function getIndex() {
+    public function getIndex()
+    {
         if (Auth::check()) {
             $studentnumbers = Student::getAllStudentnumbers();
             $vooropls = VooroplProfiel::all();
@@ -66,7 +69,6 @@ class HistoryController extends Controller {
             return redirect('/');
         }
     }
-
 
 
 }
