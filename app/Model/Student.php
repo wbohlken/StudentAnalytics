@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Model\WeekOverview;
 use Illuminate\Support\Facades\Mail;
 use App\Model\VooroplProfiel;
+use Illuminate\Support\Facades\DB;
 
 class Student extends Model {
 	protected $table = "student";
@@ -74,7 +75,6 @@ class Student extends Model {
                                                              ->where('week_overview.week_id', '=' , $week)
                                                              ->where('user_id', '=', $user->id)
                                                              ->count();
-
                 }
             } else {
                 return 0;

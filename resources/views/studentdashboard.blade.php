@@ -58,13 +58,13 @@
                                 <td>@if(count($student->user)) Ja @else Nee @endif</td>
                             </tr>
                             <tr><td class="title-table">Keer deze week geopend</td>
-                                <td>{{ $student->getAmountLoggedIn($weekOverview->week_id) }}</td>
+                                <td>{{ $student->getAmountLoggedIn($weekOverview['week_id']) }}</td>
                             </tr>
                             <tr><td class="title-table">Keer totaal geopend</td>
                                 <td>{{ $student->getAmountLoggedIn() }}</td>
                             </tr>
                             <tr><td class="title-table">Laatst actief op dashboard</td>
-                                <td>{{ $student->getLastLogin() }}</td>
+                                <td>@if($student->getLastLogin()){{ $student->getLastLogin() }}@else - @endif</td>
                             </tr>
                         </table>
                         <a href="{{ url('/dashboard-history?studentnumber=' . $student->studnr_a .'&week=&vooropl=')}}"><div class="btn btn-primary" style="margin-top:10px;">Bekijk de dashboard geschiedenis van student #{{$student['studnr_a']}}</div></a>
