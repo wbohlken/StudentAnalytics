@@ -65,9 +65,9 @@
                             <td>@if(count($student->user)) Ja @else Nee @endif</td>
                             <td>@if ($student->getLastLogin()['created_at']){{ $student->getLastLogin()['created_at']->format('d-m-Y H:i') }} @else - @endif</td>
                             <td>{{ $student->getAmountLoggedIn() }}</td>
-                            <td>{{ $student->getLatestWeekOverview()->estimated_grade  }}</td>
-                            <td>{{ number_format($student->getLatestWeekOverview()->estimated_risk * 100, 2) }}%</td>
-                            <td>@if($student->getLatestWeekOverview()->estimated_passed == 'yes') Ja @else Nee @endif</td>
+                            <td>@if($student->getLatestWeekOverview()) {{ $student->getLatestWeekOverview()->estimated_grade  }} @else n.v.t @endif</td>
+                            <td>@if($student->getLatestWeekOverview()){{ number_format($student->getLatestWeekOverview()->estimated_risk * 100, 2) }} % @else n.v.t @endif </td>
+                            <td>@if($student->getLatestWeekOverview()) @if($student->getLatestWeekOverview()->estimated_passed == 'yes') Ja @else Nee @endif @else n.v.t @endif</td>
                         </tr>
                             @endforeach
                         @if($students->total() == 0)
