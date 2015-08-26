@@ -27,6 +27,11 @@ class Student extends Model {
         return $this->belongsTo('App\Model\VooroplProfiel', 'preschool_profile');
     }
 
+    public function direction()
+    {
+        return $this->belongsTo('App\Model\Direction', 'direction_id');
+    }
+
 	public static function createByStudnr($studnr_a)
 	{
             
@@ -52,16 +57,29 @@ class Student extends Model {
             
             
         }
-    public function getAmountLoggedIn()
+
+    // get amount of logins by this user
+    // param (Week)
+    public function getAmountLoggedIn($week = false)
     {
-        if (count($this->user)) {
 
-            $user = $this->user;
+            if (count($this->user)) {
 
-            return WeekOverviewHistory::where('user_id', $user->id)->count();
-        } else {
-            return 0;
-        }
+                $user = $this->user;
+
+                if (!$week) {
+                    return WeekOverviewHistory::where('user_id', $user->id)->count();
+                } else {
+                    return DB::table('week_overview_history')->join('week_overview', 'week_overview_history.week_overview_id', '=', 'week_overview.id')
+                                                             ->where('week_overview.week_id', '=' , $week)
+                                                             ->where('user_id', '=', $user->id)
+                                                             ->count();
+
+                }
+            } else {
+                return 0;
+            }
+
     }
 
     public function getLastLogin() {

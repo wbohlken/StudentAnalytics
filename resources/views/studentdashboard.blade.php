@@ -50,11 +50,21 @@
                                 <td class='title-table'>Profiel</td>
                                 <td>{{$student->profile }}</td>
                             </tr>
-                            <tr><td class="title-table">Mail ontvangen</td>
-                                <td>Ja</td>
+                            <tr>
+                                <td class="title-table">Richting</td>
+                                <td>@if(count($student->direction)){{$student->direction->name }}@endif</td>
                             </tr>
-                            <tr><td class="title-table">Aantal keer geopend</td>
-                                <td>10</td>
+                            <tr><td class="title-table">Mail ontvangen</td>
+                                <td>@if(count($student->user)) Ja @else Nee @endif</td>
+                            </tr>
+                            <tr><td class="title-table">Keer deze week geopend</td>
+                                <td>{{ $student->getAmountLoggedIn($weekOverview->week_id) }}</td>
+                            </tr>
+                            <tr><td class="title-table">Keer totaal geopend</td>
+                                <td>{{ $student->getAmountLoggedIn() }}</td>
+                            </tr>
+                            <tr><td class="title-table">Laatst actief op dashboard</td>
+                                <td>{{ $student->getLastLogin() }}</td>
                             </tr>
                         </table>
                         <a href="{{ url('/dashboard-history?studentnumber=' . $student->studnr_a .'&week=&vooropl=')}}"><div class="btn btn-primary" style="margin-top:10px;">Bekijk de dashboard geschiedenis van student #{{$student['studnr_a']}}</div></a>
