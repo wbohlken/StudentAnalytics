@@ -99,7 +99,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	{
 		$user = self::where('student_id', $student->id)->first();
 		if (!$user) {
-				$user = new User(['student_id' => $student->id, 'email' => $student->id]);
+				$user = new User(['student_id' => $student->id, 'email' => $student->email]);
 				$user->save();
 		}
 		//set participation in student to 1, so in database is clearly which student is participating

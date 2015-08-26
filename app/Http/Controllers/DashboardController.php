@@ -83,16 +83,47 @@ class DashboardController extends Controller
             Student::createByStudnr($studnr_a);
         }
         $aUsedStudentIds = array();
-        // create user if not exists
-        // ONLY create random the half
-        $amountStudents = Student::all()->count();
-        for ($i = 0; $i < floor($amountStudents / 2); $i++) {
-            $student = Student::orderByRaw("RAND()")->whereNotIn('id', $aUsedStudentIds)->first();
-            $aUsedStudentIds[] = $student->id;
-            User::createByStudentId($student);
+
+
+        //get for every direction the amount of students
+        //Defined in DB table 'direction'
+        //Business IT & Management = 1;
+        //Game Development = 2;
+        //Software Engineering = 3;
+        //System & Network Engineering = 4;
+        //Technical Computing = 5;
+
+        $amountBIMStudents = Student::where('direction_id', 1)->count();
+        $amountGDStudents = Student::where('direction_id', 2)->count();
+        $amountSEStudents = Student::where('direction_id', 3)->count();
+        $amountSMStudents = Student::where('direction_id', 4)->count();
+        $amountTCStudents = Student::where('direction_id', 5)->count();
+
+        //Save every key value pair in array
+        $aDirectionsAmounts[1] = $amountBIMStudents;
+        $aDirectionsAmounts[2] = $amountGDStudents;
+        $aDirectionsAmounts[3] = $amountSEStudents;
+        $aDirectionsAmounts[4] = $amountSMStudents;
+        $aDirectionsAmounts[5] = $amountTCStudents;
+
+        //loop through array with key value pair
+        foreach($aDirectionsAmounts as $key => $value) {
+            //for every number from 0 till 50% of amount of students in this direction create an user.
+            for($i = 0; $i < floor($value / 2); $i++) {
+
+                // Select the user by direction_id and look if it is not already in array, select it random!
+                $student = Student::orderByRaw("RAND()")->where('direction_id', $key)->whereNotIn('id', $aUsedStudentIds)->first();
+
+                //put found student in array
+                $aUsedStudentIds[] = $student->id;
+                //Create the user by the id
+                User::createByStudentId($student);
+            }
         }
 
-        Session::flash('success', 'Alle studenten en ' . floor($amountStudents / 2) . ' gebruikers zijn aangemaakt!');
+        $amountUsers = User::whereNotNull('student_id')->count();
+
+        Session::flash('success', 'Alle studenten en ' . $amountUsers . ' gebruikers zijn aangemaakt!');
 
         return redirect('/dashboard');
     }
