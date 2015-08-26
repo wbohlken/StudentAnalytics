@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 class Student extends Model {
 	protected $table = "student";
 
-	protected $fillable = ['studnr_a', 'block', 'cohort_block', 'cohort_year', 'preschool_type', 'profile', 'preschool_profile', 'direction_id'];
+	protected $fillable = ['studnr_a', 'block', 'email', 'cohort_block', 'cohort_year', 'preschool_type', 'profile', 'preschool_profile', 'direction_id'];
 
 	public function weekOverviews()
 	{
