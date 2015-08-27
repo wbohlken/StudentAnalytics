@@ -149,33 +149,20 @@ class DashboardController extends Controller
                     $moodleResult->save();
                 }
             }
-            exec('sh /usr/share/kettle/data-integration/kitchen.sh -file=/usr/share/kettle/kettle_config/hva.kjb -param:CONFIG_DIR=/usr/share/kettle/kettle_config/ -param:weeknr='. $week_nr, $output, $return);
-            var_dump($output);
+            var_dump(shell_exec('sh /usr/share/kettle/data-integration/kitchen.sh -file=/usr/share/kettle/kettle_config/hva.kjb -param:CONFIG_DIR=/usr/share/kettle/kettle_config/ -param:weeknr='. $week_nr);
             die();
             // Return will return non-zero upon an error
-            if (!$return) {
-                die('goed');
-            } else {
-                die('fout');
-            }
-
             $oWeek->dashboard_created = 1;
             $oWeek->save();
 
             $oWeekOverviewCount = WeekOverview::where('week_id', $oWeek->id)->count();
             Session::flash('success', 'Alle ' . $oWeekOverviewCount . ' dashboards zijn aangemaakt!');
-
             return redirect('/dashboard-versturen');
         } else {
             return redirect('/');
         }
 
     }
-
-
-
-
-
 
     public function createStudents()
     {
@@ -224,7 +211,6 @@ class DashboardController extends Controller
                     User::createByStudentId($student);
                 }
             }
-
             $amountUsers = User::whereNotNull('student_id')->count();
 
             Session::flash('success', 'Alle studenten en ' . $amountUsers . ' gebruikers zijn aangemaakt!');
