@@ -149,7 +149,7 @@ class DashboardController extends Controller
                     $moodleResult->save();
                 }
             }
-            exec('sh /usr/share/kettle/data-integration/kitchen.sh -file=/usr/share/kettle/kettle_config/hva.kjb -param:CONFIG_DIR=/usr/share/kettle/kettle_config/ -param:weeknr='. $week_nr, $ouput, $return);
+            exec('sh /usr/share/kettle/data-integration/kitchen.sh -file=/usr/share/kettle/kettle_config/hva.kjb -param:CONFIG_DIR=/usr/share/kettle/kettle_config/ -param:weeknr='. $week_nr, $output, $return);
             var_dump($output);
             die();
             // Return will return non-zero upon an error
