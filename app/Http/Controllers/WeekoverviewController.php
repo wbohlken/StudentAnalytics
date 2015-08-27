@@ -44,17 +44,20 @@ class WeekoverviewController extends Controller
      */
     public function fire()
     {
-        if (Input::has('week')) {
-            $weeknumber = Input::get('week');
-            $data = CsvData::all()->toArray();
-            ini_set('max_execution_time', 300);
-            if ($this->sendStudentDashboardForWeek($weeknumber, $data)) {
-                Session::flash('success', 'De studentendashboards van week ' . $weeknumber . ' zijn aangemaakt en verstuurd!');
+        if (!Auth::user()->isStudent()) {}
+            if (Input::has('week')) {
+                $weeknumber = Input::get('week');
+                $data = CsvData::all()->toArray();
+                ini_set('max_execution_time', 300);
+                if ($this->sendStudentDashboardForWeek($weeknumber, $data)) {
+                    Session::flash('success', 'De studentendashboards van week ' . $weeknumber . ' zijn aangemaakt en verstuurd!');
+                } else {
+                    Session::flash('error', 'De studenten dashboards zijn niet verstuurd');
+                }
+                return redirect('/dashboard');
             } else {
-                Session::flash('error', 'De studenten dashboards zijn niet verstuurd');
+                return redirect('/');
             }
-            return redirect('/dashboard');
-        }
     }
 
 

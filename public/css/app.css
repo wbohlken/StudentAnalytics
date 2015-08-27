@@ -884,6 +884,9 @@ body {
   line-height: 1.42857143;
   color: #333333;
   background-color: #ffffff;
+  margin:0;
+  padding:0;
+  height:100%;
 }
 input,
 button,
@@ -6319,3 +6322,4 @@ table tr:hover {background-color:#a9bbc8; cursor:pointer;}
 .text-trafficlight {height:25px;}
 .highcharts-data-labels rect {display:none;}
 .tooltip-chart {text-align:center; position:absolute; left:50px; z-index:1000;top:250px; font-size:14px; font-weight:bold;}
+.go-back-text { text-align:center;display:block;font-size:20px;margin-top:20px;}

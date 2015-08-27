@@ -59,13 +59,18 @@ class StudentdashboardController extends Controller
                 //get first weekoverview if nothing is specified.
                 $oWeekOverview = $oStudent->getWeekOverview(1);
 
-                //get mainresult for this weekoverview
-                //get averageresults for all students
-                //Pass weekoverview to view by transform it to array
-                $aMainResults = $oWeekOverview->getMainResults();
-                $aAverageResults = $oWeekOverview->getAverageResults();
-                $aWeekOverview = $oWeekOverview->toArray();
-                return view('studentdashboard', ['studentnumber' => $studentnumber, 'student' => $oStudent, 'studentnumbers' => $aStudentnumbers, 'mainResults' => $aMainResults, 'averageResults' => $aAverageResults, 'weekOverview' => $aWeekOverview, 'sentweeks' => $aSentWeeks, 'week' => 1]);
+                if ($oWeekOverview) {
+                    //get mainresult for this weekoverview
+                    //get averageresults for all students
+                    //Pass weekoverview to view by transform it to array
+                    $aMainResults = $oWeekOverview->getMainResults();
+                    $aAverageResults = $oWeekOverview->getAverageResults();
+                    $aWeekOverview = $oWeekOverview->toArray();
+                    return view('studentdashboard', ['studentnumber' => $studentnumber, 'student' => $oStudent, 'studentnumbers' => $aStudentnumbers, 'mainResults' => $aMainResults, 'averageResults' => $aAverageResults, 'weekOverview' => $aWeekOverview, 'sentweeks' => $aSentWeeks, 'week' => 1]);
+                } else {
+                    Session::flash('error', 'Je kan dit dashboard niet bekijken, deze is nog niet aangemaakt');
+                    return Redirect::back();
+                }
             } else {
                 return redirect('/');
             }

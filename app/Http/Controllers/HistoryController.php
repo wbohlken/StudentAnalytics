@@ -48,7 +48,7 @@ class HistoryController extends Controller
      */
     public function getIndex()
     {
-        if (Auth::check()) {
+        if (Auth::check() && !Auth::user()->isStudent()) {
             $studentnumbers = Student::getAllStudentnumbers();
             $vooropls = VooroplProfiel::all();
             $weekdashboardhistory = WeekOverviewHistory::orderBy('created_at', 'desc')->paginate(25);

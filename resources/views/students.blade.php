@@ -13,25 +13,24 @@
                 <div class="filter">
                     <form name="history-filter-form" method="get">
                         <div class="content-filter">
-                            <span>Filter op </span>
 
-                            <div class="filter-element">
+                            <div class="filter-element" style="margin-left:0px; margin-right:0px;">
                                 <select name="studentnumber" class="studentnumber-search">
-                                    <option value="">Studentnummer</option>
+                                    <option value="">Stud nr.</option>
                                     @foreach ($studentnumbers as $number)
                                         <option @if($number == $studentnumber)selected="selected"@endif value="{{ $number }}">{{ $number }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="filter-element">
-                                <select name="week" class="week-search">
-                                    <option value="">Week</option>
-                                    @for ($i = 1; $i < 9; $i++)
-                                        <option @if($i == $week)selected="selected"@endif value="{{$i}}">Week {{$i}}</option>
-                                    @endfor
+                            <div class="filter-element" style="margin-left:0px; margin-right:0px;">
+                                <select name="direction" class="week-search">
+                                    <option value="">Richting</option>
+                                    @foreach ($directions as $direction)
+                                        <option @if($direction->id == $selecteddirection)selected="selected"@endif value="{{$direction->id }}">{{ $direction->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
-                            <div class="filter-element">
+                            <div class="filter-element" style="margin-left:0px;">
                                 <select name="vooropl" class="vooropl-search">
                                     <option value="">Vooropleiding</option>
                                     @foreach ($vooropls as $vooropl)
@@ -49,6 +48,7 @@
                     <tr>
                         <th>Studnr</th>
                         <th>Vooropleiding profiel</th>
+                        <th>Richting</th>
                         <th>Mail?</th>
                         <th>Laatst ingelogd</th>
                         <th>Aantal ingelogd</th>
@@ -62,6 +62,7 @@
                         <tr>
                             <td>{{ $student->studnr_a}}</td>
                             <td>@if(count($student->vooropl_profiel)){{ $student->vooropl_profiel->name }}@endif</td>
+                            <td>{{ $student->direction->code }}</td>
                             <td>@if(count($student->user)) Ja @else Nee @endif</td>
                             <td>@if ($student->getLastLogin()['created_at']){{ $student->getLastLogin()['created_at']->format('d-m-Y H:i') }} @else - @endif</td>
                             <td>{{ $student->getAmountLoggedIn() }}</td>

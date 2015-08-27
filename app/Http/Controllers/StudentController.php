@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\CsvData;
+use App\Model\Direction;
 use App\Model\VooroplProfiel;
 use App\Model\WeekOverview;
 use App\Model\WeekOverviewHistory;
@@ -48,24 +49,25 @@ class StudentController extends Controller
      */
     public function getIndex()
     {
-        if (Auth::check()) {
+        if (Auth::check() && !Auth::user()->isStudent()) {
             $studentnumbers = Student::getAllStudentnumbers();
             $vooropls = VooroplProfiel::all();
             $students = Student::paginate(25);
+            $directions = Direction::all();
 
             if (Input::get()) {
                 $studentnumber = Input::get('studentnumber');
                 $vooropleiding = Input::get('vooropl');
-                $week = Input::get('week');
+                $direction = Input::get('direction');
 
                 $oStudent = new Student();
 
-                $aFilter = array('studentnumber' => $studentnumber, 'vooropl' => $vooropleiding, 'week' => $week);
+                $aFilter = array('studentnumber' => $studentnumber, 'vooropl' => $vooropleiding, 'direction' => $direction);
                 $oResult = $oStudent->getOverviewByFilter($aFilter);
 
-                return view('students', ['studentnumbers' => $studentnumbers, 'vooropls' => $vooropls, 'students' => $oResult, 'studentnumber' => $studentnumber, 'week' => $week, 'vooropleiding' => $vooropleiding]);
+                return view('students', ['studentnumbers' => $studentnumbers, 'vooropls' => $vooropls, 'directions' => $directions, 'students' => $oResult, 'studentnumber' => $studentnumber, 'selecteddirection' => $direction, 'vooropleiding' => $vooropleiding]);
             }
-            return view('students', ['studentnumbers' => $studentnumbers, 'vooropls' => $vooropls, 'students' => $students, 'studentnumber' => null, 'week' => null, 'vooropleiding' => null]);
+            return view('students', ['studentnumbers' => $studentnumbers, 'vooropls' => $vooropls, 'students' => $students, 'studentnumber' => null, 'directions' => $directions, 'selecteddirection' => null,  'vooropleiding' => null]);
 
         }
     }

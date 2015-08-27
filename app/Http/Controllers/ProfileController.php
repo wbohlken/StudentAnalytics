@@ -41,7 +41,11 @@ class ProfileController extends Controller
      */
     public function getIndex()
     {
-        return View::make('user.profile')->with('user', Auth::user());
+        if (!Auth::user()->isStudent()) {
+            return View::make('user.profile')->with('user', Auth::user());
+        } else {
+            return redirect('/');
+        }
     }
 
     /**

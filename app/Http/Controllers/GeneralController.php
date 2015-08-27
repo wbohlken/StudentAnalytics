@@ -44,7 +44,8 @@ class GeneralController extends Controller
      */
     public function getIndex()
     {
-        if (Auth::check()) {
+        if (Auth::check() && !Auth::user()->isStudent()) {
+
             $studentnumbers = Student::getAllStudentnumbers();
             $lastcsvdata = DB::table('csv_data')->orderBy('created_at', 'desc')->first();
 
@@ -52,14 +53,24 @@ class GeneralController extends Controller
             $countUsers = User::all()->count();
             $countAdmins = User::where('admin', 1)->count();
             $lastweek = DB::table('week')->where('sent', '1')->orderBy('week_nr', 'desc')->first();
+            $lastCreatedWeek = DB::table('week')->where('dashboard_created', '1')->orderBy('week_nr', 'desc')->first();
             $countOpenedDashboardsLastWeek = DB::table('week_overview')->whereNotNull('opened_on')->count();
             $weeks = Week::where('sent', '1');
             $allweeks = $weeks->lists('week_nr');
+
+
+
             if ($lastcsvdata) {
                 $dateLastCSVdata = date('d-m-Y', strtotime($lastcsvdata->created_at));
             } else {
                 $dateLastCSVdata = '';
             }
+            if($lastCreatedWeek) {
+                $lastCreatedWeek = $lastCreatedWeek->week_nr;
+            } else {
+                $lastCreatedWeek = '';
+            }
+
             if ($lastweek) {
                 $lastSendWeek = $lastweek->week_nr;
                 $dateSendWeek = date('d-m-Y', strtotime($lastweek->created_at));
@@ -67,7 +78,7 @@ class GeneralController extends Controller
                 $lastSendWeek = '';
                 $dateSendWeek = '';
             }
-            return view('algemeen', ['user' => Auth::user(), 'studentnumbers' => $studentnumbers, 'countStudents' => $countStudents, 'countUsers' => $countUsers, 'countAdmins' => $countAdmins, 'sendWeek' => $lastSendWeek, 'countOpened' => $countOpenedDashboardsLastWeek, 'dateSendWeek' => $dateSendWeek, 'allweeks' => $allweeks, 'dateLastCSVdata' => $dateLastCSVdata]);
+            return view('algemeen', ['user' => Auth::user(), 'studentnumbers' => $studentnumbers, 'countStudents' => $countStudents, 'countUsers' => $countUsers, 'countAdmins' => $countAdmins, 'sendWeek' => $lastSendWeek, 'countOpened' => $countOpenedDashboardsLastWeek, 'dateSendWeek' => $dateSendWeek, 'lastCreatedWeek' => $lastCreatedWeek, 'allweeks' => $allweeks, 'dateLastCSVdata' => $dateLastCSVdata]);
         } else {
             return redirect('/');
         }

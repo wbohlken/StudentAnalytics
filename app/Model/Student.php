@@ -94,7 +94,7 @@ class Student extends Model {
     }
         
         public function sendMail($weekoverview) {
-            Mail::queue('emails.weekoverview', ['view_key' => $weekoverview->view_key], function($message)
+            Mail::send('emails.weekoverview', ['view_key' => $weekoverview->view_key], function($message)
             {
                 $message->to('Justin.oud@hotmail.com', 'John Smith')->subject('Je programming dashboard voor deze week.');
             });
@@ -103,19 +103,17 @@ class Student extends Model {
         public function getOverviewByFilter($filter) {
             $student = $this;
             if($filter['vooropl']) {
-                $student = $this->join('week_overview as week_overview_1', 'week_overview_history.week_overview_id', '=', 'week_overview_1.id')->join('student', 'week_overview_1.student_id', '=', 'student.id')->where('student.preschool_profile', $filter['vooropl']);
+                $student = $student->where('preschool_profile', '=', $filter['vooropl']);
             }
             if($filter['studentnumber']) {
-                $student = $this->join('week_overview as week_overview_2', 'week_overview_history.week_overview_id', '=', 'week_overview_2.id')->join('student', 'week_overview_2.student_id', '=', 'student.id')->where('student.studnr_a', $filter['studentnumber']);
+                $student = $student->where('studnr_a', '=', $filter['studentnumber']);
             }
-            if($filter['week']) {
-                $student = $this->join('week_overview as week_overview_3', 'week_overview_history.week_overview_id', '=', 'week_overview_3.id')->join('week', 'week_overview_3.week_id', '=', 'week.id')->where('week.week_nr', $filter['week']);
+            if($filter['direction']) {
+                $student = $student->where('direction_id', '=', $filter['direction']);
             }
 
             return $student->paginate(25);
         }
-
-
 
 
 }

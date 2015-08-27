@@ -37,6 +37,11 @@
                     @endfor
                 </ul>
                 <div id="ajax-panel">
+                    @if(Session::has('error'))
+                        <div class="alert alert-danger"">
+                        <h2>{{ Session::get('error') }}</h2>
+                </div>
+                @endif
                     <!-- Tab panes -->
                     <div class="tab-content" >
                         <div class="dashboard-no-found">Geen resultaat. Zoek een student door op studentnummer te zoeken.</div>

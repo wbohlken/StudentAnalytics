@@ -57,6 +57,10 @@
                                 <td>{{ $countAdmins }}</td>
                             </tr>
                             <tr>
+                                <td class="general-box-first">Laatst gecreerde dashboard</td>
+                                <td>@if($lastCreatedWeek !== '') Week {{ $lastCreatedWeek }} @else Geen @endif</td>
+                            </tr>
+                            <tr>
                                 <td class="general-box-first">Laatst verstuurde week</td>
                                 <td>@if($sendWeek !== '') Week {{ $sendWeek }} @else Geen @endif</td>
                             </tr>

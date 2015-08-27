@@ -79,82 +79,88 @@ class DashboardController extends Controller
     }
 
     public function createdashboards() {
-        $week_nr = Input::get('week');
+        if (Auth::user()->isAdmin()) {
+            $week_nr = Input::get('week');
 
-        $oWeek = Week::where('week_nr', $week_nr)->first();
+            $oWeek = Week::where('week_nr', $week_nr)->first();
 
-        $ooStudents = Student::all();
+            $ooStudents = Student::all();
 
-        if ($week_nr !== '7') {
-            foreach ($ooStudents as $oStudent) {
-                $oWeekOverview = new WeekOverview();
-                $oWeekOverview->student_id = $oStudent->id;
-                $oWeekOverview->week_id = $oWeek->id;
-                $oWeekOverview->save();
+            if ($week_nr !== '7') {
+                foreach ($ooStudents as $oStudent) {
+                    $oWeekOverview = new WeekOverview();
+                    $oWeekOverview->student_id = $oStudent->id;
+                    $oWeekOverview->week_id = $oWeek->id;
+                    $oWeekOverview->save();
 
-                $oCsvData = CsvData::where('studnr_a', $oStudent->studnr_a)->first();
+                    $oCsvData = CsvData::where('studnr_a', $oStudent->studnr_a)->first();
 
-                $aMoodleTypes = ['quiz', 'prac'];
+                    $aMoodleTypes = ['quiz', 'prac'];
 
-                foreach ($aMoodleTypes as $aMoodleType) {
-                    $field = 'w' . $week_nr . '_' . $aMoodleType;
+                    foreach ($aMoodleTypes as $aMoodleType) {
+                        $field = 'w' . $week_nr . '_' . $aMoodleType;
 
-                    $oMoodleResult = new MoodleResult();
-                    $oMoodleResult->week_overview_id = $oWeekOverview->id;
-                    $oMoodleResult->grade = $oCsvData->$field;
-                    $oMoodleResult->type = $aMoodleType;
-                    $oMoodleResult->save();
+                        $oMoodleResult = new MoodleResult();
+                        $oMoodleResult->week_overview_id = $oWeekOverview->id;
+                        $oMoodleResult->grade = $oCsvData->$field;
+                        $oMoodleResult->type = $aMoodleType;
+                        $oMoodleResult->save();
+                    }
+
+                    $oLyndaResult = new LyndaData();
+                    $oLyndaResult->week_overview_id = $oWeekOverview->id;
+                    $oLyndaResult->course_id = $oCsvData['Course'];
+                    $oLyndaResult->complete = $oCsvData['complete'];
+                    $oLyndaResult->hours_viewed = $oCsvData['Hoursviewed'];
+                    $oLyndaResult->save();
+
+                    $MMLAttempts = 'W' . $week_nr . '_MMLAttemps';
+                    $MMLMastery = 'W' . $week_nr . '_MMLMastery';
+
+                    $myprogrammingLabResult = new MyprogramminglabResult();
+                    $myprogrammingLabResult->week_overview_id = $oWeekOverview->id;
+                    $myprogrammingLabResult->MMLAttempts = $oCsvData->$MMLAttempts;
+                    $myprogrammingLabResult->MMLMastery = $oCsvData->$MMLMastery;
+                    $myprogrammingLabResult->save();
+
                 }
+            } else {
+                //Week 7 not everything is done.
+                foreach ($ooStudents as $oStudent) {
+                    $oWeekOverview = new WeekOverview();
+                    $oWeekOverview->student_id = $oStudent->id;
+                    $oWeekOverview->week_id = $oWeek->id;
+                    $oWeekOverview->save();
 
-                $oLyndaResult = new LyndaData();
-                $oLyndaResult->week_overview_id = $oWeekOverview->id;
-                $oLyndaResult->course_id = $oCsvData['Course'];
-                $oLyndaResult->complete = $oCsvData['complete'];
-                $oLyndaResult->hours_viewed = $oCsvData['Hoursviewed'];
-                $oLyndaResult->save();
+                    $oCsvData = CsvData::where('studnr_a', $oStudent->studnr_a)->first();
 
-                $MMLAttempts = 'W' . $week_nr . '_MMLAttemps';
-                $MMLMastery = 'W' . $week_nr . '_MMLMastery';
+                    $oLyndaResult = new LyndaResult();
+                    $oLyndaResult->week_overview_id = $oWeekOverview->id;
+                    $oLyndaResult->complete = $oCsvData['complete'];
+                    $oLyndaResult->hours_viewed = $oCsvData['Hoursviewed'];
+                    $oLyndaResult->save();
 
-                $myprogrammingLabResult = new MyprogramminglabResult();
-                $myprogrammingLabResult->week_overview_id = $oWeekOverview->id;
-                $myprogrammingLabResult->MMLAttempts = $oCsvData->$MMLAttempts;
-                $myprogrammingLabResult->MMLMastery = $oCsvData->$MMLMastery;
-                $myprogrammingLabResult->save();
-
+                    // Week 7 oefen toets
+                    $moodleResult = new MoodleResult();
+                    $moodleResult->week_overview_id = $oWeekOverview->id;
+                    $moodleResult->assignment_week_nr = 7;
+                    $moodleResult->type = 'oefen_toets';
+                    $moodleResult->grade = $oCsvData['w7_oefen_toets'];
+                    $moodleResult->save();
+                }
             }
+            exec('sh /usr/share/kettle/data-integration/kitchen.sh -file=/usr/share/kettle/kettle_config/hva.kjb -param:CONFIG_DIR=/usr/share/kettle/kettle_config/ -param:weeknr='. $week_nr);
+            
+            $oWeek->dashboard_created = 1;
+            $oWeek->save();
+
+            $oWeekOverviewCount = WeekOverview::where('week_id', $oWeek->id)->count();
+            Session::flash('success', 'Alle ' . $oWeekOverviewCount . ' dashboards zijn aangemaakt!');
+
+            return redirect('/dashboard-versturen');
         } else {
-            //Week 7 not everything is done.
-            foreach ($ooStudents as $oStudent) {
-                $oWeekOverview = new WeekOverview();
-                $oWeekOverview->student_id = $oStudent->id;
-                $oWeekOverview->week_id = $oWeek->id;
-                $oWeekOverview->save();
-
-                $oCsvData = CsvData::where('studnr_a', $oStudent->studnr_a)->first();
-
-                $oLyndaResult = new LyndaResult();
-                $oLyndaResult->week_overview_id = $oWeekOverview->id;
-                $oLyndaResult->complete = $oCsvData['complete'];
-                $oLyndaResult->hours_viewed = $oCsvData['Hoursviewed'];
-                $oLyndaResult->save();
-
-                // Week 7 oefen toets
-                $moodleResult = new MoodleResult();
-                $moodleResult->week_overview_id = $oWeekOverview->id;
-                $moodleResult->assignment_week_nr = 7;
-                $moodleResult->type = 'oefen_toets';
-                $moodleResult->grade = $oCsvData['w7_oefen_toets'];
-                $moodleResult->save();
-            }
+            return redirect('/');
         }
-        $oWeek->dashboard_created = 1;
-        $oWeek->save();
-
-        $oWeekOverviewCount = WeekOverview::where('week_id', $oWeek->id)->count();
-        Session::flash('success', 'Alle '. $oWeekOverviewCount .' dashboards zijn aangemaakt!');
-
-        return redirect('/dashboard-versturen');
 
     }
 
@@ -165,72 +171,75 @@ class DashboardController extends Controller
 
     public function createStudents()
     {
-        $csvdata = CsvData::all()->toArray();
-        foreach ($csvdata as $row) {
-            $studnr_a = $row['studnr_a'];
-            // create student if not exists;
-            Student::createByStudnr($studnr_a);
-        }
-        $aUsedStudentIds = array();
-
-
-        //get for every direction the amount of students
-        //Defined in DB table 'direction'
-        //Business IT & Management = 1;
-        //Game Development = 2;
-        //Software Engineering = 3;
-        //System & Network Engineering = 4;
-        //Technical Computing = 5;
-
-        $amountBIMStudents = Student::where('direction_id', 1)->count();
-        $amountGDStudents = Student::where('direction_id', 2)->count();
-        $amountSEStudents = Student::where('direction_id', 3)->count();
-        $amountSMStudents = Student::where('direction_id', 4)->count();
-        $amountTCStudents = Student::where('direction_id', 5)->count();
-
-        //Save every key value pair in array
-        $aDirectionsAmounts[1] = $amountBIMStudents;
-        $aDirectionsAmounts[2] = $amountGDStudents;
-        $aDirectionsAmounts[3] = $amountSEStudents;
-        $aDirectionsAmounts[4] = $amountSMStudents;
-        $aDirectionsAmounts[5] = $amountTCStudents;
-
-        //loop through array with key value pair
-        foreach($aDirectionsAmounts as $key => $value) {
-            //for every number from 0 till 50% of amount of students in this direction create an user.
-            for($i = 0; $i < floor($value / 2); $i++) {
-
-                // Select the user by direction_id and look if it is not already in array, select it random!
-                $student = Student::orderByRaw("RAND()")->where('direction_id', $key)->whereNotIn('id', $aUsedStudentIds)->first();
-
-                //put found student in array
-                $aUsedStudentIds[] = $student->id;
-                //Create the user by the id
-                User::createByStudentId($student);
+        if (Auth::user()->isAdmin()) {
+            $csvdata = CsvData::all()->toArray();
+            foreach ($csvdata as $row) {
+                $studnr_a = $row['studnr_a'];
+                // create student if not exists;
+                Student::createByStudnr($studnr_a);
             }
+            $aUsedStudentIds = array();
+
+
+            //get for every direction the amount of students
+            //Defined in DB table 'direction'
+            //Business IT & Management = 1;
+            //Game Development = 2;
+            //Software Engineering = 3;
+            //System & Network Engineering = 4;
+            //Technical Computing = 5;
+
+            $amountBIMStudents = Student::where('direction_id', 1)->count();
+            $amountGDStudents = Student::where('direction_id', 2)->count();
+            $amountSEStudents = Student::where('direction_id', 3)->count();
+            $amountSMStudents = Student::where('direction_id', 4)->count();
+            $amountTCStudents = Student::where('direction_id', 5)->count();
+
+            //Save every key value pair in array
+            $aDirectionsAmounts[1] = $amountBIMStudents;
+            $aDirectionsAmounts[2] = $amountGDStudents;
+            $aDirectionsAmounts[3] = $amountSEStudents;
+            $aDirectionsAmounts[4] = $amountSMStudents;
+            $aDirectionsAmounts[5] = $amountTCStudents;
+
+            //loop through array with key value pair
+            foreach ($aDirectionsAmounts as $key => $value) {
+                //for every number from 0 till 50% of amount of students in this direction create an user.
+                for ($i = 0; $i < floor($value / 2); $i++) {
+
+                    // Select the user by direction_id and look if it is not already in array, select it random!
+                    $student = Student::orderByRaw("RAND()")->where('direction_id', $key)->whereNotIn('id', $aUsedStudentIds)->first();
+
+                    //put found student in array
+                    $aUsedStudentIds[] = $student->id;
+                    //Create the user by the id
+                    User::createByStudentId($student);
+                }
+            }
+
+            $amountUsers = User::whereNotNull('student_id')->count();
+
+            Session::flash('success', 'Alle studenten en ' . $amountUsers . ' gebruikers zijn aangemaakt!');
+
+            return redirect('/dashboard');
+        } else {
+            return redirect('/');
         }
-
-        $amountUsers = User::whereNotNull('student_id')->count();
-
-        Session::flash('success', 'Alle studenten en ' . $amountUsers . ' gebruikers zijn aangemaakt!');
-
-        return redirect('/dashboard');
     }
 
 
     public function versturenAction()
     {
-        $weeks = Week::where('sent', '1');
-        $dashboard = Week::where('dashboard_created', '1');
-        $alldashboard = $dashboard->lists('week_nr');
-        $allweeks = $weeks->lists('week_nr');
-        $countUsers = User::where('admin', 0)->count();
+        if (Auth::user()->isAdmin()) {
+            $weeks = Week::where('sent', '1');
+            $dashboard = Week::where('dashboard_created', '1');
+            $alldashboard = $dashboard->lists('week_nr');
+            $allweeks = $weeks->lists('week_nr');
+            $countUsers = User::where('admin', 0)->count();
 
-        return view('versturen', ['allweeks' => $allweeks, 'weeks' => $weeks, 'countUsers' => $countUsers, 'dashboard' => $alldashboard]);
-    }
-
-    public function mail()
-    {
-        return view('emails.weekoverview');
+            return view('versturen', ['allweeks' => $allweeks, 'weeks' => $weeks, 'countUsers' => $countUsers, 'dashboard' => $alldashboard]);
+        } else {
+            return redirect('/');
+        }
     }
 }
