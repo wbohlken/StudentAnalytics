@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Model\CsvData;
+use App\Model\MoodleResult;
+use App\Model\MyprogramminglabResult;
 use App\Model\WeekOverview;
 use App\User;
 use App\Model\Week;
@@ -10,6 +12,7 @@ use Input;
 use App\Model\Student;
 use Redirect;
 use Session;
+use App\Model\LyndaData;
 use Validator;
 use Illuminate\Support\Facades\DB;
 use Auth;
@@ -53,6 +56,7 @@ class DashboardController extends Controller
             $countAdmins = User::where('admin', 1)->count();
             $lastweek = DB::table('week')->where('sent', '1')->orderBy('week_nr', 'desc')->first();
             $countOpenedDashboardsLastWeek = DB::table('week_overview')->whereNotNull('opened_on')->count();
+
             $weeks = Week::where('sent', '1');
             $allweeks = $weeks->lists('week_nr');
             if ($lastcsvdata) {
@@ -73,6 +77,91 @@ class DashboardController extends Controller
             return redirect('/');
         }
     }
+
+    public function createdashboards() {
+        $week_nr = Input::get('week');
+
+        $oWeek = Week::where('week_nr', $week_nr)->first();
+
+        $ooStudents = Student::all();
+
+        if ($week_nr !== '7') {
+            foreach ($ooStudents as $oStudent) {
+                $oWeekOverview = new WeekOverview();
+                $oWeekOverview->student_id = $oStudent->id;
+                $oWeekOverview->week_id = $oWeek->id;
+                $oWeekOverview->save();
+
+                $oCsvData = CsvData::where('studnr_a', $oStudent->studnr_a)->first();
+
+                $aMoodleTypes = ['quiz', 'prac'];
+
+                foreach ($aMoodleTypes as $aMoodleType) {
+                    $field = 'w' . $week_nr . '_' . $aMoodleType;
+
+                    $oMoodleResult = new MoodleResult();
+                    $oMoodleResult->week_overview_id = $oWeekOverview->id;
+                    $oMoodleResult->grade = $oCsvData->$field;
+                    $oMoodleResult->type = $aMoodleType;
+                    $oMoodleResult->save();
+                }
+
+                $oLyndaResult = new LyndaData();
+                $oLyndaResult->week_overview_id = $oWeekOverview->id;
+                $oLyndaResult->course_id = $oCsvData['Course'];
+                $oLyndaResult->complete = $oCsvData['complete'];
+                $oLyndaResult->hours_viewed = $oCsvData['Hoursviewed'];
+                $oLyndaResult->save();
+
+                $MMLAttempts = 'W' . $week_nr . '_MMLAttemps';
+                $MMLMastery = 'W' . $week_nr . '_MMLMastery';
+
+                $myprogrammingLabResult = new MyprogramminglabResult();
+                $myprogrammingLabResult->week_overview_id = $oWeekOverview->id;
+                $myprogrammingLabResult->MMLAttempts = $oCsvData->$MMLAttempts;
+                $myprogrammingLabResult->MMLMastery = $oCsvData->$MMLMastery;
+                $myprogrammingLabResult->save();
+
+            }
+        } else {
+            //Week 7 not everything is done.
+            foreach ($ooStudents as $oStudent) {
+                $oWeekOverview = new WeekOverview();
+                $oWeekOverview->student_id = $oStudent->id;
+                $oWeekOverview->week_id = $oWeek->id;
+                $oWeekOverview->save();
+
+                $oCsvData = CsvData::where('studnr_a', $oStudent->studnr_a)->first();
+
+                $oLyndaResult = new LyndaResult();
+                $oLyndaResult->week_overview_id = $oWeekOverview->id;
+                $oLyndaResult->complete = $oCsvData['complete'];
+                $oLyndaResult->hours_viewed = $oCsvData['Hoursviewed'];
+                $oLyndaResult->save();
+
+                // Week 7 oefen toets
+                $moodleResult = new MoodleResult();
+                $moodleResult->week_overview_id = $oWeekOverview->id;
+                $moodleResult->assignment_week_nr = 7;
+                $moodleResult->type = 'oefen_toets';
+                $moodleResult->grade = $oCsvData['w7_oefen_toets'];
+                $moodleResult->save();
+            }
+        }
+        $oWeek->dashboard_created = 1;
+        $oWeek->save();
+
+        $oWeekOverviewCount = WeekOverview::where('week_id', $oWeek->id)->count();
+        Session::flash('success', 'Alle '. $oWeekOverviewCount .' dashboards zijn aangemaakt!');
+
+        return redirect('/dashboard-versturen');
+
+    }
+
+
+
+
+
 
     public function createStudents()
     {
@@ -132,10 +221,12 @@ class DashboardController extends Controller
     public function versturenAction()
     {
         $weeks = Week::where('sent', '1');
+        $dashboard = Week::where('dashboard_created', '1');
+        $alldashboard = $dashboard->lists('week_nr');
         $allweeks = $weeks->lists('week_nr');
         $countUsers = User::where('admin', 0)->count();
 
-        return view('versturen', ['allweeks' => $allweeks, 'weeks' => $weeks, 'countUsers' => $countUsers]);
+        return view('versturen', ['allweeks' => $allweeks, 'weeks' => $weeks, 'countUsers' => $countUsers, 'dashboard' => $alldashboard]);
     }
 
     public function mail()

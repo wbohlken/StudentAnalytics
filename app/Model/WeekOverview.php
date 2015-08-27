@@ -45,6 +45,8 @@ class WeekOverview extends Model {
 //        });
 //    }
 
+
+
     public static function getByViewKey($viewKey) {
         return self::with('moodleResult', 'lyndaData', 'myprogramminglabResult', 'myprogramminglabTotal')
                         ->where('view_key', $viewKey)->first();
@@ -84,7 +86,7 @@ class WeekOverview extends Model {
             return array('MMLMastery' => $mplmastery, 'MMLAttempts' => number_format($mplattempts, 2, '.', ','));
             
     }
-
+    
     private function getLyndaResult() {
         // Get total grade for the type 'Quiz'
         $lyndadata = LyndaData::where('week_overview_id', $this->id)->first();

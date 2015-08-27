@@ -15,7 +15,7 @@
             @if(Auth::user()->isAdmin())
             <div class="row dashboard-boxes">
                 @if($countStudents == 0)<a href="{{url('/createstudents')}}"><div class="col-lg-2 col-md-2 dashboard-box"><img src="{{ asset('/img/add-student-icon.png') }}"><h2>Studenten accounts aanmaken (eenmalig!)</h2></div></a>@endif
-                <a href="{{ url('/dashboard-versturen') }}"><div class="col-lg-2 col-md-2 dashboard-box"><img src="{{ asset('/img/sent-icon.png') }}"><h2>Weekdashboards versturen</h2></div></a>
+                <a href="{{ url('/dashboard-versturen') }}"><div class="col-lg-2 col-md-2 dashboard-box"><img src="{{ asset('/img/sent-icon.png') }}"><h2>Weekdashboards creeren + versturen</h2></div></a>
                     <a href="{{url('/studentdashboard')}}"><div class="col-lg-2 col-md-2 dashboard-box"><img src="{{ asset('/img/student-icon.png') }}"/><h2>Weekdashboards van studenten bekijken</h2></div></a>
                 <a href="{{url('/algemene-informatie')}}"><div class="col-lg-2 col-md-2 dashboard-box"><img src="{{ asset('/img/general-icon.png') }}"/><h2>Algemene informatie bekijken</h2></div></a>
                         <a href="{{url('/dashboard-history')}}"><div class="col-lg-2 col-md-2 dashboard-box"><img src="{{ asset('/img/history-icon.png') }}"><h2>Geschiedenis weekdashboards bekijken</h2></div></a>

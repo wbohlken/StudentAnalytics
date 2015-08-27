@@ -57,6 +57,8 @@ class WeekoverviewController extends Controller
         }
     }
 
+
+
     private function sendStudentDashboardForWeek($weeknumber)
     {
         // get week object for which studentdashboard is
