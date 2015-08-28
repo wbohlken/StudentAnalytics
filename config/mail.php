@@ -81,7 +81,6 @@ return [
 	*/
 
 	'username' => 'programmingdashboard@gmail.com',
-
 	/*
 	|--------------------------------------------------------------------------
 	| SMTP Server Password
@@ -94,7 +93,6 @@ return [
 	*/
 
 	'password' => 'ProgrammingDashboard123!',
-
 	/*
 	|--------------------------------------------------------------------------
 	| Sendmail System Path

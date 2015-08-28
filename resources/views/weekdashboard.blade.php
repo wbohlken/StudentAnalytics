@@ -14,7 +14,7 @@
                     <form method="get" action="/studentdashboard">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="form-group">
-                            <select name="studentnumber" class="form-control">
+                            <select name="studentnumber" class="form-control studentnumber-search">
                                 <option value="">Studentnummer</option>
                                 @foreach ($studentnumbers as $number) 
                                 <option  value="{{ $number }}">{{ $number }}</option>

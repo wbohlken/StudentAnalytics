@@ -93,27 +93,27 @@ class Student extends Model {
             return WeekOverview::where('student_id', $this->studnr_a)->orderBy('created_at', 'desc')->first();
     }
         
-        public function sendMail($weekoverview) {
-            Mail::send('emails.weekoverview', ['view_key' => $weekoverview->view_key], function($message)
-            {
-                $message->to('Justin.oud@hotmail.com', 'John Smith')->subject('Je programming dashboard voor deze week.');
-            });
+    public function sendMail($weekoverview) {
+        Mail::send('emails.weekoverview', ['view_key' => $weekoverview->view_key], function($message)
+        {
+            $message->to('Justin.oud@hotmail.com', 'John Smith')->subject('Je programming dashboard voor deze week.');
+        });
+    }
+
+    public function getOverviewByFilter($filter) {
+        $student = $this;
+        if($filter['vooropl']) {
+            $student = $student->where('preschool_profile', '=', $filter['vooropl']);
+        }
+        if($filter['studentnumber']) {
+            $student = $student->where('studnr_a', '=', $filter['studentnumber']);
+        }
+        if($filter['direction']) {
+            $student = $student->where('direction_id', '=', $filter['direction']);
         }
 
-        public function getOverviewByFilter($filter) {
-            $student = $this;
-            if($filter['vooropl']) {
-                $student = $student->where('preschool_profile', '=', $filter['vooropl']);
-            }
-            if($filter['studentnumber']) {
-                $student = $student->where('studnr_a', '=', $filter['studentnumber']);
-            }
-            if($filter['direction']) {
-                $student = $student->where('direction_id', '=', $filter['direction']);
-            }
-
-            return $student->paginate(25);
-        }
+        return $student->paginate(25);
+    }
 
 
 }

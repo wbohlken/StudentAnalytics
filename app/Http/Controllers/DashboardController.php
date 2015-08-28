@@ -16,6 +16,7 @@ use App\Model\LyndaData;
 use Validator;
 use Illuminate\Support\Facades\DB;
 use Auth;
+use Illuminate\Support\Facades\Mail;
 
 class DashboardController extends Controller
 {
@@ -149,11 +150,8 @@ class DashboardController extends Controller
                     $moodleResult->save();
                 }
             }
-            $output = array();
-            exec('sudo sh /usr/share/kettle/data-integration/kitchen.sh -file=/usr/share/kettle/kettle_config/hva.kjb -param:CONFIG_DIR=/usr/share/kettle/kettle_config/ -param:weeknr='. $week_nr, $output);
 
-            var_dump($output);
-            die();
+            exec('sudo sh /usr/share/kettle/data-integration/kitchen.sh -file=/usr/share/kettle/kettle_config/hva.kjb -param:CONFIG_DIR=/usr/share/kettle/kettle_config/ -param:weeknr='. $week_nr);
 
             // Return will return non-zero upon an error
             $oWeek->dashboard_created = 1;
@@ -240,4 +238,6 @@ class DashboardController extends Controller
             return redirect('/');
         }
     }
+
+
 }

@@ -33,7 +33,7 @@
                 {{--</div>--}}
                 <div class="general-box col-md-5 col-lg-5  @if(Auth::user()->isAdmin()) @else alignmiddle @endif ">
                     <h2><b>LET OP! Stappenplan voor versturen</b></h2>
-                <h2 style="text-align:left;">1. Staat alle relevante week voor de desbetreffende week in de database?</h2>
+                <h2 style="text-align:left;">1.Staat alle relevante week voor de desbetreffende week in de database?</h2>
                     <h2 style="text-align:left;">2. Klik op de knop 'Creeer dashboard'.</h2>
                     <h2 style="text-align:left;">3. Zijn de juiste dashboard gecreerd? Voer Thom z'n ETL-Job uit.</h2>
 
