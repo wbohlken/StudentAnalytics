@@ -79,7 +79,7 @@ class DashboardController extends Controller
         }
     }
 
-    public function createdashboards() {
+    public function createweekoverviews() {
         if (Auth::user()->isAdmin()) {
             $week_nr = Input::get('week');
 
