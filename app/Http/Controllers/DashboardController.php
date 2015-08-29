@@ -245,7 +245,7 @@ class DashboardController extends Controller
         {
             $message
                 ->to('justin.oud@hotmail.com')
-                ->from('myemail@mydomain.com')
+                ->from('oudj001@hva.nl')
                 ->subject('TEST');
         });
 
