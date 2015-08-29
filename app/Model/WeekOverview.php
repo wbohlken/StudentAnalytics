@@ -162,24 +162,30 @@ class WeekOverview extends Model {
         return array('averageQuiz' => number_format($averageQuiz, 2, '.', ','), 'averagePrac' => number_format($averagePrac, 2, '.', ','));
     }
     
-    private function getAverageLyndaResult() {
+    private function getAverageLyndaResult()
+    {
         //Get all overviews for this week
         $ooWeekOverviewsByWeek = WeekOverview::where('week_id', $this->week_id);
-        
+
         //Lists the id for all weekoverviews of this week
         $oWeekOverviewIds = $ooWeekOverviewsByWeek->lists('id');
-        
+
         //get the total completed data for Lynda
         $lyndaTotalComplete = LyndaData::whereIn('week_overview_id', $oWeekOverviewIds)->sum('complete');
-        
+
         //get the total hours viewed data for lynda
         $lyndaTotalHoursViewed = LyndaData::whereIn('week_overview_id', $oWeekOverviewIds)->sum('hours_viewed');
-        
+
         //get the total students for calculating
         $lyndaTotalStudents = count(LyndaData::whereIn('week_overview_id', $oWeekOverviewIds)->get());
-        
+
+        if ($lyndaTotalHoursViewed != 0) {
+
         //Calculate the average of lynda completion and hours viewed
         $averageHoursViewedLynda = ($lyndaTotalHoursViewed / $lyndaTotalHoursViewed);
+        } else {
+        $averageHoursViewedLynda = 0;
+        } 
         $averageCompletionLynda = ($lyndaTotalComplete / $lyndaTotalStudents);
         
         return array('complete' => $averageCompletionLynda, 'hoursviewed' => $averageHoursViewedLynda);
