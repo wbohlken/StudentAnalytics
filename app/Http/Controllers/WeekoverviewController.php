@@ -77,7 +77,7 @@ class WeekoverviewController extends Controller
         // at the end, set the week on 'sent'.
         foreach ($ooWeekOverviews as $oWeekOverview) {
             //get student for this weekoverview
-            $oStudent = Student::where('studnr_a', $oWeekOverview->student_id)->first();
+            $oStudent = Student::where('id', $oWeekOverview->student_id)->first();
             $oUser = User::where('student_id', $oStudent->id)->first();
 
 
