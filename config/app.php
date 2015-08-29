@@ -204,6 +204,7 @@ return [
 
 		'Debugbar' => 'Barryvdh\Debugbar\Facade',
 		'Excel' => 'Maatwebsite\Excel\Facades\Excel',
+		'PHPmailer' => 'phpmailer\phpmailer',
 	],
 
 ];

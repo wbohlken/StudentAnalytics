@@ -17,6 +17,7 @@ use Validator;
 use Illuminate\Support\Facades\DB;
 use Auth;
 use Illuminate\Support\Facades\Mail;
+use PHPMailer;
 
 class DashboardController extends Controller
 {
@@ -237,6 +238,18 @@ class DashboardController extends Controller
         } else {
             return redirect('/');
         }
+    }
+
+    public function mail() {
+        Mail::send('emails.test', array(), function($message)
+        {
+            $message
+                ->to('justin.oud@hotmal.com')
+                ->from('myemail@mydomain.com')
+                ->subject('TEST');
+        });
+
+
     }
 
 

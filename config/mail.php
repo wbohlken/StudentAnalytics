@@ -28,7 +28,7 @@ return [
 	|
 	*/
 
-	'host' => env('MAIL_HOST', 'smtp.gmail.com'),
+	'host' => env('MAIL_HOST', 'smtp.hva.nl'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,9 @@ return [
 	|
 	*/
 
-	'username' => 'programmingdashboard@gmail.com',
+	'username' => "oudj001@hva.nl",
+//	'username' => 'programmingdashboard@gmail.com',
+
 	/*
 	|--------------------------------------------------------------------------
 	| SMTP Server Password
@@ -92,7 +94,8 @@ return [
 	|
 	*/
 
-	'password' => 'ProgrammingDashboard123!',
+	'password' => "chamel123!",
+//	'password' => "ProgrammingDashboard123!",
 	/*
 	|--------------------------------------------------------------------------
 	| Sendmail System Path

@@ -26,6 +26,7 @@ Route::get('/register', 'RegisterController@getIndex');
 Route::post('/register', 'RegisterController@register');
 Route::get('/dashboard-history', 'HistoryController@getIndex');
 Route::get('/students', 'StudentController@getIndex');
+Route::get('/mail', 'DashboardController@mail');
 Route::get('/dashboard-versturen', 'DashboardController@versturenAction');
 Route::get('/createdashboards', 'DashboardController@createweekoverviews');
 Route::controllers([
