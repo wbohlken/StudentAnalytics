@@ -117,7 +117,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 			return FALSE;
 		}
 		$studnr_a = $weekOverview->student_id;
-		$student = Student::where('studnr_a', $studnr_a)->first();
+		$student = Student::where('id', $studnr_a)->first();
 
 		$user = self::where('student_id', $student->id)->first();
 		if (!$user) {
