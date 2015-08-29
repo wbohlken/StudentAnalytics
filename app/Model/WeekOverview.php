@@ -146,14 +146,14 @@ class WeekOverview extends Model {
         $week = Week::where('id', $this->week_id)->first();
         
         // Get total grade for the type 'Quiz'
-        $quizTotalGrade = MoodleResult::where('type', 'quiz')->where('assignment_week_nr', $week->week_nr )->sum('grade');
+        $quizTotalGrade = MoodleResult::where('type', 'quiz')->where('week_overview_id', $this->id )->sum('grade');
         
         // Get total grade for the type 'Prac'
-        $pracTotalGrade = MoodleResult::where('type', 'prac')->where('assignment_week_nr', $week->week_nr )->sum('grade');
+        $pracTotalGrade = MoodleResult::where('type', 'prac')->where('week_overview_id', $this->id )->sum('grade');
         
         // Get total students for both types
-        $totalStudentsQuiz = count(MoodleResult::where('type', 'quiz')->where('assignment_week_nr', $week->week_nr)->get());
-        $totalStudentsPrac = count(MoodleResult::where('type', 'prac')->where('assignment_week_nr', $week->week_nr)->get());
+        $totalStudentsQuiz = count(MoodleResult::where('type', 'quiz')->where('week_overview_id', $this->id)->get());
+        $totalStudentsPrac = count(MoodleResult::where('type', 'prac')->where('week_overview_id', $this->id)->get());
        
         // Calculate the average for both types
         $averageQuiz = ($quizTotalGrade / $totalStudentsQuiz);
@@ -190,11 +190,11 @@ class WeekOverview extends Model {
         $week = Week::where('id', $this->week_id)->first();
         
         //Count total Mastery and Attempts overall this week.
-        $MPLTotalMastery = MyprogramminglabResult::where('assignment_week_nr', $week->week_nr )->sum('MMLMastery');
-        $MPLTotalAttempts = MyprogramminglabResult::where('assignment_week_nr', $week->week_nr)->sum('MMLAttempts');
+        $MPLTotalMastery = MyprogramminglabResult::where('week_overview_id', $this->id )->sum('MMLMastery');
+        $MPLTotalAttempts = MyprogramminglabResult::where('week_overview_id', $this->id)->sum('MMLAttempts');
         
         // Count total students for this week
-        $MPLTotalStudents = count(MyprogramminglabResult::where('assignment_week_nr', $week->week_nr )->get());
+        $MPLTotalStudents = count(MyprogramminglabResult::where('week_overview_id', $this->id)->get());
         
         //Calculate the averages
         $averageMPLMastery = ($MPLTotalMastery / $MPLTotalStudents);
