@@ -91,7 +91,7 @@ class StudentdashboardController extends Controller
             $oWeek = $oWeekOverview->week;
             $aWeekOverview = $oWeekOverview->toArray();
             $oStudent = Student::where('studnr_a', $oWeekOverview->student_id)->first();
-            $oWeekOverviews = WeekOverview::where('student_id', $oStudent->studnr_a)->get();
+            $oWeekOverviews = WeekOverview::where('student_id', $oStudent->id)->get();
 
             // Make array with existing view_keys for this student.
             // By having this array the student can easily swap between their existing and already sent weekoverviews.

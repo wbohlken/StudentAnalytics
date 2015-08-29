@@ -185,7 +185,7 @@ class WeekOverview extends Model {
         $averageHoursViewedLynda = ($lyndaTotalHoursViewed / $lyndaTotalHoursViewed);
         } else {
         $averageHoursViewedLynda = 0;
-        } 
+        }
         $averageCompletionLynda = ($lyndaTotalComplete / $lyndaTotalStudents);
         
         return array('complete' => $averageCompletionLynda, 'hoursviewed' => $averageHoursViewedLynda);
