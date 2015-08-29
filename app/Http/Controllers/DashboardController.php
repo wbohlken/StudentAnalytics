@@ -240,17 +240,7 @@ class DashboardController extends Controller
         }
     }
 
-    public function mail() {
-        Mail::send('emails.test', array(), function($message)
-        {
-            $message
-                ->to('justin.oud@hotmail.com')
-                ->from('oudj001@hva.nl')
-                ->subject('TEST');
-        });
 
-
-    }
 
 
 }
