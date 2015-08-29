@@ -28,8 +28,8 @@ return [
 	|
 	*/
 
-//	'host' => env('MAIL_HOST', 'smtp.hva.com'),
-	'host' => '',
+	'host' => env('MAIL_HOST', 'smtp.hva.nl'),
+//	'host' => '',
 	/*
 	|--------------------------------------------------------------------------
 	| SMTP Host Port
