@@ -244,7 +244,7 @@ class DashboardController extends Controller
         Mail::send('emails.test', array(), function($message)
         {
             $message
-                ->to('justin.oud@hotmal.com')
+                ->to('justin.oud@hotmail.com')
                 ->from('myemail@mydomain.com')
                 ->subject('TEST');
         });
