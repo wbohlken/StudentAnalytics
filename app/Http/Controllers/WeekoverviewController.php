@@ -11,6 +11,7 @@ use Session;
 use App\Model\MoodleResult;
 use App\Model\LyndaData;
 use App\Model\MyprogramminglabResult;
+use Illuminate\Support\Facades\Auth;
 
 
 class WeekoverviewController extends Controller
