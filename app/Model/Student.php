@@ -55,8 +55,6 @@ class Student extends Model {
         public function getWeekOverview($week) {
             
             return WeekOverview::where('student_id', $this->id)->where('week_id', $week)->first();
-            
-            
         }
 
     // get amount of logins by this user
@@ -90,7 +88,7 @@ class Student extends Model {
     }
 
     public function getLatestWeekOverview() {
-            return WeekOverview::where('student_id', $this->studnr_a)->orderBy('created_at', 'desc')->first();
+            return WeekOverview::where('student_id', $this->id)->orderBy('created_at', 'desc')->first();
     }
         
     public function sendMail($weekoverview) {
