@@ -54,7 +54,7 @@ class Student extends Model {
         
         public function getWeekOverview($week) {
             
-            return WeekOverview::where('student_id', $this->studnr_a)->where('week_id', $week)->first();
+            return WeekOverview::where('student_id', $this->id)->where('week_id', $week)->first();
             
             
         }
