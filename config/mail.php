@@ -15,7 +15,7 @@ return [
 	|
 	*/
 
-	'driver' => env('MAIL_DRIVER', 'smtp'),
+	'driver' => env('MAIL_DRIVER', 'mail'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -28,8 +28,8 @@ return [
 	|
 	*/
 
-	'host' => env('MAIL_HOST', 'smtp.gmail.com'),
-
+//	'host' => env('MAIL_HOST', 'smtp.hva.com'),
+	'host' => '',
 	/*
 	|--------------------------------------------------------------------------
 	| SMTP Host Port
@@ -54,7 +54,7 @@ return [
 	|
 	*/
 
-	'from' => ['address' => 'programmingdashboard@hva.nl', 'name' => 'Hogeschool van Amsterdam - Informatica'],
+	'from' => ['address' => 'oudj001@hva.nl', 'name' => 'Hogeschool van Amsterdam - Informatica'],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,8 +80,8 @@ return [
 	|
 	*/
 
-//	'username' => 'oudj001@hva.nl',
-	'username' => 'programmingdashboard@gmail.com',
+	'username' => 'oudj001@hva.nl',
+//	'username' => 'programmingdashboard@gmail.com',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -94,8 +94,8 @@ return [
 	|
 	*/
 
-//	'password' => 'chamel123!',
-	'password' => "ProgrammingDashboard123!",
+	'password' => 'chamel123!',
+//	'password' => "ProgrammingDashboard123!",
 	/*
 	|--------------------------------------------------------------------------
 	| Sendmail System Path
