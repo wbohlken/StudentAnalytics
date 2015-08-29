@@ -8,7 +8,7 @@
     <p>Beste Student,<br/><br/>
         Hierbij de link naar jouw dashboard voor het vak Programming. Ben je benieuwd naar jouw voortgang in de elektronische leeromgevingen (Myprogramminglab, Moodle en Lynda.com) en wil je weten van jouw verwachte eindcijfer en slagkans is, klik dan op de onderstaande link.<br/><br/>
 
-        {{ url('/studentdashboard?key=' . $viewkey) }}
+        {{ url('/studentdashboard?key=' . $view_key) }}
 
     <br/><br/>
 
