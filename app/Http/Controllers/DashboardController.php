@@ -247,7 +247,7 @@ class DashboardController extends Controller
                 ->to('justin.oud@hotmail.com')
                 ->from('myemail@mydomain.com')
                 ->subject('TEST');
-        }));
+        });
 
 
     }
