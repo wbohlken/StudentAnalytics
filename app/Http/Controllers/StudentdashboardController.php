@@ -53,7 +53,7 @@ class StudentdashboardController extends Controller
             if (!Auth::user()->isStudent()) {
 
                 $studentnumber = Input::get('studentnumber');
-                $oStudent = Student::where('studnr_a', $studentnumber)->first();
+                $oStudent = Student::where('id', $studentnumber)->first();
 
 
                 //get first weekoverview if nothing is specified.
