@@ -200,6 +200,8 @@ class DashboardController extends Controller
             $aDirectionsAmounts[4] = $amountSMStudents;
             $aDirectionsAmounts[5] = $amountTCStudents;
 
+
+
             //loop through array with key value pair
             foreach ($aDirectionsAmounts as $key => $value) {
                 //for every number from 0 till 50% of amount of students in this direction create an user.
