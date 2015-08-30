@@ -41,7 +41,7 @@ class Student extends Model {
                 $csvdata = CsvData::where('studnr_a', $studnr_a)->first();
                
 		if (!$student) {
-			$student = new Student(['studnr_a' => $studnr_a, 'block' => $csvdata->cohort, 'email' => $csvdata->email, 'cohort_block' => $csvdata->cohort_blok, 'cohort_year' => $csvdata->cohort_jaar, 'preschool_type' => $csvdata->vooropl_type, 'profile' => $csvdata->profiel, 'preschool_profile' => $csvdata->vooropl_profiel, 'direction_id' => $csvdata->richting_code]);
+			$student = new Student(['studnr_a' => $studnr_a, 'block' => $csvdata->cohort, 'email' => $csvdata->email, 'cohort_block' => $csvdata->cohort_blok, 'cohort_year' => $csvdata->cohort_jaar, 'preschool_type' => $csvdata->vooropl_type, 'profile' => $csvdata->profiel, 'preschool_profile' => $csvdata->vooropl_profiel, 'direction_id' => $csvdata->Riching_code]);
                         $student->save();
                         
 		}
