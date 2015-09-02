@@ -43,7 +43,7 @@
                     @for ($i = 1; $i < 9; $i++)
                     <tr>
                     <td class="general-box-first">Week {{$i}} </td>
-                    <td>@if(in_array($i,$dashboard))<div class="btn btn-primary" disabled>Dashboard gecreeerd</div>@else<a href={{ url('/createdashboards?week='. $i )}}><div class="btn btn-primary">Creeer dashboard</div></a>@endif</td>
+                    <td>@if(in_array($i,$dashboard))<a href="{{ url('/deletedashboards?week='. $i) }}"<div class="btn btn-primary">Dashboards verwijderen</div>@else<a href={{ url('/createdashboards?week='. $i )}}><div class="btn btn-primary">Creeer dashboard</div></a>@endif</td>
                     <td>@if(in_array($i,$allweeks))<div class='btn btn-primary' disabled>Verzonden</div>@else <a href='/fireweekoverview?week={{$i}}'><div class='btn btn-primary'>Verstuur</div></a>@endif</td>
                     </tr>
                     @endfor

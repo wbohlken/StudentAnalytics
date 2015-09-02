@@ -84,11 +84,15 @@ class DashboardController extends Controller
         if (Auth::user()->isAdmin()) {
             $week_nr = Input::get('week');
 
-            $oWeek = Week::where('week_nr', $week_nr)->first();
-
+            //Week 8 show same data as week 7
+            if ($week_nr == '8') {
+                 $oWeek = Week::where('week_nr', 7)->first();
+            } else {
+                $oWeek = Week::where('week_nr', $week_nr)->first();
+            }
             $ooStudents = Student::all();
 
-            if ($week_nr !== '7') {
+            if ($week_nr !== '7' && $week_nr !== '8') {
                 foreach ($ooStudents as $oStudent) {
                     $oWeekOverview = new WeekOverview();
                     $oWeekOverview->student_id = $oStudent->id;
@@ -136,7 +140,7 @@ class DashboardController extends Controller
 
                     $oCsvData = CsvData::where('studnr_a', $oStudent->studnr_a)->first();
 
-                    $oLyndaResult = new LyndaResult();
+                    $oLyndaResult = new LyndaData();
                     $oLyndaResult->week_overview_id = $oWeekOverview->id;
                     $oLyndaResult->complete = $oCsvData['complete'];
                     $oLyndaResult->hours_viewed = $oCsvData['Hoursviewed'];
@@ -145,8 +149,7 @@ class DashboardController extends Controller
                     // Week 7 oefen toets
                     $moodleResult = new MoodleResult();
                     $moodleResult->week_overview_id = $oWeekOverview->id;
-                    $moodleResult->assignment_week_nr = 7;
-                    $moodleResult->type = 'oefen_toets';
+                    $moodleResult->type = 'oefentoets';
                     $moodleResult->grade = $oCsvData['w7_oefen_toets'];
                     $moodleResult->save();
                 }
@@ -160,6 +163,33 @@ class DashboardController extends Controller
 
             $oWeekOverviewCount = WeekOverview::where('week_id', $oWeek->id)->count();
             Session::flash('success', 'Alle ' . $oWeekOverviewCount . ' dashboards zijn aangemaakt!');
+            return redirect('/dashboard-versturen');
+        } else {
+            return redirect('/');
+        }
+
+    }
+
+    public function deleteWeekOverviews() {
+        if (Auth::user()->isAdmin()) {
+            $week_nr = Input::get('week');
+
+            $oWeek = Week::where('week_nr', $week_nr)->first();
+
+            $oWeekOverviews = WeekOverview::where('week_id', $oWeek->id)->get();
+            foreach ($oWeekOverviews as $oWeekOverview) {
+                $oWeekOverview->lyndaData()->forceDelete();
+                $oWeekOverview->myprogramminglabResult()->forceDelete();
+                $oWeekOverview->myprogramminglabTotal()->forceDelete();
+                $oWeekOverview->moodleResult()->forceDelete();
+                $oWeekOverview->weekoverviewhistory()->forceDelete();
+
+                $oWeekOverview->forceDelete();
+            }
+
+            $oWeek->dashboard_created = null;
+            $oWeek->save();
+            Session::flash('success', 'Alle ' . count($oWeekOverviews) . ' dashboards zijn verwijderd!');
             return redirect('/dashboard-versturen');
         } else {
             return redirect('/');
@@ -241,6 +271,37 @@ class DashboardController extends Controller
             return redirect('/');
         }
     }
+
+//    public function crypt() {
+//        $encrypted = $this->encrypt_decrypt('encrypt', 'justin');
+//        $decrypted = $this->encrypt_decrypt('decrypt', $encrypted);
+//
+//    }
+//
+//    public function encrypt_decrypt($action, $string) {
+//    $output = false;
+//
+//    $encrypt_method = "AES-256-CBC";
+//    $secret_key = 'This is my secret key';
+//    $secret_iv = 'This is my secret iv';
+//
+//    // hash
+//    $key = hash('sha256', $secret_key);
+//
+//    // iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
+//    $iv = substr(hash('sha256', $secret_iv), 0, 16);
+//
+//        if( $action == 'encrypt' ) {
+//            $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+//            $output = base64_encode($output);
+//        }
+//        else if( $action == 'decrypt' ){
+//            $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+//        }
+//
+//    return $output;
+//    }
+
 
 
 

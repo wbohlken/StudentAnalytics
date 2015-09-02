@@ -86,7 +86,7 @@
                     <div class="col-lg-6 col-md-6">
                         {{--<div id="graph-risk" data-attr="{{ number_format($weekOverview['estimated_risk'] * 100,2) }}" style="width:100%; height:150px;"></div>--}}
 
-                        <div id="traffic-light" data-attr="{{ number_format($weekOverview['estimated_risk'] * 100,2) }}">
+                        <div id="traffic-light" data-attr="{{ $weekOverview['estimated_passed'] }}">
                             <div id="stopLight" class="bulb"></div>
                             <div id="slowLight" class="bulb"></div>
                             <div id="goLight" class="bulb"></div>
@@ -120,70 +120,74 @@
                                         <p>{{ $mainResults['TotalResult']}}% voltooid</p>
                                     </div>
                                 </div>
+                                <input type="hidden" id="week" value="{{ $week }}">
 
                                 <div class="col-lg-12 col-md-12 head-graphs">
                                     <div class="moodle-box col-lg-6 col-md-6">
                                         <h1>Moodle</h1>
-                                        <div class="col-lg-6 col-md-6 moodle-prac">
-                                            <h2>Practicum</h2>
+                                        @if($week !== '7' and $week !== '8')
+                                            <div class="col-lg-6 col-md-6 moodle-prac" data-attr="{{ $mainResults['MoodleResult']['pracGrade'] }}">
+                                                <h2>Practicum</h2>
+                                                @if(is_null($mainResults['MoodleResult']['pracGrade']))
+                                                    <div id="prac-light" class="bulb"></div>
+                                                @else
+                                                    <div id="prac-light" class="bulb"></div>
+                                                @endif
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 moodle-quiz">
+                                                <div class="row">
+                                                    <h2>Quiz</h2>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <h3>Jouw cijfer</h3>
+                                                        <div class="counter">{{ $mainResults['MoodleResult']['quizGrade'] }}</div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <h3>Gem. cijfer</h3>
+                                                        <div class="counter">{{ $averageResults['MoodleResult']['averageQuiz'] }}</div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        @else
+                                            <h2>Oefen toets</h2>
                                             <div class="col-lg-6 col-md-6">
                                                 <h3>Jouw cijfer</h3>
-                                                <div class="counter">{{ $mainResults['MoodleResult']['pracGrade'] }}</div>
+                                                <div class="counter">{{ $mainResults['MoodleResult']['quizGrade'] }}</div>
                                             </div>
                                             <div class="col-lg-6 col-md-6">
                                                 <h3>Gem. cijfer</h3>
-                                                <div class="counter">{{ $averageResults['MoodleResult']['averagePrac'] }}</div>
+                                                <div class="counter">{{ $averageResults['MoodleResult']['averageQuiz'] }}</div>
                                             </div>
-
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 moodle-quiz">
-                                            <div class="row">
-                                                <h2>Quiz</h2>
-                                                <div class="col-lg-6 col-md-6">
-                                                    <h3>Jouw cijfer</h3>
-                                                    <div class="counter">{{ $mainResults['MoodleResult']['quizGrade'] }}</div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6">
-                                                    <h3>Gem. cijfer</h3>
-                                                    <div class="counter">{{ $averageResults['MoodleResult']['averageQuiz'] }}</div>
-                                                </div>
-                                            </div>
-
-                                        </div>
+                                        @endif
                                     </div>
+
+
+
                                     <div class="col-md-6 col-lg-6 mplbox">
                                         <h1>MyProgrammingLab</h1>
-                                        <div class="col-lg-6 col-md-6">
-                                            <h2>Voltooid</h2>
-                                            <div data-amount="{{ $mainResults['MPLresult']['MMLMastery'] }}" data-average="{{ $averageResults['MPLresult']['averageMastery'] }}" id="mpl_graph"></div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <h2>Pogingen</h2>
-                                            <div class="col-lg-6 col-md-6 mplattempts" >
-                                                <h3>Jouw Pogingen</h3>
-                                                <div class="counter">{{ $mainResults['MPLresult']['MMLAttempts'] }}</div>
+                                        @if($week !== '7')
+                                            <div class="col-lg-6 col-md-6">
+                                                <h2>Voltooid</h2>
+                                                <div data-amount="{{ $mainResults['MPLresult']['MMLMastery'] }}" data-average="{{ $averageResults['MPLresult']['averageMastery'] }}" id="mpl_graph"></div>
                                             </div>
                                             <div class="col-lg-6 col-md-6">
-                                                <h3>Gem. pogingen</h3>
-                                                <div class="counter">{{ $averageResults['MPLresult']['averageAttempts'] }}</div>
+                                                <h2>Pogingen</h2>
+                                                <div class="col-lg-6 col-md-6 mplattempts" >
+                                                    <h3>Jouw Pogingen</h3>
+                                                    <div class="counter">{{ $mainResults['MPLresult']['MMLAttempts'] }}</div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6">
+                                                    <h3>Gem. pogingen</h3>
+                                                    <div class="counter">{{ $averageResults['MPLresult']['averageAttempts'] }}</div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 lyndabox">
-                                        <h1>Lynda</h1>
-                                        <div class="col-lg-6 col-md-6">
-                                            <h2>Voltooid</h2>
-                                            <div data-amount="{{ $mainResults['LyndaResult']['complete'] }}" data-average="{{ $averageResults['LyndaResult']['complete'] }}" id="lynda_graph"></div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <h2>Aantal uren bekeken</h2>
-                                            <h3>Jouw uren</h3>
-                                            <div class="counter">{{ $mainResults['LyndaResult']['hoursviewed'] }}</div>
-                                            <h3>Gemiddelde uren</h3>
-                                            <div class="counter-fast">{{ $averageResults['LyndaResult']['hoursviewed'] }}</div>
-                                        </div> 
+                                        @else
+                                            <h3 style="text-align:center;">Er zijn van deze week geen gegevens van MyProgrammingLab</h3>
+                                        @endif
+
                                     </div>
                                 </div>
+
 
                             </div>
 

@@ -103,6 +103,7 @@ class StudentdashboardController extends Controller
         } elseif (Input::has('week')) {
             // if admin is watching the studentdashboards for specific weeks.
             $week = Input::get('week');
+
             return $this->getWeekOverviewDashboard($week);
         }
 
@@ -129,10 +130,12 @@ class StudentdashboardController extends Controller
         if (Input::has('studentnumber')) {
             $oStudent = Student::where('studnr_a', Input::get('studentnumber'))->first();
         }
+
         if (Auth::user()->isAdmin()) {
-            if (Input::has('studentnumber')) {
+            if (Input::has('studentnumber') && Input::has('week')) {
                 if ($oWeek) {
-                    $oWeekOverview = WeekOverview::where('week_id', $oWeek->id)->where('student_id', $oStudent->studnr_a)->first();
+                    $oWeekOverview = WeekOverview::where('week_id', $oWeek->id)->where('student_id', $oStudent->id)->first();
+
                 } else {
                     $oWeekOverview = null;
                 }
@@ -142,7 +145,7 @@ class StudentdashboardController extends Controller
         } else {
             if ($oWeek->sent = 1) {
                 if (Input::has('studentnumber')) {
-                    $oWeekOverview = WeekOverview::where('week_id', $oWeek->id)->where('student_id', $oStudent->studnr_a)->first();
+                    $oWeekOverview = WeekOverview::where('week_id', $oWeek->id)->where('student_id', $oStudent->id)->first();
                 } elseif (Input::get('key')) {
                     $oWeekOverview = WeekOverview::where('key', Input::get('key'))->first();
                 }

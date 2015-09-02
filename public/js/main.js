@@ -10,17 +10,20 @@ $(document).ready(function () {
             time:1000
         });
 
-        var estimated_risk = $('#traffic-light').attr('data-attr');
-        if (estimated_risk < 33.33) {
+        var estimated_passed = $('#traffic-light').attr('data-attr');
+        if (estimated_passed == 'no') {
             $('#stopLight').css('background-color', 'red');
             $('.text-trafficlight').text('Helaas, wij verwachten dat je het niet haalt..');
-        } else if (estimated_risk > 33.33 && estimated_risk < 66.66) {
-            $('#slowLight').css('background-color', 'orange');
-            $('.text-trafficlight').text('Matig, doe nog even iets meer je best');
-        } else {
+        } else if (estimated_passed == 'yes') {
             $('#goLight').css('background-color', 'green');
             $('.text-trafficlight').text('Goedzo, wij verwachten dat je het gaat halen');
+        } else {
+
         }
+
+
+
+
 
         // show disclaimer
         $(window).load(function(){
@@ -32,6 +35,12 @@ $(document).ready(function () {
             }
         });
 
+        var moodle_prac = $('.moodle-prac').attr('data-attr');
+        if (moodle_prac == 1) {
+            $('#prac-light').css('background-color', 'green');
+        } else {
+            $('#prac-light').css('background-color', 'red');
+        }
         //
         $('.ok-disclaimer').click(function() {
             $('.disclaimer').modal('hide');
@@ -56,13 +65,43 @@ $(document).ready(function () {
             }
             document.cookie = name+"="+value+expires+"; path=/";
         }
-        $(function () {
+
+    // switch with week and his pretended faultmarge.
+        switch($('#week')) {
+            case 1:
+                var faultmarge = 2.7;
+                break;
+            case 2:
+                var faultmarge = 2.6;
+                break;
+            case 3:
+                var faultmarge = 2.5;
+                break;
+            case 4:
+                var faultmarge = 2.5;
+                break;
+            case 5:
+                var faultmarge = 2.4;
+                break;
+            case 6:
+                var faultmarge = 2.3;
+                break;
+            case 7:
+                var faultmarge = 2.1;
+                break;
+            case 8:
+                var faultmarge = 1.9;
+                break;
+            default: var faultmarge = 2.7;
+        }
+
+    $(function () {
             var data = $('#graph-grade').attr('data-attr');
-            var datafrom = (parseFloat(data) - 2.7).toFixed(2);
+            var datafrom = (parseFloat(data) - parseInt(faultmarge)).toFixed(2);
             if (datafrom < 0) {
                 datafrom = 0;
             }
-            var datato = (parseFloat(data) + 2.7).toFixed(2);
+            var datato = (parseFloat(data) + parseInt(faultmarge)).toFixed(2);
             if (datato > 10) {
                 datato = 10;
             }
@@ -189,11 +228,11 @@ $(document).ready(function () {
                 }]
             };
             var data2 = $('#graph-averagegrade').attr('data-attr');
-            var data2from = (parseFloat(data2) - 2.7).toFixed(2);
+            var data2from = (parseFloat(data2) - parseInt(faultmarge)).toFixed(2);
             if (data2from < 0) {
                 data2from = 0;
             }
-            var data2to = (parseFloat(data2) + 2.7).toFixed(2);
+            var data2to = (parseFloat(data2) + parseInt(faultmarge)).toFixed(2);
             if (data2to > 10) {
                 data2to = 10;
             }

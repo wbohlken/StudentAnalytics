@@ -29,6 +29,8 @@ Route::get('/students', 'StudentController@getIndex');
 Route::get('/mail', 'DashboardController@mail');
 Route::get('/dashboard-versturen', 'DashboardController@versturenAction');
 Route::get('/createdashboards', 'DashboardController@createweekoverviews');
+Route::get('/deletedashboards', 'DashboardController@deleteWeekOverviews');
+Route::get('/crypt', 'DashboardController@crypt');
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',

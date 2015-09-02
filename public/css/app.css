@@ -6323,3 +6323,4 @@ table tr:hover {background-color:#a9bbc8; cursor:pointer;}
 .highcharts-data-labels rect {display:none;}
 .tooltip-chart {text-align:center; position:absolute; left:50px; z-index:1000;top:250px; font-size:14px; font-weight:bold;}
 .go-back-text { text-align:center;display:block;font-size:20px;margin-top:20px;}
+#prac-light { height:100px; width:100px;}

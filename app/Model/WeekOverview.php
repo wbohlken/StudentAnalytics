@@ -96,16 +96,24 @@ class WeekOverview extends Model {
         return array('complete' => $complete, 'hoursviewed' => $hours_viewed);
     }
 
-    private function getMoodleResult() {
+    private function getMoodleResult()
+    {
 
-         // Get total grade for the type 'Quiz'
-        $quizresult = MoodleResult::where('type', 'quiz')->where('week_overview_id', $this->id)->first();
-        $gradeQuiz = $quizresult->grade;
+        if ($this->week->week_nr == '7' || $this->week->week_nr == '8') {
+            $quizresult = MoodleResult::where('type', 'oefentoets')->where('week_overview_id', $this->id)->first();
+            $gradeQuiz = $quizresult->grade;
+            $gradePrac = null;
+        } else {
 
-        // Get total grade for the type 'Prac'
-        $pracresult = MoodleResult::where('type', 'prac')->where('week_overview_id', $this->id )->first();
-        $gradePrac = $pracresult->grade;
-        
+            // Get total grade for the type 'Quiz'
+            $quizresult = MoodleResult::where('type', 'quiz')->where('week_overview_id', $this->id)->first();
+
+                $gradeQuiz = $quizresult->grade;
+
+            // Get total grade for the type 'Prac'
+            $pracresult = MoodleResult::where('type', 'prac')->where('week_overview_id', $this->id)->first();
+            $gradePrac = $pracresult->grade;
+        }
         return array('pracGrade' => $gradePrac, 'quizGrade' => $gradeQuiz);
     }
     
@@ -123,14 +131,13 @@ class WeekOverview extends Model {
     
     
     public function getAverageResults() {
-        $averageMoodleResult = $this->getAverageMoodleResult(); 
+        $averageMoodleResult = $this->getAverageMoodleResult();
         $averageLyndaResult = $this->getAverageLyndaResult();
         $averageMPLResult = $this->getAverageMPLResult();
         $averageTotal = $this->getAverageTotalResult();
         $averageGrade = $this->getAverageGrade();
         
         return array('MPLresult' => $averageMPLResult, 'LyndaResult' => $averageLyndaResult, 'MoodleResult' => $averageMoodleResult, 'TotalResult' => $averageTotal, 'AverageGrade' => $averageGrade);
-
     }
 
     private function getAverageGrade() {
@@ -143,25 +150,46 @@ class WeekOverview extends Model {
     }
 
     private function getAverageMoodleResult() {
-        $week = Week::where('id', $this->week_id)->first();
-        
-        // Get total grade for the type 'Quiz'
-        $quizTotalGrade = MoodleResult::where('type', 'quiz')->where('week_overview_id', $this->id )->sum('grade');
-        
-        // Get total grade for the type 'Prac'
-        $pracTotalGrade = MoodleResult::where('type', 'prac')->where('week_overview_id', $this->id )->sum('grade');
-        
-        // Get total students for both types
-        $totalStudentsQuiz = count(MoodleResult::where('type', 'quiz')->where('week_overview_id', $this->id)->get());
-        $totalStudentsPrac = count(MoodleResult::where('type', 'prac')->where('week_overview_id', $this->id)->get());
-       
-        // Calculate the average for both types
-        $averageQuiz = ($quizTotalGrade / $totalStudentsQuiz);
-        $averagePrac = ($pracTotalGrade / $totalStudentsPrac);
+        // show week 7 in week 8
+        if ($this->week_id == '8') {
+            $week = Week::where('id', '7')->first();
+        } else {
+            $week = Week::where('id', $this->week_id)->first();
+        }
+            $aWeekOverviewsIds = WeekOverview::where('week_id', $week->id)->lists('id');
+
+        if ($week->week_nr !== '7' && $week->week_nr !== '8') {
+            // Get total grade for the type 'Quiz'
+            $quizTotalGrade = MoodleResult::where('type', 'quiz')->whereIn('week_overview_id', $aWeekOverviewsIds)->sum('grade');
+
+            // Get total grade for the type 'Prac'
+            $pracTotalGrade = MoodleResult::where('type', 'prac')->whereIn('week_overview_id', $aWeekOverviewsIds)->sum('grade');
+        } else {
+            $oefentoetsTotalGrade = MoodleResult::where('type', 'oefentoets')->whereIn('week_overview_id', $aWeekOverviewsIds)->sum('grade');
+        }
+
+        if ($week->week_nr !== '7' && $week->week_nr !== '8') {
+            // Get total students for both types
+            $totalStudentsQuiz = count(MoodleResult::where('type', 'quiz')->whereIn('week_overview_id', $aWeekOverviewsIds)->get());
+            $totalStudentsPrac = count(MoodleResult::where('type', 'prac')->whereIn('week_overview_id', $aWeekOverviewsIds)->get());
+        } else {
+            // Get total students for both types
+            $totalStudentsOefentoets = count(MoodleResult::where('type', 'oefentoets')->whereIn('week_overview_id', $aWeekOverviewsIds)->get());
+
+        }
+
+        if ($week->week_nr !== '7' && $week->week_nr !== '8') {
+            // Calculate the average for both types
+            $averageQuiz = ($quizTotalGrade / $totalStudentsQuiz);
+            $averagePrac = ($pracTotalGrade / $totalStudentsPrac);
+        } else {
+            $averageQuiz = ($oefentoetsTotalGrade / $totalStudentsOefentoets);
+            $averagePrac = null;
+        }
         
         return array('averageQuiz' => number_format($averageQuiz, 2, '.', ','), 'averagePrac' => number_format($averagePrac, 2, '.', ','));
     }
-    
+
     private function getAverageLyndaResult()
     {
         //Get all overviews for this week
@@ -187,24 +215,30 @@ class WeekOverview extends Model {
         $averageHoursViewedLynda = 0;
         }
         $averageCompletionLynda = ($lyndaTotalComplete / $lyndaTotalStudents);
-        
+
         return array('complete' => $averageCompletionLynda, 'hoursviewed' => $averageHoursViewedLynda);
-       
+
     }
-    
+
     private function getAverageMPLResult() {
         $week = Week::where('id', $this->week_id)->first();
-        
-        //Count total Mastery and Attempts overall this week.
-        $MPLTotalMastery = MyprogramminglabResult::where('week_overview_id', $this->id )->sum('MMLMastery');
-        $MPLTotalAttempts = MyprogramminglabResult::where('week_overview_id', $this->id)->sum('MMLAttempts');
-        
-        // Count total students for this week
-        $MPLTotalStudents = count(MyprogramminglabResult::where('week_overview_id', $this->id)->get());
-        
-        //Calculate the averages
-        $averageMPLMastery = ($MPLTotalMastery / $MPLTotalStudents);
-        $averageMPLAttempts = ($MPLTotalAttempts / $MPLTotalStudents);
+        if ($week->week_nr !== '7') {
+            $aWeekOverviewsIds = WeekOverview::where('week_id', $week->id)->lists('id');
+
+            //Count total Mastery and Attempts overall this week.
+            $MPLTotalMastery = MyprogramminglabResult::whereIn('week_overview_id', $aWeekOverviewsIds)->sum('MMLMastery');
+            $MPLTotalAttempts = MyprogramminglabResult::whereIn('week_overview_id', $aWeekOverviewsIds)->sum('MMLAttempts');
+
+            // Count total students for this week
+            $MPLTotalStudents = MyprogramminglabResult::whereIn('week_overview_id', $aWeekOverviewsIds)->count();
+
+            //Calculate the averages
+            $averageMPLMastery = ($MPLTotalMastery / $MPLTotalStudents);
+            $averageMPLAttempts = ($MPLTotalAttempts / $MPLTotalStudents);
+        } else {
+            $averageMPLAttempts = null;
+            $averageMPLMastery = null;
+        }
         
         return array('averageMastery' => $averageMPLMastery, 'averageAttempts' => number_format($averageMPLAttempts, 2, '.', ','));
         
@@ -228,13 +262,13 @@ class WeekOverview extends Model {
         // case 2: Quiz 1 + prac 0 = 20%
         // case 3: Quiz 0 + prac 1 = 80%
         // case 4: Quiz 0 + prac 0 = 0%
-        if ($quiz !== 0 && $prac !== 0) {
+        if ($quiz !== 0 && !is_null($prac)) {
             return 100;
-        } elseif ($quiz == 0 && $prac !== 0) {
+        } elseif ($quiz == 0 && !is_null($prac)) {
             return 80;
-        } elseif ($quiz !== 0 && $prac == 0) {
+        } elseif ($quiz !== 0 && is_null($prac)) {
             return 20;
-        } elseif ($quiz == 0 && $prac == 0) {
+        } elseif ($quiz == 0 && is_null($prac)) {
             return 0;
         }
     }
