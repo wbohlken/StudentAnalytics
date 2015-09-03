@@ -54,7 +54,7 @@ return [
 	|
 	*/
 
-	'from' => ['address' => 'oudj001@hva.nl', 'name' => 'Hogeschool van Amsterdam - Informatica'],
+	'from' => ['address' => 'heljf@@hva.nl', 'name' => 'Hogeschool van Amsterdam - Informatica'],
 
 	/*
 	|--------------------------------------------------------------------------
