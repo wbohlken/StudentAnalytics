@@ -64,7 +64,7 @@
                                 <td>{{ $student->getAmountLoggedIn() }}</td>
                             </tr>
                             <tr><td class="title-table">Laatst actief op dashboard</td>
-                                <td>@if($student->getLastLogin()){{ $student->getLastLogin() }}@else - @endif</td>
+                                <td>@if($student->getLastLogin()){{ $student->getLastLogin()->format('d-m-Y H:i') }}@else - @endif</td>
                             </tr>
                         </table>
                         <a href="{{ url('/dashboard-history?studentnumber=' . $student->studnr_a .'&week=&vooropl=')}}"><div class="btn btn-primary" style="margin-top:10px;">Bekijk de dashboard geschiedenis van student #{{$student['studnr_a']}}</div></a>
