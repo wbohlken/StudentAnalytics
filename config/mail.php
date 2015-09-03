@@ -80,7 +80,7 @@ return [
 	|
 	*/
 
-	'username' => 'oudj001@hva.nl',
+	'username' => env('username', 'root'),
 //	'username' => 'programmingdashboard@gmail.com',
 
 	/*
@@ -94,7 +94,7 @@ return [
 	|
 	*/
 
-	'password' => 'chamel123!',
+	'password' => env('password', 'root'),
 	/*
 	|--------------------------------------------------------------------------
 	| Sendmail System Path
