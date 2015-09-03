@@ -104,7 +104,7 @@ class Student extends Model
     public function sendMail($weekoverview)
     {
         Mail::send('emails.weekoverview', ['view_key' => $weekoverview->view_key], function ($message) {
-            $message->to('Justin.oud@hotmail.com', 'John Smith')->subject('Je programming dashboard voor deze week.');
+            $message->to(env('mailto', 'justin.oud@hotmail.com'), 'John Smith')->subject('Je programming dashboard voor deze week.');
         });
     }
 
