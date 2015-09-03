@@ -29,7 +29,7 @@
                         <div id="tooltipholder-averagegraph" class="tooltip-chart"></div>
                     </div>
                 </div>
-                <span class="predicted-text">We voorspellen dat je het @if($weekOverview['estimated_passed'] == 'yes')<span class="wel">WEL</span> @else <span class="niet">NIET</span> @endif  haalt met een zekerheid van {{ number_format($weekOverview['estimated_risk'] * 100 , 2) }}%</span>
+                <span class="predicted-text">We voorspellen dat je het @if($weekOverview['estimated_passed'] == 'yes')<span class="wel">WEL</span> @else <span class="niet">NIET</span> @endif  haalt met een zekerheid van @if($weekOverview['estimated_passed'] == 'yes'){{  number_format($weekOverview['estimated_risk'] * 100 , 2) }}% @else {{ 100 - number_format($weekOverview['estimated_risk'] * 100, 2) }}% @endif</span>
 
             </div>
 
