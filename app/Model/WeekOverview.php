@@ -31,7 +31,7 @@ class WeekOverview extends Model
 
     public function student()
     {
-        return $this->belongsTo('App\Model\Student', 'studnr_a');
+        return $this->belongsTo('App\Model\Student', 'student_id');
     }
 
     public function week()
@@ -110,10 +110,18 @@ class WeekOverview extends Model
 
     private function getMoodleResult()
     {
-
         if ($this->week->week_nr == '7' || $this->week->week_nr == '8') {
-            $quizresult = MoodleResult::where('type', 'oefentoets')->where('week_overview_id', $this->id)->first();
-            $gradeQuiz = $quizresult->grade;
+            if ($this->week->week_nr == '8') {
+                $oWeekOverviewWeek7 = WeekOverview::where('week_id', 7)->where('student_id', $this->student->id)->first();
+                $quizresult = MoodleResult::where('type', 'oefentoets')->where('week_overview_id', $oWeekOverviewWeek7->id)->first();
+            } else {
+                $quizresult = MoodleResult::where('type', 'oefentoets')->where('week_overview_id', $this->id)->first();
+            }
+            if ($quizresult) {
+                $gradeQuiz = $quizresult->grade;
+            } else {
+                $gradeQuiz = null;
+            }
             $gradePrac = null;
         } else {
             // Get total grade for the type 'Quiz'
@@ -135,14 +143,15 @@ class WeekOverview extends Model
         $moodleResult = $this->getTotalMoodleResult($aMoodleResult['pracGrade'], $aMoodleResult['quizGrade']);
         $MPLResults = $this->getMPLResult();
 
-
-
-        $total = $moodleResult + $MPLResults['MMLMastery'];
+            $total = $moodleResult + $MPLResults['MMLMastery'];
 
         // endtotal max 200 because of 2 x 100.
         $endtotal = ($total / 200) * 100;
-
-        return number_format($endtotal,0);
+        if ($this->week->week_nr == '7' || $this->week->week_nr == '8') {
+            return $this->getTotalMoodleResult($aMoodleResult['pracGrade'], $aMoodleResult['quizGrade']);
+        } else {
+            return number_format($endtotal, 0);
+        }
     }
 
 
@@ -285,15 +294,27 @@ class WeekOverview extends Model
         // case 2: Quiz 1 + prac 0 = 20%
         // case 3: Quiz 0 + prac 1 = 80%
         // case 4: Quiz 0 + prac 0 = 0%
-        if (($quiz !== '0' && !is_null($quiz)) && !is_null($prac)) {
-            return 100;
-        } elseif ((is_null($quiz) || $quiz == '0') && !is_null($prac)) {
-            return 80;
-        } elseif ((!is_null($quiz) && $quiz !== '0')  && is_null($prac)) {
-            return 20;
-        } elseif (($quiz == '0' || is_null($quiz)) && is_null($prac)) {
-            return 0;
+
+        if ($this->week->week_nr !== '7' && $this->week->week_nr !== '8') {
+            if (($quiz !== '0' && !is_null($quiz)) && !is_null($prac)) {
+                return 100;
+            } elseif ((is_null($quiz) || $quiz == '0') && !is_null($prac)) {
+                return 80;
+            } elseif ((!is_null($quiz) && $quiz !== '0') && is_null($prac)) {
+                return 20;
+            } elseif (($quiz == '0' || is_null($quiz)) && is_null($prac)) {
+                return 0;
+            }
+        } else {
+            if ($quiz == 0 || is_null($quiz)) {
+                return 0;
+            } else {
+                return 100;
+            }
         }
+
+
+
     }
 
 
