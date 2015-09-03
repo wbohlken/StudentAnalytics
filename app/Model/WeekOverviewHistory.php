@@ -35,8 +35,19 @@ class WeekOverviewHistory extends Model
             $oWeekOverviewHistory = $this->join('week_overview as week_overview_3', 'week_overview_history.week_overview_id', '=', 'week_overview_3.id')->join('week', 'week_overview_3.week_id', '=', 'week.id')->where('week.week_nr', $filter['week']);
         }
 
-        return $oWeekOverviewHistory->orderBy('created_at', 'desc')->paginate(25);
+        return $oWeekOverviewHistory->orderBy('week_overview_history.created_at', 'desc')->paginate(25);
 
+    }
+
+    public function getCreatedAtAttribute($date)
+    {
+
+            return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $date);
+    }
+
+    public function getUpdatedAtAttribute($date)
+    {
+        return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $date)->diffForHumans();
     }
 }
 

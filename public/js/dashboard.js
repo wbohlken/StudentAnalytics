@@ -73,7 +73,7 @@ function drawMPLChart() {
         'height': 200,
          legend: 'none',
     slices: {
-            0: { color: '#00FF00' },
+            0: { color: '#55BF3B' },
             1: { color: '#ff9999' }
           }};
 

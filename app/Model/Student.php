@@ -86,7 +86,9 @@ class Student extends Model
     {
         if (count($this->user)) {
             $user = $this->user;
-            return WeekOverviewHistory::where('user_id', $user->id)->orderBy('created_at', 'desc')->first(['created_at']);
+            $weekOverviewHistory = WeekOverviewHistory::where('user_id', $user->id)->orderBy('created_at', 'desc')->first(['created_at']);
+            $created_at = $weekOverviewHistory->created_at;
+            return $created_at;
         }
     }
 

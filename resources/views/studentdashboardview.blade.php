@@ -11,6 +11,7 @@
                         <h2>Je verwachte cijfer</h2>
                         <div id="graph-grade" data-attr="{{ number_format($weekOverview['estimated_grade'],1)   }}" style="width:100%; float:left; height:300px;"></div>
                         <div id="tooltipholder-graph" class="tooltip-chart"></div>
+                        <div class="btn btn-progression" data-toggle="modal" data-target="#voortgang">Bekijk hier je voortgang</div>
                     </div>
 
                     <div class="col-lg-4 col-md-4">
@@ -47,6 +48,7 @@
                 <div id="ajax-panel">
                     <!-- Tab panes -->
                     <input type="hidden" id="week" value="{{ $week }}">
+                    <div id="progressgrade" data-attr="{{ $progressgrade }}">
                     <div class="tab-content" >
                         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
                         @if($weekOverview)
@@ -148,6 +150,23 @@
             <div class="modal-footer">
 
                 <button type="button" class="btn btn-primary ok-disclaimer">Oke, ik wil mijn dashboard zien.</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal fade" id="voortgang" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Jouw voortgang (verwachte cijfer)</h4>
+            </div>
+            <div class="modal-body">
+                <div class="voortgang"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
+
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

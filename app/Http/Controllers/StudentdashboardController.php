@@ -60,10 +60,11 @@ class StudentdashboardController extends Controller
                     //get mainresult for this weekoverview
                     //get averageresults for all students
                     //Pass weekoverview to view by transform it to array
+                    $progressgrade = $this->getEstimatedGrades($oWeekOverview);
                     $aMainResults = $oWeekOverview->getMainResults();
                     $aAverageResults = $oWeekOverview->getAverageResults();
                     $aWeekOverview = $oWeekOverview->toArray();
-                    return view('studentdashboard', ['studentnumber' => $studentnumber, 'student' => $oStudent, 'studentnumbers' => $aStudentnumbers, 'mainResults' => $aMainResults, 'averageResults' => $aAverageResults, 'weekOverview' => $aWeekOverview, 'sentweeks' => $aSentWeeks, 'week' => 1]);
+                    return view('studentdashboard', ['studentnumber' => $studentnumber, 'student' => $oStudent, 'studentnumbers' => $aStudentnumbers, 'mainResults' => $aMainResults, 'averageResults' => $aAverageResults, 'weekOverview' => $aWeekOverview, 'sentweeks' => $aSentWeeks, 'week' => 1, 'progressgrade' => $progressgrade]);
                 } else {
                     Session::flash('error', 'Je kan dit dashboard niet bekijken, deze is nog niet aangemaakt');
                     return Redirect::back();
@@ -80,9 +81,12 @@ class StudentdashboardController extends Controller
                 // Show the view with wrong key message
                 return view('wrongkey');
             }
-
             //Get the weekoverview by view key and get all variables used in studentdashboard
+
             $oWeekOverview = WeekOverview::getByViewKey($viewKey);
+
+            $progressgrade = $this->getEstimatedGrades($oWeekOverview);
+
             $aMainResults = $oWeekOverview->getMainResults();
             $aAverageResults = $oWeekOverview->getAverageResults();
             $oWeek = $oWeekOverview->week;
@@ -90,13 +94,15 @@ class StudentdashboardController extends Controller
             $oStudent = Student::where('id', $oWeekOverview->student_id)->first();
             $oWeekOverviews = WeekOverview::where('student_id', $oStudent->id)->get();
 
+
+
             // Make array with existing view_keys for this student.
             // By having this array the student can easily swap between their existing and already sent weekoverviews.
             $aKeysOverviews = array();
             foreach ($oWeekOverviews as $oWeekOverview) {
                 $aKeysOverviews[$oWeekOverview->week->week_nr] = $oWeekOverview->view_key;
             }
-            return view('studentdashboardview', ['student' => $oStudent, 'studentnumbers' => $aStudentnumbers, 'mainResults' => $aMainResults, 'averageResults' => $aAverageResults, 'weekOverview' => $aWeekOverview, 'sentweeks' => $aSentWeeks, 'week' => $oWeek->week_nr, 'viewkeys' => $aKeysOverviews]);
+            return view('studentdashboardview', ['student' => $oStudent, 'studentnumbers' => $aStudentnumbers, 'mainResults' => $aMainResults, 'averageResults' => $aAverageResults, 'weekOverview' => $aWeekOverview, 'sentweeks' => $aSentWeeks, 'week' => $oWeek->week_nr, 'viewkeys' => $aKeysOverviews, 'progressgrade' => $progressgrade]);
         } elseif (Input::has('week')) {
             // if admin is watching the studentdashboards for specific weeks.
             $week = Input::get('week');
@@ -160,8 +166,10 @@ class StudentdashboardController extends Controller
             $aWeekOverview = $oWeekOverview->toArray();
             $aSentWeeks = Week::where('sent', 1)->lists('week_nr');
             $studentnumber = Input::get('studentnumber');
+            $progressgrade = $this->getEstimatedGrades($oWeekOverview);
 
-            return view('studentdashboard', ['studentnumber' => $studentnumber, 'student' => $oStudent, 'studentnumbers' => $aStudentnumbers, 'mainResults' => $aMainResults, 'averageResults' => $aAverageResults, 'weekOverview' => $aWeekOverview, 'sentweeks' => $aSentWeeks, 'week' => $oWeek->week_nr]);
+
+            return view('studentdashboard', ['studentnumber' => $studentnumber, 'student' => $oStudent, 'studentnumbers' => $aStudentnumbers, 'mainResults' => $aMainResults, 'averageResults' => $aAverageResults, 'weekOverview' => $aWeekOverview, 'sentweeks' => $aSentWeeks, 'week' => $oWeek->week_nr, 'progressgrade' => $progressgrade]);
         } else {
             // if nothing is found get only the MUST ones, all the others set to NULL.
             $aMainResults = null;
@@ -171,11 +179,30 @@ class StudentdashboardController extends Controller
             $oWeekNr = Input::get('week');
             $aSentWeeks = Week::where('sent', 1)->lists('week_nr');
             $studentnumber = Input::get('studentnumber');
+
             return view('studentdashboard', ['studentnumber' => $studentnumber, 'student' => $oStudent, 'studentnumbers' => $aStudentnumbers, 'mainResults' => $aMainResults, 'averageResults' => $aAverageResults, 'weekOverview' => $aWeekOverview, 'sentweeks' => $aSentWeeks, 'week' => $oWeekNr]);
 
             Session::flash('error', 'Je kan dit dashboard niet bekijken, deze is nog niet aangemaakt');
             return Redirect::back();
         }
+    }
+
+    private function getEstimatedGrades($oWeekOverview) {
+
+        $oStudent = Student::where('id', $oWeekOverview->student_id)->first();
+
+        $ooWeekOverviews = WeekOverview::where('student_id', $oStudent->id)->get();
+        $aEstimatedGrades = array();
+
+        foreach ($ooWeekOverviews as $weekoverview) {
+            $aEstimatedGrades[$weekoverview->week_id] = floatval($weekoverview->estimated_grade);
+        }
+        for($i = 1; $i < 9; $i++) {
+            if (empty($aEstimatedGrades[$i])) {
+                $aEstimatedGrades[$i] = null;
+            }
+        }
+        return json_encode($aEstimatedGrades);
     }
 
 }

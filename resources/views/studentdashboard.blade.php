@@ -82,7 +82,9 @@
                         <h2>Gemiddeld verwacht cijfer</h2>
                             <div id="graph-averagegrade" data-attr="{{ $averageResults['AverageGrade'] }}" style="width:100%; float:left; height:150px;">                        </div>
                         </div>
-                        </div>
+                        <div class="btn btn-progression2" data-toggle="modal" data-target="#voortgang">Bekijk hier je voortgang</div>
+
+                    </div>
                     <div class="col-lg-6 col-md-6">
                         {{--<div id="graph-risk" data-attr="{{ number_format($weekOverview['estimated_risk'] * 100,2) }}" style="width:100%; height:150px;"></div>--}}
 
@@ -121,7 +123,7 @@
                                     </div>
                                 </div>
                                 <input type="hidden" id="week" value="{{ $week }}">
-
+                                <div id="progressgrade" data-attr="{{ $progressgrade }}">
                                 <div class="col-lg-12 col-md-12 head-graphs">
                                     <div class="moodle-box col-lg-6 col-md-6">
                                         <h1>Moodle</h1>
@@ -207,4 +209,21 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="voortgang" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Jouw voortgang (verwachte cijfer)</h4>
+            </div>
+            <div class="modal-body">
+                <div class="voortgang"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @endsection

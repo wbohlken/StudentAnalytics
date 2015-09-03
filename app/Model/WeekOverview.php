@@ -135,9 +135,13 @@ class WeekOverview extends Model
         $moodleResult = $this->getTotalMoodleResult($aMoodleResult['pracGrade'], $aMoodleResult['quizGrade']);
         $MPLResults = $this->getMPLResult();
 
+
+
         $total = $moodleResult + $MPLResults['MMLMastery'];
+
         // endtotal max 200 because of 2 x 100.
         $endtotal = ($total / 200) * 100;
+
         return number_format($endtotal,0);
     }
 
@@ -160,6 +164,7 @@ class WeekOverview extends Model
         $totalStudentsGrades = WeekOverview::where('week_id', $week->id)->sum('estimated_grade');
         $totalStudents = WeekOverview::where('week_id', $week->id)->count();
         $averageGrade = $totalStudentsGrades / $totalStudents;
+
         return number_format($averageGrade, 1);
     }
 
@@ -280,14 +285,13 @@ class WeekOverview extends Model
         // case 2: Quiz 1 + prac 0 = 20%
         // case 3: Quiz 0 + prac 1 = 80%
         // case 4: Quiz 0 + prac 0 = 0%
-
-        if ($quiz !== 0 && !is_null($prac)) {
+        if (($quiz !== '0' && !is_null($quiz)) && !is_null($prac)) {
             return 100;
-        } elseif ($quiz == 0 && !is_null($prac)) {
+        } elseif ((is_null($quiz) || $quiz == '0') && !is_null($prac)) {
             return 80;
-        } elseif ($quiz !== 0 && is_null($prac)) {
+        } elseif ((!is_null($quiz) && $quiz !== '0')  && is_null($prac)) {
             return 20;
-        } elseif ($quiz == 0 && is_null($prac)) {
+        } elseif (($quiz == '0' || is_null($quiz)) && is_null($prac)) {
             return 0;
         }
     }

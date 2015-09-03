@@ -15,7 +15,7 @@ $(document).ready(function () {
             $('#stopLight').css('background-color', 'red');
             $('.text-trafficlight').text('Helaas, wij verwachten dat je het niet haalt..');
         } else if (estimated_passed == 'yes') {
-            $('#goLight').css('background-color', 'green');
+            $('#goLight').css('background-color', '#55BF3B');
             $('.text-trafficlight').text('Goedzo, wij verwachten dat je het gaat halen');
         } else {
 
@@ -37,7 +37,7 @@ $(document).ready(function () {
 
         var moodle_prac = $('.moodle-prac').attr('data-attr');
         if (moodle_prac == 1) {
-            $('#prac-light').css('background-color', 'green');
+            $('#prac-light').css('background-color', '#55BF3B');
         } else {
             $('#prac-light').css('background-color', 'red');
         }
@@ -414,6 +414,43 @@ $(document).ready(function () {
 
 
         });
+
+    $(function () {
+        var progressJSON = $('#progressgrade').attr('data-attr');
+        var progressArray = JSON.parse(progressJSON);
+
+        $('.voortgang').highcharts({
+            title: {
+                text: 'Wekelijkse voortgang verwachte cijfer',
+                x: -20 //center
+            },
+            xAxis: {
+                categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6',
+                    'Week 7', 'Week 8'],
+                plotLines: [{
+                    width: 0
+                }]
+            },
+            yAxis: {
+                title: {
+                    text: 'Verwachte cijfer'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#55BF3B'
+                }]
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                name: 'Verwachte cijfer',
+                color: '#55BF3B',
+                data: [ progressArray[1], progressArray[2], progressArray[3], progressArray[4], progressArray[5], progressArray[6], progressArray[7], progressArray[8]]
+            }]
+        });
+    });
         $('.studentnumber-search').select2();
         $('.week-search').select2();
         $('.vooropl-search').select2();

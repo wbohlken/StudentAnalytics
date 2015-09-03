@@ -83,12 +83,9 @@ class DashboardController extends Controller
         if (Auth::user()->isAdmin()) {
             $week_nr = Input::get('week');
 
-            //Week 8 show same data as week 7
-            if ($week_nr == '8') {
-                $oWeek = Week::where('week_nr', 7)->first();
-            } else {
-                $oWeek = Week::where('week_nr', $week_nr)->first();
-            }
+
+            $oWeek = Week::where('week_nr', $week_nr)->first();
+
             $ooStudents = Student::all();
 
             if ($week_nr !== '7' && $week_nr !== '8') {
@@ -151,6 +148,17 @@ class DashboardController extends Controller
                     $moodleResult->type = 'oefentoets';
                     $moodleResult->grade = $oCsvData['w7_oefen_toets'];
                     $moodleResult->save();
+
+                    if ($week_nr == '8') {
+                        $MMLAttempts = 'W' . $week_nr . '_MMLAttemps';
+                        $MMLMastery = 'W' . $week_nr . '_MMLMastery';
+
+                        $myprogrammingLabResult = new MyprogramminglabResult();
+                        $myprogrammingLabResult->week_overview_id = $oWeekOverview->id;
+                        $myprogrammingLabResult->MMLAttempts = $oCsvData->$MMLAttempts;
+                        $myprogrammingLabResult->MMLMastery = $oCsvData->$MMLMastery;
+                        $myprogrammingLabResult->save();
+                    }
                 }
             }
 
