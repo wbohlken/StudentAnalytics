@@ -6,7 +6,7 @@
     </thead>
     <tbody>
     <p>Beste Student,<br/><br/>
-        Hierbij de link naar jouw dashboard voor het vak Programming. Ben je benieuwd naar jouw voortgang in de elektronische leeromgevingen (Myprogramminglab, Moodle en Lynda.com) en wil je weten van jouw verwachte eindcijfer en slaagkans is, klik dan op de onderstaande link.<br/><br/>
+        Hierbij de link naar jouw dashboard voor het vak Programming. Ben je benieuwd naar jouw voortgang in de elektronische leeromgevingen (Myprogramminglab, Moodle en Lynda.com) en wil je weten wat jouw verwachte eindcijfer en slaagkans is, klik dan op de onderstaande link.<br/><br/>
 
         {{ url('/studentdashboard?key=' . $view_key) }}
 

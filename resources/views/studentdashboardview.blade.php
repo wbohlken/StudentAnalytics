@@ -17,7 +17,7 @@
                     <div class="col-lg-4 col-md-4">
                         <h2 class="text-trafficlight"></h2>
                         {{--<div id="graph-risk" data-attr="{{ number_format($weekOverview['estimated_risk'] * 100,2) }}" style="width:100%; height:300px;"></div>--}}
-                        <div id="traffic-light" data-attr="{{ number_format($weekOverview['estimated_risk'] * 100,1) }}">
+                        <div id="traffic-light" data-attr="{{ $weekOverview['estimated_passed'] }}">
                             <div id="stopLight" class="bulb"></div>
                             <div id="slowLight" class="bulb"></div>
                             <div id="goLight" class="bulb"></div>
