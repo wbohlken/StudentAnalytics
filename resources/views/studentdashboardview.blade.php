@@ -98,8 +98,6 @@
                                         @endif
                                     </div>
 
-
-
                                     <div class="col-md-6 col-lg-6 mplbox">
                                         <h1>MyProgrammingLab</h1>
                                         @if($week !== '7')
@@ -124,9 +122,7 @@
 
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
                         @else
                             <div role="tabpanel" class="tab-pane active" id="home">
@@ -134,12 +130,8 @@
                                 </div>
                                 @endif
                     </div>
-
                 </div>
-
             </div>
-
-
         </div>
     </div>
 </div>

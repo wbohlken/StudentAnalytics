@@ -1,17 +1,14 @@
 <?php namespace App\Http\Controllers;
 
 use App\Model\CsvData;
-use App\Model\WeekOverview;
-use App\Model\Week;
-use Input;
-use App\User;
 use App\Model\Student;
+use App\Model\Week;
+use App\Model\WeekOverview;
+use App\User;
+use Illuminate\Support\Facades\Auth;
+use Input;
 use Redirect;
 use Session;
-use App\Model\MoodleResult;
-use App\Model\LyndaData;
-use App\Model\MyprogramminglabResult;
-use Illuminate\Support\Facades\Auth;
 
 
 class WeekoverviewController extends Controller
@@ -45,22 +42,22 @@ class WeekoverviewController extends Controller
      */
     public function fire()
     {
-        if (!Auth::user()->isStudent()) {}
-            if (Input::has('week')) {
-                $weeknumber = Input::get('week');
-                $data = CsvData::all()->toArray();
-                ini_set('max_execution_time', 300);
-                if ($this->sendStudentDashboardForWeek($weeknumber, $data)) {
-                    Session::flash('success', 'De studentendashboards van week ' . $weeknumber . ' zijn aangemaakt en verstuurd!');
-                } else {
-                    Session::flash('error', 'De studenten dashboards zijn niet verstuurd');
-                }
-                return redirect('/dashboard');
+        if (!Auth::user()->isStudent()) {
+        }
+        if (Input::has('week')) {
+            $weeknumber = Input::get('week');
+            $data = CsvData::all()->toArray();
+            ini_set('max_execution_time', 300);
+            if ($this->sendStudentDashboardForWeek($weeknumber, $data)) {
+                Session::flash('success', 'De studentendashboards van week ' . $weeknumber . ' zijn aangemaakt en verstuurd!');
             } else {
-                return redirect('/');
+                Session::flash('error', 'De studenten dashboards zijn niet verstuurd');
             }
+            return redirect('/dashboard');
+        } else {
+            return redirect('/');
+        }
     }
-
 
 
     private function sendStudentDashboardForWeek($weeknumber)
@@ -77,6 +74,7 @@ class WeekoverviewController extends Controller
         // at the end, set the week on 'sent'.
         foreach ($ooWeekOverviews as $oWeekOverview) {
             //get student for this weekoverview
+
             $oStudent = Student::where('id', $oWeekOverview->student_id)->first();
             $oUser = User::where('student_id', $oStudent->id)->first();
 

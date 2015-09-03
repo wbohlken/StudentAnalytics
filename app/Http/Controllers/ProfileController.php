@@ -1,13 +1,12 @@
 <?php namespace App\Http\Controllers;
 
-use App\Model\CsvData;
 use App\User;
-use Request;
+use Auth;
 use Input;
 use Redirect;
+use Request;
 use Session;
 use Validator;
-use Auth;
 use View;
 
 class ProfileController extends Controller

@@ -1,7 +1,5 @@
 <?php namespace App\Http\Controllers;
 
-use App\Model\CsvData;
-
 class WelcomeController extends Controller
 {
 

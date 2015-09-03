@@ -7,6 +7,7 @@ html {
 body {
   margin: 0;
 }
+html,body {height:100%;}
 article,
 aside,
 details,
@@ -6295,7 +6296,7 @@ table tr:hover {background-color:#a9bbc8; cursor:pointer;}
 .back { background-color:#a9bbc8; color:#000;}
 .btn-primary {background-color:#042037; width:100%;}
 .filter-element {margin-left:10px; margin-right:10px; display:inline-block;}
-
+.disclaimer-header {font-style:italic; color:#FFF; text-align:center; padding-right:200px; padding-top:15px; font-size:13px;}
 
 .filter {width:800px; margin-left:auto; margin-right:auto; padding:10px; background-color:#e5eaee;}
 .filteren-btn {background-color:#042037;color:#FFF;  }

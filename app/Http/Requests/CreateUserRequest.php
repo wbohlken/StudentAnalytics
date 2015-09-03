@@ -1,8 +1,8 @@
 <?php namespace App\Http\Requests;
 
+use Auth;
 use Illuminate\Foundation\Http\FormRequest;
 use Response;
-use Auth;
 
 class CreateUserRequest extends FormRequest
 {
@@ -21,7 +21,7 @@ class CreateUserRequest extends FormRequest
         if (!Auth::check()) {
             return false;
         }
-        if (Auth::user()->isAdmin()){
+        if (Auth::user()->isAdmin()) {
             return true;
         } else {
             return false;

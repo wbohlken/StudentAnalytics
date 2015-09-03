@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\CsvData;
-use App\Model\WeekOverview;
-use App\User;
-use App\Model\Week;
-use Input;
 use App\Model\Student;
+use App\Model\Week;
+use App\User;
+use Auth;
+use Illuminate\Support\Facades\DB;
+use Input;
 use Redirect;
 use Session;
 use Validator;
-use Illuminate\Support\Facades\DB;
-use Auth;
 
 class GeneralController extends Controller
 {
@@ -59,13 +57,12 @@ class GeneralController extends Controller
             $allweeks = $weeks->lists('week_nr');
 
 
-
             if ($lastcsvdata) {
                 $dateLastCSVdata = date('d-m-Y', strtotime($lastcsvdata->created_at));
             } else {
                 $dateLastCSVdata = '';
             }
-            if($lastCreatedWeek) {
+            if ($lastCreatedWeek) {
                 $lastCreatedWeek = $lastCreatedWeek->week_nr;
             } else {
                 $lastCreatedWeek = '';

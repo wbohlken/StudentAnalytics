@@ -3,21 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Model\CsvData;
+use App\Model\LyndaData;
 use App\Model\MoodleResult;
 use App\Model\MyprogramminglabResult;
+use App\Model\Student;
+use App\Model\Week;
 use App\Model\WeekOverview;
 use App\User;
-use App\Model\Week;
+use Auth;
+use Illuminate\Support\Facades\DB;
 use Input;
-use App\Model\Student;
 use Redirect;
 use Session;
-use App\Model\LyndaData;
 use Validator;
-use Illuminate\Support\Facades\DB;
-use Auth;
-use Illuminate\Support\Facades\Mail;
-use PHPMailer;
 
 class DashboardController extends Controller
 {
@@ -80,13 +78,14 @@ class DashboardController extends Controller
         }
     }
 
-    public function createweekoverviews() {
+    public function createweekoverviews()
+    {
         if (Auth::user()->isAdmin()) {
             $week_nr = Input::get('week');
 
             //Week 8 show same data as week 7
             if ($week_nr == '8') {
-                 $oWeek = Week::where('week_nr', 7)->first();
+                $oWeek = Week::where('week_nr', 7)->first();
             } else {
                 $oWeek = Week::where('week_nr', $week_nr)->first();
             }
@@ -155,7 +154,7 @@ class DashboardController extends Controller
                 }
             }
 
-            exec('sudo sh /usr/share/kettle/data-integration/kitchen.sh -file=/usr/share/kettle/kettle_config/hva.kjb -param:CONFIG_DIR=/usr/share/kettle/kettle_config/ -param:weeknr='. $week_nr);
+            exec('sudo sh /usr/share/kettle/data-integration/kitchen.sh -file=/usr/share/kettle/kettle_config/hva.kjb -param:CONFIG_DIR=/usr/share/kettle/kettle_config/ -param:weeknr=' . $week_nr);
 
             // Return will return non-zero upon an error
             $oWeek->dashboard_created = 1;
@@ -170,7 +169,8 @@ class DashboardController extends Controller
 
     }
 
-    public function deleteWeekOverviews() {
+    public function deleteWeekOverviews()
+    {
         if (Auth::user()->isAdmin()) {
             $week_nr = Input::get('week');
 
@@ -229,7 +229,6 @@ class DashboardController extends Controller
             $aDirectionsAmounts[3] = $amountSEStudents;
             $aDirectionsAmounts[4] = $amountSMStudents;
             $aDirectionsAmounts[5] = $amountTCStudents;
-
 
 
             //loop through array with key value pair
@@ -301,9 +300,6 @@ class DashboardController extends Controller
 //
 //    return $output;
 //    }
-
-
-
 
 
 }

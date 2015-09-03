@@ -2,22 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\CsvData;
 use App\Model\Direction;
-use App\Model\VooroplProfiel;
-use App\Model\WeekOverview;
-use App\Model\WeekOverviewHistory;
-use App\User;
-use App\Model\Week;
-use Input;
 use App\Model\Student;
+use App\Model\VooroplProfiel;
+use Auth;
+use Illuminate\Pagination;
+use Input;
 use Redirect;
 use Session;
 use Validator;
-use Illuminate\Support\Facades\DB;
-use Auth;
-use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Pagination;
 
 class StudentController extends Controller
 {
@@ -67,7 +60,7 @@ class StudentController extends Controller
 
                 return view('students', ['studentnumbers' => $studentnumbers, 'vooropls' => $vooropls, 'directions' => $directions, 'students' => $oResult, 'studentnumber' => $studentnumber, 'selecteddirection' => $direction, 'vooropleiding' => $vooropleiding]);
             }
-            return view('students', ['studentnumbers' => $studentnumbers, 'vooropls' => $vooropls, 'students' => $students, 'studentnumber' => null, 'directions' => $directions, 'selecteddirection' => null,  'vooropleiding' => null]);
+            return view('students', ['studentnumbers' => $studentnumbers, 'vooropls' => $vooropls, 'students' => $students, 'studentnumber' => null, 'directions' => $directions, 'selecteddirection' => null, 'vooropleiding' => null]);
 
         }
     }

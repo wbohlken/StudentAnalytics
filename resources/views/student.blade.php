@@ -31,7 +31,9 @@
 			</button>
 			<a class="navbar-brand" href="">Programming Student Dashboard</a>
 
+
 		</div>
+		<p class="disclaimer-header">Aan dit dashboard zijn geen rechten te ontlenen. Voor meer informatie neem contact op met j.f.hellings@hva.nl</p>
 
 
 	</div>

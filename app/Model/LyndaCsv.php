@@ -11,6 +11,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class LyndaCsv extends Model {
-	protected $table = "lynda_csv";
+class LyndaCsv extends Model
+{
+    protected $table = "lynda_csv";
 }

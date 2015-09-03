@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\CsvData;
-use App\Model\WeekOverview;
-use App\Model\WeekOverviewHistory;
-use App\User;
-use App\Model\Week;
-use Input;
 use App\Model\Student;
+use App\Model\Week;
+use App\Model\WeekOverview;
+use App\User;
+use Auth;
+use Illuminate\Support\Facades\URL;
+use Input;
 use Redirect;
 use Session;
 use Validator;
-use Illuminate\Support\Facades\DB;
-use Auth;
-use Illuminate\Support\Facades\URL;
 
 class StudentdashboardController extends Controller
 {

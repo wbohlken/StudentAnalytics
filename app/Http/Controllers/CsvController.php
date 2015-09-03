@@ -6,9 +6,6 @@ use App\Library\CsvImporters\GlobalImporter;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-use App\Console\Commands\ImportStudentsCommand;
-use App\Model\CsvData;
-use App\Model\Student;
 
 /**
  * Class CsvController

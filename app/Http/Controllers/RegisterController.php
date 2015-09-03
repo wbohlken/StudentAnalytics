@@ -2,20 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\CsvData;
-use App\Model\WeekOverview;
+use App\Http\Requests\CreateUserRequest;
 use App\User;
-use App\Model\Week;
-use Input;
-use App\Model\Student;
-use Redirect;
+use Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Input;
+use Redirect;
 use Session;
 use Validator;
-use Illuminate\Support\Facades\Mail;
-use App\Http\Requests\CreateUserRequest;
-use Illuminate\Support\Facades\DB;
-use Auth;
 
 class RegisterController extends Controller
 {

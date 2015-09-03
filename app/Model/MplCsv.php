@@ -10,6 +10,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MplCsv extends Model {
-	protected $table = "mpl_csv";
+class MplCsv extends Model
+{
+    protected $table = "mpl_csv";
 }

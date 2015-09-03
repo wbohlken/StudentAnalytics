@@ -54,7 +54,7 @@ return [
 	|
 	*/
 
-	'from' => ['address' => 'heljf@hva.nl', 'name' => 'Hogeschool van Amsterdam - Informatica'],
+	'from' => ['address' => 'programmingdashboard@hva.nl', 'name' => 'Hogeschool van Amsterdam - Informatica'],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return [
 	|
 	*/
 
-	'username' => 'heljf@hva.nl',
+	'username' => 'oudj001@hva.nl',
 //	'username' => 'programmingdashboard@gmail.com',
 
 	/*
@@ -94,7 +94,7 @@ return [
 	|
 	*/
 
-	'password' => 'ProgrammingDashboard123!',
+	'password' => 'chamel123!',
 	/*
 	|--------------------------------------------------------------------------
 	| Sendmail System Path

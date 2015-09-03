@@ -12,7 +12,7 @@
 */
 
 Route::get('/', 'HomeController@index');
-Route::get('/home', ['as' => 'home', 'uses' =>  'HomeController@index']);
+Route::get('/home', ['as' => 'home', 'uses' => 'HomeController@index']);
 Route::get('/upload-csv', ['as' => 'upload-csv', 'uses' => 'CsvController@getUpload']);
 Route::post('/upload-csv', 'CsvController@postUpload');
 Route::get('/algemene-informatie', 'GeneralController@getIndex');
@@ -32,7 +32,7 @@ Route::get('/createdashboards', 'DashboardController@createweekoverviews');
 Route::get('/deletedashboards', 'DashboardController@deleteWeekOverviews');
 Route::get('/crypt', 'DashboardController@crypt');
 Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
-	'dashboard' => 'DashboardController',
+    'auth' => 'Auth\AuthController',
+    'password' => 'Auth\PasswordController',
+    'dashboard' => 'DashboardController',
 ]);
