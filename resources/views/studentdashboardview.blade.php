@@ -7,14 +7,14 @@
             <h1>Studenten dashboard @if($student) #{{ $student['studnr_a'] }} @endif</h1>
             <div class='row'>
                 <div class="col-lg-12 col-md-12  prediction-box">
-                    <div class="col-lg-4 col-md-4">
+                    <div class="col-lg-4 col-md-4" style="overflow:hidden;">
                         <h2>Je verwachte cijfer</h2>
                         <div id="graph-grade" data-attr="{{ number_format($weekOverview['estimated_grade'],1)   }}" style="width:100%; float:left; height:300px;"></div>
                         <div id="tooltipholder-graph" class="tooltip-chart"></div>
                         <div class="btn btn-progression" data-toggle="modal" data-target="#voortgang">Bekijk hier je voortgang</div>
                     </div>
 
-                    <div class="col-lg-4 col-md-4">
+                    <div class="col-lg-4 col-md-4" style="overflow:hidden;">
                         <h2 class="text-trafficlight"></h2>
                         {{--<div id="graph-risk" data-attr="{{ number_format($weekOverview['estimated_risk'] * 100,2) }}" style="width:100%; height:300px;"></div>--}}
                         <div id="traffic-light" data-attr="{{ $weekOverview['estimated_passed'] }}">
@@ -23,7 +23,7 @@
                             <div id="goLight" class="bulb"></div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4">
+                    <div class="col-lg-4 col-md-4" style="overflow:hidden;">
                         <h2>Hoe presteren je studiegenoten?</h2>
                         <div id="graph-averagegrade" data-attr="{{ $averageResults['AverageGrade'] }}" style="width:100%; float:left; height:300px;"></div>
                         <div id="tooltipholder-averagegraph" class="tooltip-chart"></div>
