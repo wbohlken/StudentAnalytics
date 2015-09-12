@@ -6336,3 +6336,6 @@ table tr:hover {background-color:#a9bbc8; cursor:pointer;}
   .disclaimer-header {padding-right: 5px !important; }
   .navbar-brand {width:100%;}
 }
+
+.versturen .btn {max-width:150px;font-size:11px;}
+.btn-reminder {font-size:10px;}

@@ -45,6 +45,8 @@
                     <td class="general-box-first">Week {{$i}} </td>
                     <td>@if(in_array($i,$dashboard))<a href="{{ url('/deletedashboards?week='. $i) }}"<div class="btn btn-primary">Dashboards verwijderen</div>@else<a href={{ url('/createdashboards?week='. $i )}}><div class="btn btn-primary">Creeer dashboard</div></a>@endif</td>
                     <td>@if(in_array($i,$allweeks))<div class='btn btn-primary' disabled>Verzonden</div>@else <a href='/fireweekoverview?week={{$i}}'><div class='btn btn-primary'>Verstuur</div></a>@endif</td>
+                    <td>@if(in_array($i,$allweeks))<a href='/sendreminder?week={{$i}}'><div class='btn btn-primary btn-reminder'>Verstuur reminder</div></a>@elseif(in_array($i,$reminderweeks))<div class='btn btn-primary' disabled>Reminder verstuurd</div>@else<div class='btn btn-primary' disabled>Verstuur reminder</div>@endif</td>
+
                     </tr>
                     @endfor
                     </table>

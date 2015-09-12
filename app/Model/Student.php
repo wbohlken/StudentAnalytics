@@ -104,9 +104,22 @@ class Student extends Model
     public function sendMail($weekoverview)
     {
         Mail::send('emails.weekoverview', ['view_key' => $weekoverview->view_key, 'week' => $weekoverview->week->week_nr], function ($message) {
-            $message->to($this->email, $this->email)->subject('Je programming dashboard voor deze week');
+            $message->to($this->email, $this->email)->subject('BELANGRIJK: Je programming dashboard voor deze week!');
         });
     }
+
+    public function getWeekOverviewByWeek($oWeek) {
+        return WeekOverview::where('student_id', $this->id)->where('week_id', $oWeek->id)->first();
+    }
+
+    public function sendReminderMail($weekoverview)
+    {
+        Mail::send('emails.reminder_weekoverview', ['view_key' => $weekoverview->view_key, 'week' => $weekoverview->week->week_nr], function ($message) {
+            $message->to('justin.oud@hotmail.com', 'justin.oud@hotmail.com')->subject('!!!!!!BELANGRIJKE INFORMATIE OVER DE STUDIEVOORTGANG BIJ PROGRAMMING!!!!!!');
+        });
+    }
+
+
 
     public function getOverviewByFilter($filter)
     {

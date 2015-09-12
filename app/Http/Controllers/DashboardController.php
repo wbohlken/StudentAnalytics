@@ -267,16 +267,49 @@ class DashboardController extends Controller
     public function versturenAction()
     {
         if (Auth::user()->isAdmin()) {
+            $reminderweeks = Week::where('reminder', '1');
             $weeks = Week::where('sent', '1');
             $dashboard = Week::where('dashboard_created', '1');
             $alldashboard = $dashboard->lists('week_nr');
+            $allreminderweeks = $reminderweeks->lists('week_nr');
             $allweeks = $weeks->lists('week_nr');
             $countUsers = User::where('admin', 0)->count();
 
-            return view('versturen', ['allweeks' => $allweeks, 'weeks' => $weeks, 'countUsers' => $countUsers, 'dashboard' => $alldashboard]);
+            return view('versturen', ['allweeks' => $allweeks, 'weeks' => $weeks, 'countUsers' => $countUsers, 'dashboard' => $alldashboard, 'reminderweeks' => $allreminderweeks]);
         } else {
             return redirect('/');
         }
+    }
+
+    public function sendReminder() {
+
+        $week_nr = Input::get('week');
+        $oWeek = Week::where('week_nr', $week_nr)->first();
+        $oStudents = DB::table('student')->join('users', 'student.id', '=', 'users.student_id')->join('week_overview_history', 'users.id', '=', 'week_overview_history.user_id')->join('week_overview', 'week_overview_history.week_overview_id', '=', 'week_overview.id')->where('week_overview.week_id', $oWeek->id)->distinct()->get();
+        $aStudentIDsOpenedMail = array();
+        foreach ($oStudents as $oStudent) {
+            if (!in_array($oStudent->id, $aStudentIDsOpenedMail)) {
+                $aStudentIDsOpenedMail[] = $oStudent->id;
+            }
+        }
+        // All student with no opened dashboard
+        $ooStudents = Student::whereNotIn('id', $aStudentIDsOpenedMail)->where('participation', 1)->get();
+
+        $counter = 0;
+        foreach ($ooStudents as $oStudent) {
+            $counter++;
+            if ($oStudent) {
+                $oWeekOverview = $oStudent->getWeekOverviewByWeek($oWeek);
+                if ($oWeekOverview) {
+                    $oStudent->sendReminderMail($oWeekOverview);
+                }
+            }
+        }
+        $oWeek->reminder = 1;
+        $oWeek->save();
+
+        Session::flash('success', 'Alle ' . $counter . ' reminders zijn verstuurd!');
+        return redirect('/dashboard-versturen');
     }
 
 //    public function crypt() {

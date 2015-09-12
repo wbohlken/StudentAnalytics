@@ -52,7 +52,7 @@ class GeneralController extends Controller
             $countAdmins = User::where('admin', 1)->count();
             $lastweek = DB::table('week')->where('sent', '1')->orderBy('week_nr', 'desc')->first();
             $lastCreatedWeek = DB::table('week')->where('dashboard_created', '1')->orderBy('week_nr', 'desc')->first();
-            $countOpenedDashboardsLastWeek = DB::table('week_overview')->whereNotNull('opened_on')->count();
+            $countOpenedDashboardsLastWeek = DB::table('week_overview_history')->join('week_overview', 'week_overview_history.week_overview_id', '=', 'week_overview.id')->where('week_overview.week_id', $lastweek->id)->distinct('week_overview.user_id')->count();
             $weeks = Week::where('sent', '1');
             $allweeks = $weeks->lists('week_nr');
 
