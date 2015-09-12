@@ -61,7 +61,7 @@
                         @foreach ($weekoverviewhistory as $overview)
                         <tr>
                             <td>{{ $overview->user->student->studnr_a }}</td>
-                            <td>{{ $overview->user->student->vooropl_profiel->name }}</td>
+                            <td>@if($overview->user->student->vooropl_profiel){{ $overview->user->student->vooropl_profiel->name }}@endif</td>
                             <td>Week {{ $overview->weekoverview->week->week_nr }}</td>
                             <td>{{ $overview->created_at->format('d-m-Y H:i') }}</td>
                             <td>{{ $overview->user->student->getAmountLoggedIn() }}</td>
