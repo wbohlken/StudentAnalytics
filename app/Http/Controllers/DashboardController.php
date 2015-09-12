@@ -272,6 +272,7 @@ class DashboardController extends Controller
             $dashboard = Week::where('dashboard_created', '1');
             $alldashboard = $dashboard->lists('week_nr');
             $allreminderweeks = $reminderweeks->lists('week_nr');
+
             $allweeks = $weeks->lists('week_nr');
             $countUsers = User::where('admin', 0)->count();
 
