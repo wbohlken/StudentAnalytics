@@ -115,7 +115,7 @@ class Student extends Model
     public function sendReminderMail($weekoverview)
     {
         Mail::send('emails.reminder_weekoverview', ['view_key' => $weekoverview->view_key, 'week' => $weekoverview->week->week_nr], function ($message) {
-            $message->to('justin.oud@hotmail.com', 'justin.oud@hotmail.com')->subject('!!!!!!BELANGRIJKE INFORMATIE OVER DE STUDIEVOORTGANG BIJ PROGRAMMING!!!!!!');
+            $message->to($this->email, $this->email)->subject('!!!!!!BELANGRIJKE INFORMATIE OVER DE STUDIEVOORTGANG BIJ PROGRAMMING!!!!!!');
         });
     }
 
