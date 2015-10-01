@@ -3,12 +3,6 @@ $(document).ready(function () {
             $('.password-edit-fields').show();
         });
 
-        $('.counter').counterUp({
-        time: 2500
-    });
-        $('.counter-fast').counterUp({
-            time:1000
-        });
 
         var estimated_passed = $('#traffic-light').attr('data-attr');
         if (estimated_passed == 'no') {
