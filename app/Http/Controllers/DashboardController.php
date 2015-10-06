@@ -287,14 +287,16 @@ class DashboardController extends Controller
         $week_nr = Input::get('week');
         $oWeek = Week::where('week_nr', $week_nr)->first();
         $oStudents = DB::table('student')->join('users', 'student.id', '=', 'users.student_id')->join('week_overview_history', 'users.id', '=', 'week_overview_history.user_id')->join('week_overview', 'week_overview_history.week_overview_id', '=', 'week_overview.id')->where('week_overview.week_id', $oWeek->id)->distinct()->get();
-        $aStudentIDsOpenedMail = array();
+
+        $aStudentEmailsOpenedMail = array();
         foreach ($oStudents as $oStudent) {
-            if (!in_array($oStudent->id, $aStudentIDsOpenedMail)) {
-                $aStudentIDsOpenedMail[] = $oStudent->id;
+            if (!in_array($oStudent->id, $aStudentEmailsOpenedMail)) {
+
+                array_push($aStudentEmailsOpenedMail, $oStudent->email);
             }
         }
         // All student with no opened dashboard
-        $ooStudents = Student::whereNotIn('id', $aStudentIDsOpenedMail)->where('participation', 1)->get();
+        $ooStudents = Student::whereNotIn('email', $aStudentEmailsOpenedMail)->where('participation', '1')->get();
 
         $counter = 0;
         foreach ($ooStudents as $oStudent) {

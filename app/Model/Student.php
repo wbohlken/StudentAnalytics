@@ -104,7 +104,7 @@ class Student extends Model
     public function sendMail($weekoverview)
     {
         Mail::send('emails.weekoverview', ['view_key' => $weekoverview->view_key, 'week' => $weekoverview->week->week_nr], function ($message) {
-            $message->to($this->email, $this->email)->subject('BELANGRIJK: Je programming dashboard voor deze week!');
+            $message->to( $this->email , $this->email)->subject('BELANGRIJK: Je programming dashboard voor deze week!');
         });
     }
 
@@ -118,8 +118,6 @@ class Student extends Model
             $message->to( $this->email,  $this->email)->subject('!!!!!!BELANGRIJKE INFORMATIE OVER DE STUDIEVOORTGANG BIJ PROGRAMMING!!!!!!');
         });
     }
-
-
 
     public function getOverviewByFilter($filter)
     {
